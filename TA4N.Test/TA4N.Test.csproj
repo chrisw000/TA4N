@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>    
+  </PropertyGroup>
+
+  <ItemGroup>
+	<PackageReference Include="NLog" Version="4.5.11" />
+	<PackageReference Include="NodaTime" Version="2.4.4" />
+	<PackageReference Include="NUnit" Version="3.10.1" />
+	<PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+  </ItemGroup>
+     
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+          
+  <ItemGroup>
+    <ProjectReference Include="..\TA4N\TA4N.csproj" />
+  </ItemGroup>
+  
+</Project>

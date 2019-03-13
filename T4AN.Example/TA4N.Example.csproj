@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Bots\**" />
+    <Compile Remove="Indicators\**" />
+    <Compile Remove="Logging\**" />
+    <EmbeddedResource Remove="Bots\**" />
+    <EmbeddedResource Remove="Indicators\**" />
+    <EmbeddedResource Remove="Logging\**" />
+    <None Remove="Bots\**" />
+    <None Remove="Indicators\**" />
+    <None Remove="Logging\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Analysis\BuyAndSellSignalsToChart.cs" />
+    <Compile Remove="Analysis\CashFlowToChart.cs" />
+    <Compile Remove="Strategies\WalkForward.cs" />
+    <Compile Remove="Walkforward\WalkForward.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="7.1.0" />
+    <PackageReference Include="NLog" Version="4.5.11" />
+    <PackageReference Include="NodaTime" Version="2.4.4" />
+	<PackageReference Include="NUnit" Version="3.10.1" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\bitstamp_trades_from_20131125_usd.csv" />
+    <EmbeddedResource Include="Resources\appleinc_ticks_from_20130101_usd.csv" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <ProjectReference Include="..\TA4N\TA4N.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  
+</Project>
