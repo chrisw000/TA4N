@@ -23,6 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace TA4N.Trading.Rules
 {
@@ -42,6 +43,7 @@ namespace TA4N.Trading.Rules
 		public FixedRule(params int[] indexes)
 		{
 		    _indexes = indexes;
+            logger = LogWrapper.Factory?.CreateLogger<FixedRule>();
 		}
 
 		public override bool IsSatisfied(int index, TradingRecord tradingRecord)

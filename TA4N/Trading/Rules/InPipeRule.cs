@@ -20,6 +20,9 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+
+using Microsoft.Extensions.Logging;
+
 namespace TA4N.Trading.Rules
 {
 	using Indicators.Simple;
@@ -61,6 +64,8 @@ namespace TA4N.Trading.Rules
 			_upper = upper;
 			_lower = lower;
 			_ref = @ref;
+
+            logger = LogWrapper.Factory?.CreateLogger<InPipeRule>();
 		}
 
 		public override bool IsSatisfied(int index, TradingRecord tradingRecord)

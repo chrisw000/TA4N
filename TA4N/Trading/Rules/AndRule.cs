@@ -20,6 +20,9 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+
+using Microsoft.Extensions.Logging;
+
 namespace TA4N.Trading.Rules
 {
 	/// <summary>
@@ -33,7 +36,7 @@ namespace TA4N.Trading.Rules
 	{
 		private readonly IRule _rule1;
 		private readonly IRule _rule2;
-
+        
 		/// <summary>
 		/// Constructor </summary>
 		/// <param name="rule1"> a trading rule </param>
@@ -42,6 +45,8 @@ namespace TA4N.Trading.Rules
 		{
 			_rule1 = rule1;
 			_rule2 = rule2;
+
+            logger = LogWrapper.Factory?.CreateLogger<AndRule>();
 		}
 
 		public override bool IsSatisfied(int index, TradingRecord tradingRecord)

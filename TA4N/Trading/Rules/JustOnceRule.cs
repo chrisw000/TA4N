@@ -20,6 +20,9 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
+
+using Microsoft.Extensions.Logging;
+
 namespace TA4N.Trading.Rules
 {
 
@@ -32,6 +35,11 @@ namespace TA4N.Trading.Rules
 	public class JustOnceRule : AbstractRule
 	{
         private bool _satisfied;
+
+        public JustOnceRule()
+        {
+            logger = LogWrapper.Factory?.CreateLogger<JustOnceRule>();
+        }
 
 		public override bool IsSatisfied(int index, TradingRecord tradingRecord)
 		{

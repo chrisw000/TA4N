@@ -20,6 +20,9 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+
+using Microsoft.Extensions.Logging;
+
 namespace TA4N.Trading.Rules
 {
     using ClosePriceIndicator = Indicators.Simple.ClosePriceIndicator;
@@ -48,6 +51,7 @@ namespace TA4N.Trading.Rules
 		{
 			_closePrice = closePrice;
 			_gainRatioThreshold = Decimal.Hundred.Plus(gainPercentage).DividedBy(Decimal.Hundred);
+            logger = LogWrapper.Factory?.CreateLogger<StopGainRule>();
 		}
 
 		public override bool IsSatisfied(int index, TradingRecord tradingRecord)

@@ -30,7 +30,7 @@ namespace TA4N.Trading.Rules
 	/// </summary>
 	public abstract class AbstractRule : IRule
     {
-        private readonly ILogger<AbstractRule> _logger = LogWrapper.Factory?.CreateLogger<AbstractRule>();
+        protected ILogger logger;
 
 		public virtual IRule And(IRule rule)
 		{
@@ -63,9 +63,9 @@ namespace TA4N.Trading.Rules
 		/// Traces the isSatisfied() method calls. </summary>
 		/// <param name="index"> the tick index </param>
 		/// <param name="isSatisfied"> true if the rule is satisfied, false otherwise </param>
-		protected virtual void TraceIsSatisfied(int index, bool isSatisfied)
+		protected internal virtual void TraceIsSatisfied(int index, bool isSatisfied)
 		{
-            _logger?.LogTrace("{0}#isSatisfied({1}): {2}", GetType().Name, index, isSatisfied);
+            logger?.LogTrace("{0}#isSatisfied({1}): {2}", GetType().Name, index, isSatisfied);
 		}
 	}
 
