@@ -23,7 +23,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-namespace TA4N.Examples.strategies
+namespace TA4N.Examples.Strategies
 {
 	using Decimal = TA4N.Decimal;
 	using Rule = TA4N.IRule;
@@ -39,7 +39,7 @@ namespace TA4N.Examples.strategies
 	using CrossedUpIndicatorRule = TA4N.Trading.Rules.CrossedUpIndicatorRule;
 	using OverIndicatorRule = TA4N.Trading.Rules.OverIndicatorRule;
 	using UnderIndicatorRule = TA4N.Trading.Rules.UnderIndicatorRule;
-	using CsvTradesLoader = TA4N.Examples.loaders.CsvTradesLoader;
+	using CsvTradesLoader = TA4N.Examples.Loaders.CsvTradesLoader;
 
 	/// <summary>
 	/// Moving momentum strategy.

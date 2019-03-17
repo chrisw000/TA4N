@@ -46,22 +46,19 @@ namespace TA4N.Trading.Rules
 		{
 			_orderType = orderType;
 			_numberOfTicks = numberOfTicks;
-		}
+        }
 
 		public override bool IsSatisfied(int index, TradingRecord tradingRecord)
 		{
 			var satisfied = false;
 			// No trading history, no need to wait
-			if (tradingRecord != null)
-			{
-				var lastOrder = tradingRecord.GetLastOrder(_orderType);
-				if (lastOrder != null)
-				{
-					var currentNumberOfTicks = index - lastOrder.Index;
-					satisfied = currentNumberOfTicks >= _numberOfTicks;
-				}
-			}
-			TraceIsSatisfied(index, satisfied);
+            var lastOrder = tradingRecord?.GetLastOrder(_orderType);
+            if (lastOrder != null)
+            {
+                var currentNumberOfTicks = index - lastOrder.Index;
+                satisfied = currentNumberOfTicks >= _numberOfTicks;
+            }
+            TraceIsSatisfied(index, satisfied);
 			return satisfied;
 		}
 	}

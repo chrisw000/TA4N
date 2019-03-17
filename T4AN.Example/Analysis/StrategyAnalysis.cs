@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using TA4N.Examples.loaders;
 
 /*
 The MIT License (MIT)
@@ -28,8 +27,8 @@ namespace TA4N.Examples.analysis
 {
     using TA4N;
 	using TA4N.Analysis.Criteria;
-	using TA4N.Examples.loaders;
-	using TA4N.Examples.strategies;
+	using TA4N.Examples.Loaders;
+	using Strategies;
 
 	/// <summary>
 	/// This class diplays analysis criterion values after running a trading strategy over a time series.
@@ -76,7 +75,7 @@ namespace TA4N.Examples.analysis
 
         private void OutputReport(Strategy strategy, OrderType type, bool showTrades)
         {
-            if (type == OrderType.Sell)
+            if (type.Equals(OrderType.Sell))
                 Console.WriteLine("RUN STRATEGY SHORT:");
             else
                 Console.WriteLine("RUN STRATEGY LONG:");

@@ -25,7 +25,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-namespace TA4N.Examples.strategies
+namespace TA4N.Examples.Strategies
 {
 	using Decimal = TA4N.Decimal;
 	using Strategy = TA4N.Strategy;
@@ -35,7 +35,7 @@ namespace TA4N.Examples.strategies
 	using CciIndicator = TA4N.Indicators.Oscillators.CciIndicator;
 	using OverIndicatorRule = TA4N.Trading.Rules.OverIndicatorRule;
 	using UnderIndicatorRule = TA4N.Trading.Rules.UnderIndicatorRule;
-	using CsvTradesLoader = TA4N.Examples.loaders.CsvTradesLoader;
+	using CsvTradesLoader = TA4N.Examples.Loaders.CsvTradesLoader;
 
 	/// <summary>
 	/// CCI Correction Strategy
@@ -71,7 +71,7 @@ namespace TA4N.Examples.strategies
 		}
 
         [Test]
-		public void Main()
+		public static void Main()
 		{
 			// Getting the time series
 			var series = CsvTradesLoader.LoadBitstampSeries();

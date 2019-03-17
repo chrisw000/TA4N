@@ -1,5 +1,4 @@
 ﻿using System;
-using TA4N;
 using TA4N.Indicators.Trackers;
 using NUnit.Framework;
 
@@ -42,7 +41,7 @@ namespace TA4N.Examples
     using CrossedUpIndicatorRule = TA4N.Trading.Rules.CrossedUpIndicatorRule;
     using StopGainRule = TA4N.Trading.Rules.StopGainRule;
     using StopLossRule = TA4N.Trading.Rules.StopLossRule;
-    using CsvTradesLoader = TA4N.Examples.loaders.CsvTradesLoader;
+    using CsvTradesLoader = TA4N.Examples.Loaders.CsvTradesLoader;
 
     /// <summary>
     /// Quickstart for ta4j.

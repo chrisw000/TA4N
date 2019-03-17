@@ -67,16 +67,10 @@ namespace TA4N
 	    /// Constructor.
 	    /// Only used for NaN instance.
 	    /// </summary>
-	    /// <param name="val"></param>
 	    private Decimal()
 		{
 			_delegate = null;
 		}
-
-        //private Decimal(decimal? val)
-        //{
-        //    _delegate = val;
-        //}
 
         /// <summary>
         /// Constructor. </summary>

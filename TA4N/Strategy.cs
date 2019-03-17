@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 using System;
-using NLog;
+using Microsoft.Extensions.Logging;
 
 namespace TA4N
 {
@@ -34,10 +34,8 @@ namespace TA4N
 	/// </para>
 	/// </summary>
 	public sealed class Strategy
-	{
-		/// <summary>
-		/// The logger </summary>
-		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+    {
+        private readonly ILogger<Strategy> _logger = LogWrapper.Factory?.CreateLogger<Strategy>();
 
 		/// <summary>The entry rule </summary>
 		private readonly IRule _entryRule;
@@ -56,12 +54,9 @@ namespace TA4N
 		/// <param name="exitRule"> the exit rule </param>
 		public Strategy(IRule entryRule, IRule exitRule)
 		{
-            if (entryRule == null) throw new ArgumentNullException(nameof(entryRule));
-            if (exitRule == null) throw new ArgumentNullException(nameof(entryRule));
-
-            _entryRule = entryRule;
-			_exitRule = exitRule;
-		}
+            _entryRule = entryRule ?? throw new ArgumentNullException(nameof(entryRule));
+			_exitRule = exitRule ?? throw new ArgumentNullException(nameof(entryRule));
+        }
 
 		/// <param name="index"> a tick index </param>
 		/// <returns> true if this strategy is unstable at the provided index, false otherwise (stable) </returns>
@@ -144,18 +139,18 @@ namespace TA4N
 		/// Traces the shouldEnter() method calls. </summary>
 		/// <param name="index"> the tick index </param>
 		/// <param name="enter"> true if the strategy should enter, false otherwise </param>
-		internal void TraceShouldEnter(int index, bool enter)
+		private void TraceShouldEnter(int index, bool enter)
 		{
-			Log.Trace(">>> {0}#shouldEnter({1}): {2}", GetType().Name, index, enter);
+            _logger?.LogTrace(">>> {0}#shouldEnter({1}): {2}", GetType().Name, index, enter);
 		}
 
 		/// <summary>
 		/// Traces the shouldExit() method calls. </summary>
 		/// <param name="index"> the tick index </param>
 		/// <param name="exit"> true if the strategy should exit, false otherwise </param>
-		internal void TraceShouldExit(int index, bool exit)
-		{
-			Log.Trace(">>> {0}#shouldExit({1}): {2}", GetType().Name, index, exit);
+		private void TraceShouldExit(int index, bool exit)
+        {
+            _logger?.LogTrace(">>> {0}#shouldExit({1}): {2}", GetType().Name, index, exit);
 		}
 	}
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using CsvHelper;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 
 /*
 The MIT License (MIT)
@@ -28,7 +29,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-namespace TA4N.Examples.loaders
+namespace TA4N.Examples.Loaders
 {
     using TA4N;
     using NodaTime;
@@ -37,9 +38,11 @@ namespace TA4N.Examples.loaders
 	/// This class build a Ta4j time series from a CSV file containing trades.
 	/// </summary>
     public class CsvTradesLoader
-	{
+    {
+        private static TimeSeries bitstampSeries;
+
         [Test]
-        public void Main()
+        public static void Main()
         {
             var series = LoadBitstampSeries();
 
@@ -50,7 +53,9 @@ namespace TA4N.Examples.loaders
 
         /// <returns> a time series from Bitstamp (bitcoin exchange) trades </returns>
 		public static TimeSeries LoadBitstampSeries()
-		{
+        {
+            if (bitstampSeries != null) return bitstampSeries;
+
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = @"TA4N.Example.Resources.bitstamp_trades_from_20131125_usd.csv";
 
@@ -113,8 +118,10 @@ namespace TA4N.Examples.loaders
 				RemoveEmptyTicks(ticks);
 			}
 
-			return new TimeSeries("bitstamp_trades", ticks);
-		}
+            bitstampSeries = new TimeSeries("bitstamp_trades", ticks);
+
+            return bitstampSeries;
+        }
 
 		/// <summary>
 		/// Builds a list of empty ticks. </summary>

@@ -3,11 +3,23 @@
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-    <Platforms>AnyCPU;x64</Platforms>    
+    <Platforms>AnyCPU;x64</Platforms>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>TA4N technical-analysis stocks forex bitcoin ethereum ripple trading-algorithms trading-strategies trading ta4j</PackageTags>
+    <PackageProjectUrl>https://github.com/chrisw000/ta4n</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/chrisw000/TA4N/blob/master/LICENSE</PackageLicenseUrl>
+    <Description>.net port for ta4j; https://github.com/ta4j/ta4j providing technical analysis
+</Description>
+    <Authors>Chris Walters</Authors>
+    <Company />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/chrisw000/ta4n</RepositoryUrl>
+    <Version>1.0.1</Version>    
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="4.5.11" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="NodaTime" Version="2.4.4" />
   </ItemGroup>
     

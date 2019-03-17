@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using NodaTime;
-using NLog;
+
 
 /*
 The MIT License (MIT)
@@ -28,16 +29,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace TA4N
 {
-	//using DateTime = org.joda.time.DateTime;
-	//using Interval = org.joda.time.Interval;
-	//using Period = org.joda.time.Period;
-
 	/// <summary>
 	/// Sequence of <seealso cref="Tick"/> separated by a predefined period (e.g. 15 minutes, 1 day, etc.)
 	/// <para>
 	/// Notably, a <seealso cref="TimeSeries"/> can be:
 	/// <ul>
-	/// <li>splitted into sub-series</li>
+	/// <li>Split into sub-series</li>
 	/// <li>the base of <seealso cref="IIndicator{T}"/> calculations</li>
 	/// <li>limited to a fixed number of ticks (e.g. for actual trading)</li>
 	/// <li>used to run <seealso cref="Strategy"/></li>
@@ -46,10 +43,8 @@ namespace TA4N
 	/// </summary>
 	[Serializable]
 	public class TimeSeries
-	{
-        /// <summary>
-        /// The logger </summary>
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+    {
+        private readonly ILogger<TimeSeries> _logger = LogWrapper.Factory?.CreateLogger<TimeSeries>();
 
         /// <summary>
         /// Name of the series </summary>
@@ -100,7 +95,7 @@ namespace TA4N
 		/// <summary>
 		/// Constructor of an unnamed series.
 		/// </summary>
-		public TimeSeries() : this("unamed")
+		public TimeSeries() : this("unnamed")
 		{
 		}
 
@@ -140,7 +135,9 @@ namespace TA4N
 					// Cannot return the i-th tick if i < 0
 					throw new IndexOutOfRangeException(BuildOutOfBoundsMessage(this, i));
 				}
-				Log.Trace("Time series: {0} ({1} ticks): tick {2} already removed, use {3}-th instead", _name, _ticks.Count, i, _removedTicksCount);
+
+                _logger?.LogTrace("Time series: {0} ({1} ticks): tick {2} already removed, use {3}-th instead", _name, _ticks.Count, i, _removedTicksCount);
+
 				if (_ticks.Count == 0)
 				{
 					throw new IndexOutOfRangeException(BuildOutOfBoundsMessage(this, _removedTicksCount));
@@ -408,9 +405,9 @@ namespace TA4N
 		/// <returns> the trading record coming from the run </returns>
 		public virtual TradingRecord Run(Strategy strategy, OrderType orderType, Decimal amount)
 		{
-			Log.Trace("Running strategy: {0} (starting with {1})", strategy, orderType);
+            _logger?.LogTrace("Running strategy: {0} (starting with {1})", strategy, orderType);
 
-			var tradingRecord = new TradingRecord(orderType);
+            var tradingRecord = new TradingRecord(orderType);
 			for (var i = _beginIndex; i <= _endIndex; i++)
 			{
 				// For each tick in the sub-series...       
@@ -498,7 +495,7 @@ namespace TA4N
 		/// <returns> a message for an OutOfBoundsException </returns>
 		private static string BuildOutOfBoundsMessage(TimeSeries series, int index)
 		{
-			return $"Size of series: {series._ticks.Count} ticks, {series._removedTicksCount} ticks removed, index = {index}";
+			return $"Time series: {series.Name} Size of series: {series._ticks.Count} ticks, {series._removedTicksCount} ticks removed, index = {index}";
 		}
 	}
 }

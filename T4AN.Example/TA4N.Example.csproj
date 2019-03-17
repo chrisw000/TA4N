@@ -2,7 +2,10 @@
 
   <PropertyGroup>
     <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
-    <LangVersion>latest</LangVersion>    
+    <LangVersion>latest</LangVersion>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject>TA4N.Examples.Program</StartupObject>    
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,10 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="7.1.0" />
-    <PackageReference Include="NLog" Version="4.5.11" />
+    <PackageReference Include="CsvHelper" Version="12.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
     <PackageReference Include="NodaTime" Version="2.4.4" />
-	<PackageReference Include="NUnit" Version="3.10.1" />
+	<PackageReference Include="NUnit" Version="3.11.0" />
   </ItemGroup>
     
   <ItemGroup>

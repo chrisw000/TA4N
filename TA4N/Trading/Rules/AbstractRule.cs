@@ -20,7 +20,8 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-using NLog;
+
+using Microsoft.Extensions.Logging;
 
 namespace TA4N.Trading.Rules
 {
@@ -28,10 +29,8 @@ namespace TA4N.Trading.Rules
 	/// An abstract trading <seealso cref="IRule"/>.
 	/// </summary>
 	public abstract class AbstractRule : IRule
-	{
-		/// <summary>
-		/// The logger </summary>
-		protected internal static readonly Logger Log = LogManager.GetCurrentClassLogger();
+    {
+        private readonly ILogger<AbstractRule> _logger = LogWrapper.Factory?.CreateLogger<AbstractRule>();
 
 		public virtual IRule And(IRule rule)
 		{
@@ -64,9 +63,9 @@ namespace TA4N.Trading.Rules
 		/// Traces the isSatisfied() method calls. </summary>
 		/// <param name="index"> the tick index </param>
 		/// <param name="isSatisfied"> true if the rule is satisfied, false otherwise </param>
-		protected internal virtual void TraceIsSatisfied(int index, bool isSatisfied)
+		protected virtual void TraceIsSatisfied(int index, bool isSatisfied)
 		{
-			Log.Trace("{0}#isSatisfied({1}): {2}", GetType().Name, index, isSatisfied);
+            _logger?.LogTrace("{0}#isSatisfied({1}): {2}", GetType().Name, index, isSatisfied);
 		}
 	}
 

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 /*
 The MIT License (MIT)
@@ -35,6 +36,8 @@ namespace TA4N.Indicators
 	/// </summary>
 	public abstract class CachedIndicator<T> : AbstractIndicator<T>
 	{
+        private readonly ILogger<CachedIndicator<T>> _logger = LogWrapper.Factory?.CreateLogger<CachedIndicator<T>>();
+
 		/// <summary>
 		/// List of cached results </summary>
 		private readonly List<T> _results = new List<T>();
@@ -43,7 +46,7 @@ namespace TA4N.Indicators
 		/// Should always be the index of the last result in the results list.
 		/// I.E. the last calculated result.
 		/// </summary>
-		protected internal int HighestResultIndex = -1;
+		protected int HighestResultIndex = -1;
 
 		/// <summary>
 		/// Constructor. </summary>
@@ -80,7 +83,7 @@ namespace TA4N.Indicators
 			if (index < removedTicksCount)
 			{
 				// Result already removed from cache
-				Log.Trace("{0}: result from tick {1} already removed from cache, use {2}-th instead", GetType().Name, index, removedTicksCount);
+                _logger?.LogTrace("{0}: result from tick {1} already removed from cache, use {2}-th instead", GetType().Name, index, removedTicksCount);
 				IncreaseLengthTo(removedTicksCount, maximumResultCount);
 				HighestResultIndex = removedTicksCount;
 				result = _results[0];
