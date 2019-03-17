@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA4N", "TA4N\TA4N.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA4N.Test", "TA4N.Test\TA4N.Test.csproj", "{351C0550-C0A0-4B5D-941A-21454A3E4D0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA4N.Example", "T4AN.Example\TA4N.Example.csproj", "{8786A0D5-4E1B-4E1A-B242-93C49DFD420F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA4N.Example", "TA4N.Example\TA4N.Example.csproj", "{8786A0D5-4E1B-4E1A-B242-93C49DFD420F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
