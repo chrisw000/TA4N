@@ -17,10 +17,11 @@ init:
 
 before_build:
 - ps: >-
-    nuget.exe restore CoinbasePro.sln
+    nuget.exe restore TA4N.sln
 
 build:
-  verbosity: minimal
+  project: TA4N.sln
+  verbosity: normal
 
 test:
   assemblies:
