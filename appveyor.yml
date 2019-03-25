@@ -1,5 +1,8 @@
 #version: 1.0.4.{build}
 image: Visual Studio 2017
+configuration: Release
+platform: Any CPU
+
 init:
   # Set "build version number" to "short-commit-hash" or when tagged to "tag name" (Travis style)
   - ps: >-
@@ -11,5 +14,15 @@ init:
       {
         Update-AppveyorBuild -Version "dev-$($env:APPVEYOR_REPO_COMMIT.substring(0,7))"
       }
+
+before_build:
+- ps: >-
+    nuget.exe restore CoinbasePro.sln
+
 build:
   verbosity: minimal
+
+test:
+  assemblies:
+    only:
+    - '**\*.Test.dll'
