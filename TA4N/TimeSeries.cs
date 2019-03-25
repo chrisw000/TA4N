@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using NodaTime;
 
 
@@ -41,31 +42,38 @@ namespace TA4N
 	/// </ul>
 	/// </para>
 	/// </summary>
-	[Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
 	public class TimeSeries
     {
         private readonly ILogger<TimeSeries> _logger = LogWrapper.Factory?.CreateLogger<TimeSeries>();
 
         /// <summary>
         /// Name of the series </summary>
+        [JsonProperty]
         private readonly string _name;
 		/// <summary>
 		/// Begin index of the time series </summary>
-		private int _beginIndex = -1;
+        [JsonProperty]
+        private int _beginIndex = -1;
 		/// <summary>
 		/// End index of the time series </summary>
+	    [JsonProperty]
 		private int _endIndex = -1;
 		/// <summary>
 		/// List of ticks </summary>
+        [JsonProperty]
 		private readonly IList<Tick> _ticks;
 		/// <summary>
 		/// Maximum number of ticks for the time series </summary>
+        [JsonProperty]
 		private int _maximumTickCount = int.MaxValue;
 		/// <summary>
 		/// Number of removed ticks </summary>
-		private int _removedTicksCount;
+        [JsonProperty]
+        private int _removedTicksCount;
 		/// <summary>
 		/// True if the current series is a sub-series, false otherwise </summary>
+        [JsonProperty]
 		private readonly bool _subSeries;
 
 		/// <summary>
@@ -155,7 +163,7 @@ namespace TA4N
 		/// <returns> the first tick of the series </returns>
 		public virtual Tick FirstTick => GetTick(_beginIndex);
 
-	    /// <returns> the last tick of the series </returns>
+        /// <returns> the last tick of the series </returns>
 		public virtual Tick LastTick => GetTick(_endIndex);
 
 	    /// <returns> the number of ticks in the series </returns>

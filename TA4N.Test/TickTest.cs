@@ -27,7 +27,7 @@ using NodaTime;
 
 namespace TA4N
 {
-	public sealed class TickTest
+    public sealed class TickTest
 	{
         private Tick _tick;
 

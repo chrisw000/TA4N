@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 /*
 The MIT License (MIT)
@@ -31,39 +32,48 @@ namespace TA4N
 	/// <para>
 	/// </para>
 	/// </summary>
-	[Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
 	public class Tick
 	{
 		/// <summary>
 		/// Time period (e.g. 1 day, 15 min, etc.) of the tick </summary>
+        [JsonProperty]
 		private readonly Period _timePeriod;
 		/// <summary>
 		/// End time of the tick </summary>
-		private LocalDateTime _endTime;
+        [JsonProperty]
+        private LocalDateTime _endTime;
 		/// <summary>
 		/// Begin time of the tick </summary>
-		private readonly LocalDateTime _beginTime;
+        private readonly LocalDateTime _beginTime;
 		/// <summary>
 		/// Open price of the period </summary>
-		private Decimal _openPrice;
+        [JsonProperty]
+        private Decimal _openPrice;
 		/// <summary>
 		/// Close price of the period </summary>
-		private Decimal _closePrice;
+        [JsonProperty]
+        private Decimal _closePrice;
 		/// <summary>
 		/// Max price of the period </summary>
-		private Decimal _maxPrice;
+        [JsonProperty]
+        private Decimal _maxPrice;
 		/// <summary>
 		/// Min price of the period </summary>
-		private Decimal _minPrice;
+        [JsonProperty]
+        private Decimal _minPrice;
 		/// <summary>
 		/// Traded amount during the period </summary>
-		private Decimal _amount = Decimal.Zero;
+        [JsonProperty]
+        private Decimal _amount = Decimal.Zero;
 		/// <summary>
 		/// Volume of the period </summary>
-		private Decimal _volume = Decimal.Zero;
+        [JsonProperty]
+        private Decimal _volume = Decimal.Zero;
 		/// <summary>
 		/// Trade count </summary>
-		private int _trades;
+        [JsonProperty]
+        private int _trades;
 
 		/// <summary>
 		/// Constructor. </summary>
@@ -136,8 +146,27 @@ namespace TA4N
 			_volume = volume;
 		}
 
-		/// <returns> the close price of the period </returns>
-		public virtual Decimal ClosePrice => _closePrice;
+        /// <summary>
+        /// Constructor for Json.Net deserialization
+        /// </summary>
+        [JsonConstructor]
+        public Tick(Period _timePeriod, LocalDateTime _endTime, Decimal _openPrice, Decimal _maxPrice, Decimal _minPrice, Decimal _closePrice, Decimal _volume, Decimal _amount, int _trades)
+        {
+            CheckTimeArguments(_timePeriod, _endTime);
+            this._timePeriod = _timePeriod;
+            this._endTime = _endTime;
+            this._beginTime = _endTime.Minus(_timePeriod);
+            this._openPrice = _openPrice;
+            this._maxPrice = _maxPrice;
+            this._minPrice = _minPrice;
+            this._closePrice = _closePrice;
+            this._volume = _volume;
+            this._amount = _amount;
+            this._trades = _trades;
+        }
+
+        /// <returns> the close price of the period </returns>
+        public virtual Decimal ClosePrice => _closePrice;
 
 	    /// <returns> the open price of the period </returns>
 		public virtual Decimal OpenPrice => _openPrice;

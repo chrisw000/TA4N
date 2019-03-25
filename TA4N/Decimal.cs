@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 // Just use decimal --->/?
 // http://stackoverflow.com/questions/23017583/is-javas-bigdecimal-the-closest-data-type-corresponding-to-cs-decimal
@@ -35,7 +36,7 @@ namespace TA4N
 	/// 
 	/// </para>
 	/// </summary>
-	[Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
 	public sealed class Decimal : IComparable<Decimal>, IFormattable
     {
 	    public Decimal OddsToBookPrice()
@@ -61,6 +62,7 @@ namespace TA4N
 		public static readonly Decimal Hundred = ValueOf(100);
 		public static readonly Decimal Thousand = ValueOf(1000);
 
+        [JsonProperty]
 		private readonly decimal? _delegate;
 
 	    /// <summary>
