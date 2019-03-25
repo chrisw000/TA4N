@@ -15,7 +15,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/chrisw000/ta4n</RepositoryUrl>
-    <Version>1.0.3</Version>    
+    <Version>1.0.4</Version>    
   </PropertyGroup>
 
   <ItemGroup>

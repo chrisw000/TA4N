@@ -3,11 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA4N", "TA4N\TA4N.csproj", "{77A3A64F-E342-42B0-A8D0-377ACCFA7D1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TA4N", "TA4N\TA4N.csproj", "{77A3A64F-E342-42B0-A8D0-377ACCFA7D1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA4N.Test", "TA4N.Test\TA4N.Test.csproj", "{351C0550-C0A0-4B5D-941A-21454A3E4D0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TA4N.Test", "TA4N.Test\TA4N.Test.csproj", "{351C0550-C0A0-4B5D-941A-21454A3E4D0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA4N.Example", "TA4N.Example\TA4N.Example.csproj", "{8786A0D5-4E1B-4E1A-B242-93C49DFD420F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TA4N.Example", "TA4N.Example\TA4N.Example.csproj", "{8786A0D5-4E1B-4E1A-B242-93C49DFD420F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{453C0446-9768-4B1F-8969-1E59BA2F1BDD}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
