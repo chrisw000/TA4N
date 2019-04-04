@@ -60,7 +60,7 @@ namespace TA4N
 		/// <param name="startingType"> the starting <seealso cref="OrderType"/> of the trade (i.e. type of the entry order) </param>
 		public Trade(OrderType startingType)
 		{
-            _startingType = startingType ?? throw new ArgumentNullException(nameof(startingType));
+            _startingType = startingType;
 		}
 
 		/// <summary>
@@ -126,7 +126,7 @@ namespace TA4N
 				{
 					throw new InvalidOperationException("The index i is less than the entryOrder index");
 				}
-				order = new Order(index, _startingType.ComplementType, price, amount);
+				order = new Order(index, _startingType.ComplementType(), price, amount);
 				_exit = order;
 			}
 			return order;

@@ -20,11 +20,13 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
+
+using TA4N.Test.FixtureData;
+
 namespace TA4N.Test.Indicators.Trackers
 {
     using NUnit.Framework;
     using TA4N.Indicators.Simple;
-    using TA4N.Mocks;
     using TA4N.Indicators.Trackers;
 
     public sealed class RaviIndicatorTest
@@ -34,7 +36,7 @@ namespace TA4N.Test.Indicators.Trackers
         [SetUp]
 		public void SetUp()
 		{
-			_data = new MockTimeSeries(110.00, 109.27, 104.69, 107.07, 107.92, 107.95, 108.70, 107.97, 106.09, 106.03, 108.65, 109.54, 112.26, 114.38, 117.94);
+			_data = GenerateTimeSeries.From(110.00, 109.27, 104.69, 107.07, 107.92, 107.95, 108.70, 107.97, 106.09, 106.03, 108.65, 109.54, 112.26, 114.38, 117.94);
 		}
         
         [Test]

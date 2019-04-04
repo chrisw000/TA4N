@@ -21,17 +21,18 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using TA4N.Mocks;
 using NUnit.Framework;
+using TA4N.Analysis.Criteria;
+using TA4N.Test.FixtureData;
 
-namespace TA4N.Analysis.Criteria
+namespace TA4N.Test.Analysis.Criteria
 {
 	public sealed class TotalProfitCriterionTest
 	{
         [Test] 
 		public void CalculateOnlyWithGainTrades()
 		{
-			var series = new MockTimeSeries(100, 105, 110, 100, 95, 105);
+			var series = GenerateTimeSeries.From(100, 105, 110, 100, 95, 105);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.BuyAt(3), Order.SellAt(5));
 
 			IAnalysisCriterion profit = new TotalProfitCriterion();
@@ -41,7 +42,7 @@ namespace TA4N.Analysis.Criteria
         [Test]
 		public void CalculateOnlyWithLossTrades()
 		{
-			var series = new MockTimeSeries(100, 95, 100, 80, 85, 70);
+			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
 
 			IAnalysisCriterion profit = new TotalProfitCriterion();
@@ -51,7 +52,7 @@ namespace TA4N.Analysis.Criteria
         [Test]
 		public void CalculateProfitWithTradesThatStartSelling()
 		{
-			var series = new MockTimeSeries(100, 95, 100, 80, 85, 70);
+			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
 			var tradingRecord = new TradingRecord(Order.SellAt(0), Order.BuyAt(1), Order.SellAt(2), Order.BuyAt(5));
 
 			IAnalysisCriterion profit = new TotalProfitCriterion();
@@ -61,7 +62,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void CalculateWithNoTradesShouldReturn1()
 		{
-			var series = new MockTimeSeries(100, 95, 100, 80, 85, 70);
+			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
 
 			IAnalysisCriterion profit = new TotalProfitCriterion();
 			Assert.AreEqual(1d, profit.Calculate(series, new TradingRecord()), TaTestsUtils.TaOffset);
@@ -70,7 +71,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void CalculateWithOpenedTradeShouldReturn1()
 		{
-			var series = new MockTimeSeries(100, 95, 100, 80, 85, 70);
+			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
 			IAnalysisCriterion profit = new TotalProfitCriterion();
 			var trade = new Trade();
 			Assert.AreEqual(1d, profit.Calculate(series, trade), TaTestsUtils.TaOffset);

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TA4N.Indicators.Simple;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -26,7 +27,6 @@ using TA4N.Indicators.Simple;
 namespace TA4N.Test.Indicators.Oscillators
 {
     using NUnit.Framework;
-    using TA4N.Mocks;
     using TA4N.Indicators.Oscillators;
 
     public sealed class FisherIndicatorTest
@@ -37,27 +37,27 @@ namespace TA4N.Test.Indicators.Oscillators
 		public void SetUp()
 		{
             IList<Tick> ticks = new List<Tick>();
-			ticks.Add(new MockTick(44.98, 45.05, 45.17, 44.96));
-			ticks.Add(new MockTick(45.05, 45.10, 45.15, 44.99));
-			ticks.Add(new MockTick(45.11, 45.19, 45.32, 45.11));
-			ticks.Add(new MockTick(45.19, 45.14, 45.25, 45.04));
-			ticks.Add(new MockTick(45.12, 45.15, 45.20, 45.10));
-			ticks.Add(new MockTick(45.15, 45.14, 45.20, 45.10));
-			ticks.Add(new MockTick(45.13, 45.10, 45.16, 45.07));
-			ticks.Add(new MockTick(45.12, 45.15, 45.22, 45.10));
-			ticks.Add(new MockTick(45.15, 45.22, 45.27, 45.14));
-			ticks.Add(new MockTick(45.24, 45.43, 45.45, 45.20));
-			ticks.Add(new MockTick(45.43, 45.44, 45.50, 45.39));
-			ticks.Add(new MockTick(45.43, 45.55, 45.60, 45.35));
-			ticks.Add(new MockTick(45.58, 45.55, 45.61, 45.39));
-			ticks.Add(new MockTick(45.45, 45.01, 45.55, 44.80));
-			ticks.Add(new MockTick(45.03, 44.23, 45.04, 44.17));
-			ticks.Add(new MockTick(44.23, 43.95, 44.29, 43.81));
-			ticks.Add(new MockTick(43.91, 43.08, 43.99, 43.08));
-			ticks.Add(new MockTick(43.07, 43.55, 43.65, 43.06));
-			ticks.Add(new MockTick(43.56, 43.95, 43.99, 43.53));
-			ticks.Add(new MockTick(43.93, 44.47, 44.58, 43.93));
-			_data = new MockTimeSeries(ticks);
+			ticks.Add(GenerateTick.From(44.98, 45.05, 45.17, 44.96));
+			ticks.Add(GenerateTick.From(45.05, 45.10, 45.15, 44.99));
+			ticks.Add(GenerateTick.From(45.11, 45.19, 45.32, 45.11));
+			ticks.Add(GenerateTick.From(45.19, 45.14, 45.25, 45.04));
+			ticks.Add(GenerateTick.From(45.12, 45.15, 45.20, 45.10));
+			ticks.Add(GenerateTick.From(45.15, 45.14, 45.20, 45.10));
+			ticks.Add(GenerateTick.From(45.13, 45.10, 45.16, 45.07));
+			ticks.Add(GenerateTick.From(45.12, 45.15, 45.22, 45.10));
+			ticks.Add(GenerateTick.From(45.15, 45.22, 45.27, 45.14));
+			ticks.Add(GenerateTick.From(45.24, 45.43, 45.45, 45.20));
+			ticks.Add(GenerateTick.From(45.43, 45.44, 45.50, 45.39));
+			ticks.Add(GenerateTick.From(45.43, 45.55, 45.60, 45.35));
+			ticks.Add(GenerateTick.From(45.58, 45.55, 45.61, 45.39));
+			ticks.Add(GenerateTick.From(45.45, 45.01, 45.55, 44.80));
+			ticks.Add(GenerateTick.From(45.03, 44.23, 45.04, 44.17));
+			ticks.Add(GenerateTick.From(44.23, 43.95, 44.29, 43.81));
+			ticks.Add(GenerateTick.From(43.91, 43.08, 43.99, 43.08));
+			ticks.Add(GenerateTick.From(43.07, 43.55, 43.65, 43.06));
+			ticks.Add(GenerateTick.From(43.56, 43.95, 43.99, 43.53));
+			ticks.Add(GenerateTick.From(43.93, 44.47, 44.58, 43.93));
+			_data = GenerateTimeSeries.From(ticks);
 		}
         
         [Test]

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -24,8 +25,7 @@
 /// </summary>
 namespace TA4N.Test.Indicators.Volume
 {
-    using TA4N.Mocks;
-	using NodaTime;
+    using NodaTime;
     using NUnit.Framework;
     using TA4N.Indicators.Volume;
 
@@ -36,14 +36,14 @@ namespace TA4N.Test.Indicators.Volume
 		{
 			var now = new LocalDateTime();
 			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(new MockTick(now, 0, 10, 0, 0, 0, 4, 0));
-			ticks.Add(new MockTick(now, 0, 5, 0, 0, 0, 2, 0));
-			ticks.Add(new MockTick(now, 0, 6, 0, 0, 0, 3, 0));
-			ticks.Add(new MockTick(now, 0, 7, 0, 0, 0, 8, 0));
-			ticks.Add(new MockTick(now, 0, 7, 0, 0, 0, 6, 0));
-			ticks.Add(new MockTick(now, 0, 6, 0, 0, 0, 10, 0));
+			ticks.Add(GenerateTick.From(now, 0, 10, 0, 0, 0, 4, 0));
+			ticks.Add(GenerateTick.From(now, 0, 5, 0, 0, 0, 2, 0));
+			ticks.Add(GenerateTick.From(now, 0, 6, 0, 0, 0, 3, 0));
+			ticks.Add(GenerateTick.From(now, 0, 7, 0, 0, 0, 8, 0));
+			ticks.Add(GenerateTick.From(now, 0, 7, 0, 0, 0, 6, 0));
+			ticks.Add(GenerateTick.From(now, 0, 6, 0, 0, 0, 10, 0));
 
-			var obv = new OnBalanceVolumeIndicator(new MockTimeSeries(ticks));
+			var obv = new OnBalanceVolumeIndicator(GenerateTimeSeries.From(ticks));
 			TaTestsUtils.AssertDecimalEquals(obv.GetValue(0), 0);
 			TaTestsUtils.AssertDecimalEquals(obv.GetValue(1), -2);
 			TaTestsUtils.AssertDecimalEquals(obv.GetValue(2), 1);
@@ -58,9 +58,9 @@ namespace TA4N.Test.Indicators.Volume
 			IList<Tick> bigListOfTicks = new List<Tick>();
 			for (var i = 0; i < 10000; i++)
 			{
-				bigListOfTicks.Add(new MockTick(i));
+				bigListOfTicks.Add(GenerateTick.From(i));
 			}
-			var bigSeries = new MockTimeSeries(bigListOfTicks);
+			var bigSeries = GenerateTimeSeries.From(bigListOfTicks);
 			var obv = new OnBalanceVolumeIndicator(bigSeries);
 			// If a StackOverflowError is thrown here, then the RecursiveCachedIndicator
 			// does not work as intended.

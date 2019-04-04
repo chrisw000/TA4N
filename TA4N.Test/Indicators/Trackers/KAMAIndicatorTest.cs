@@ -20,11 +20,13 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
+
+using TA4N.Test.FixtureData;
+
 namespace TA4N.Test.Indicators.Trackers
 {
     using NUnit.Framework;
     using TA4N.Indicators.Simple;
-    using TA4N.Mocks;
     using TA4N.Indicators.Trackers;
 
     /// <summary>
@@ -38,7 +40,7 @@ namespace TA4N.Test.Indicators.Trackers
         [SetUp]
 		public void SetUp()
 		{
-			_data = new MockTimeSeries(110.46, 109.80, 110.17, 109.82, 110.15, 109.31, 109.05, 107.94, 107.76, 109.24, 109.40, 108.50, 107.96, 108.55, 108.85, 110.44, 109.89, 110.70, 110.79, 110.22, 110.00, 109.27, 106.69, 107.07, 107.92, 107.95, 107.70, 107.97, 106.09, 106.03, 107.65, 109.54, 110.26, 110.38, 111.94, 113.59, 113.98, 113.91, 112.62, 112.20, 111.10, 110.18, 111.13, 111.55, 112.08, 111.95, 111.60, 111.39, 112.25);
+			_data = GenerateTimeSeries.From(110.46, 109.80, 110.17, 109.82, 110.15, 109.31, 109.05, 107.94, 107.76, 109.24, 109.40, 108.50, 107.96, 108.55, 108.85, 110.44, 109.89, 110.70, 110.79, 110.22, 110.00, 109.27, 106.69, 107.07, 107.92, 107.95, 107.70, 107.97, 106.09, 106.03, 107.65, 109.54, 110.26, 110.38, 111.94, 113.59, 113.98, 113.91, 112.62, 112.20, 111.10, 110.18, 111.13, 111.55, 112.08, 111.95, 111.60, 111.39, 112.25);
 		}
         
         [Test]

@@ -21,17 +21,18 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using TA4N.Mocks;
 using NUnit.Framework;
+using TA4N.Analysis.Criteria;
+using TA4N.Test.FixtureData;
 
-namespace TA4N.Analysis.Criteria
+namespace TA4N.Test.Analysis.Criteria
 {
 	public sealed class NumberOfTicksCriterionTest
 	{
         [Test]
 		public void CalculateWithNoTrades()
 		{
-			var series = new MockTimeSeries(100, 105, 110, 100, 95, 105);
+			var series = GenerateTimeSeries.From(100, 105, 110, 100, 95, 105);
 
 			IAnalysisCriterion numberOfTicks = new NumberOfTicksCriterion();
 			Assert.AreEqual(0, (int) numberOfTicks.Calculate(series, new TradingRecord()));
@@ -40,7 +41,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void CalculateWithTwoTrades()
 		{
-			var series = new MockTimeSeries(100, 105, 110, 100, 95, 105);
+			var series = GenerateTimeSeries.From(100, 105, 110, 100, 95, 105);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.BuyAt(3), Order.SellAt(5));
 
 			IAnalysisCriterion numberOfTicks = new NumberOfTicksCriterion();
@@ -50,7 +51,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void CalculateWithOneTrade()
 		{
-			var series = new MockTimeSeries(100, 95, 100, 80, 85, 70);
+			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
 			var t = new Trade(Order.BuyAt(2), Order.SellAt(5));
 			IAnalysisCriterion numberOfTicks = new NumberOfTicksCriterion();
 			Assert.AreEqual(4, numberOfTicks.Calculate(series, t), TaTestsUtils.TaOffset);

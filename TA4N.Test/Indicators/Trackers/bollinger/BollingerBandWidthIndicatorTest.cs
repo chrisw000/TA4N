@@ -20,16 +20,17 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
+
+using NUnit.Framework;
+using TA4N.Indicators.Simple;
+using TA4N.Indicators.Statistics;
+using TA4N.Indicators.Trackers;
+using TA4N.Indicators.Trackers.Bollinger;
+using TA4N.Test.FixtureData;
+
 namespace TA4N.Test.Indicators.Trackers.Bollinger
 {
-    using TA4N.Indicators.Trackers;
-    using TA4N.Indicators.Trackers.Bollinger;
-    using TA4N.Indicators.Statistics;
-	using TA4N.Indicators.Simple;
-    using TA4N.Mocks;
-    using NUnit.Framework;
-
-	public sealed class BollingerBandWidthIndicatorTest
+    public sealed class BollingerBandWidthIndicatorTest
 	{
         private TimeSeries _data;
         private ClosePriceIndicator _closePrice;
@@ -37,7 +38,7 @@ namespace TA4N.Test.Indicators.Trackers.Bollinger
         [SetUp]
 		public void SetUp()
 		{
-			_data = new MockTimeSeries(10, 12, 15, 14, 17, 20, 21, 20, 20, 19, 20, 17, 12, 12, 9, 8, 9, 10, 9, 10);
+			_data = GenerateTimeSeries.From(10, 12, 15, 14, 17, 20, 21, 20, 20, 19, 20, 17, 12, 12, 9, 8, 9, 10, 9, 10);
 			_closePrice = new ClosePriceIndicator(_data);
 		}
 

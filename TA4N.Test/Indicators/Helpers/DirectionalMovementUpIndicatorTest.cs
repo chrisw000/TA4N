@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -24,7 +25,6 @@
 /// </summary>
 namespace TA4N.Test.Indicators.Helpers
 {
-    using TA4N.Mocks;
     using NUnit.Framework;
     using TA4N.Indicators.Helpers;
 
@@ -33,12 +33,12 @@ namespace TA4N.Test.Indicators.Helpers
         [Test]
 		public void ZeroDirectionalMovement()
 		{
-			var yesterdayTick = new MockTick(0, 0, 10, 2);
-			var todayTick = new MockTick(0, 0, 6, 6);
+			var yesterdayTick = GenerateTick.From(0, 0, 10, 2);
+			var todayTick = GenerateTick.From(0, 0, 6, 6);
 			IList<Tick> ticks = new List<Tick>();
 			ticks.Add(yesterdayTick);
 			ticks.Add(todayTick);
-			var series = new MockTimeSeries(ticks);
+			var series = GenerateTimeSeries.From(ticks);
 			var dup = new DirectionalMovementUpIndicator(series);
 			TaTestsUtils.AssertDecimalEquals(dup.GetValue(1), 0);
 		}
@@ -46,12 +46,12 @@ namespace TA4N.Test.Indicators.Helpers
         [Test]
 		public void ZeroDirectionalMovement2()
 		{
-			var yesterdayTick = new MockTick(0, 0, 6, 12);
-			var todayTick = new MockTick(0, 0, 12, 6);
+			var yesterdayTick = GenerateTick.From(0, 0, 6, 12);
+			var todayTick = GenerateTick.From(0, 0, 12, 6);
 			IList<Tick> ticks = new List<Tick>();
 			ticks.Add(yesterdayTick);
 			ticks.Add(todayTick);
-			var series = new MockTimeSeries(ticks);
+			var series = GenerateTimeSeries.From(ticks);
 			var dup = new DirectionalMovementUpIndicator(series);
 			TaTestsUtils.AssertDecimalEquals(dup.GetValue(1), 0);
 		}
@@ -59,12 +59,12 @@ namespace TA4N.Test.Indicators.Helpers
         [Test] 
 		public void ZeroDirectionalMovement3()
 		{
-			var yesterdayTick = new MockTick(0, 0, 6, 20);
-			var todayTick = new MockTick(0, 0, 12, 4);
+			var yesterdayTick = GenerateTick.From(0, 0, 6, 20);
+			var todayTick = GenerateTick.From(0, 0, 12, 4);
 			IList<Tick> ticks = new List<Tick>();
 			ticks.Add(yesterdayTick);
 			ticks.Add(todayTick);
-			var series = new MockTimeSeries(ticks);
+			var series = GenerateTimeSeries.From(ticks);
 			var dup = new DirectionalMovementUpIndicator(series);
 			TaTestsUtils.AssertDecimalEquals(dup.GetValue(1), 0);
 		}
@@ -72,12 +72,12 @@ namespace TA4N.Test.Indicators.Helpers
         [Test] 
 		public void PositiveDirectionalMovement()
 		{
-			var yesterdayTick = new MockTick(0, 0, 6, 6);
-			var todayTick = new MockTick(0, 0, 12, 4);
+			var yesterdayTick = GenerateTick.From(0, 0, 6, 6);
+			var todayTick = GenerateTick.From(0, 0, 12, 4);
 			IList<Tick> ticks = new List<Tick>();
 			ticks.Add(yesterdayTick);
 			ticks.Add(todayTick);
-			var series = new MockTimeSeries(ticks);
+			var series = GenerateTimeSeries.From(ticks);
 			var dup = new DirectionalMovementUpIndicator(series);
 			TaTestsUtils.AssertDecimalEquals(dup.GetValue(1), 6);
 		}

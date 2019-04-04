@@ -20,10 +20,12 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
+
+using TA4N.Test.FixtureData;
+
 namespace TA4N.Test.Indicators.Trackers
 {
     using TA4N.Indicators.Simple;
-    using TA4N.Mocks;
     using NUnit.Framework;
     using TA4N.Indicators.Trackers;
 
@@ -34,7 +36,7 @@ namespace TA4N.Test.Indicators.Trackers
         [SetUp]
 		public void SetUp()
 		{
-			_data = new MockTimeSeries(50.45, 50.30, 50.20, 50.15, 50.05, 50.06, 50.10, 50.08, 50.03, 50.07, 50.01, 50.14, 50.22, 50.43, 50.50, 50.56, 50.52, 50.70, 50.55, 50.62, 50.90, 50.82, 50.86, 51.20, 51.30, 51.10);
+			_data = GenerateTimeSeries.From(50.45, 50.30, 50.20, 50.15, 50.05, 50.06, 50.10, 50.08, 50.03, 50.07, 50.01, 50.14, 50.22, 50.43, 50.50, 50.56, 50.52, 50.70, 50.55, 50.62, 50.90, 50.82, 50.86, 51.20, 51.30, 51.10);
 		}
         
         [Test] 

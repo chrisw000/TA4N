@@ -20,10 +20,12 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
+
+using TA4N.Test.FixtureData;
+
 namespace TA4N.Test.Indicators.Trackers
 {
 	using TA4N.Indicators.Simple;
-    using TA4N.Mocks;
     using NUnit.Framework;
     using TA4N.Indicators.Trackers;
 
@@ -32,7 +34,7 @@ namespace TA4N.Test.Indicators.Trackers
         [Test] // calculate()
 		public void Calculate()
 		{
-			var series = new MockTimeSeries(1d, 2d, 3d, 4d, 5d, 6d);
+			var series = GenerateTimeSeries.From(1d, 2d, 3d, 4d, 5d, 6d);
 			IIndicator<Decimal> close = new ClosePriceIndicator(series);
 			IIndicator<Decimal> wmaIndicator = new WmaIndicator(close, 3);
 
@@ -47,7 +49,7 @@ namespace TA4N.Test.Indicators.Trackers
         [Test]
 		public void WmaWithTimeFrameGreaterThanSeriesSize()
 		{
-			var series = new MockTimeSeries(1d, 2d, 3d, 4d, 5d, 6d);
+			var series = GenerateTimeSeries.From(1d, 2d, 3d, 4d, 5d, 6d);
 			IIndicator<Decimal> close = new ClosePriceIndicator(series);
 			IIndicator<Decimal> wmaIndicator = new WmaIndicator(close, 55);
 
@@ -63,7 +65,7 @@ namespace TA4N.Test.Indicators.Trackers
 		public void WmaUsingTimeFrame9UsingClosePrice()
 		{
 			// Example from http://traders.com/Documentation/FEEDbk_docs/2010/12/TradingIndexesWithHullMA.xls
-			TimeSeries data = new MockTimeSeries(84.53, 87.39, 84.55, 82.83, 82.58, 83.74, 83.33, 84.57, 86.98, 87.10, 83.11, 83.60, 83.66, 82.76, 79.22, 79.03, 78.18, 77.42, 74.65, 77.48, 76.87);
+			TimeSeries data = GenerateTimeSeries.From(84.53, 87.39, 84.55, 82.83, 82.58, 83.74, 83.33, 84.57, 86.98, 87.10, 83.11, 83.60, 83.66, 82.76, 79.22, 79.03, 78.18, 77.42, 74.65, 77.48, 76.87);
 
 			var wma = new WmaIndicator(new ClosePriceIndicator(data), 9);
 			TaTestsUtils.AssertDecimalEquals(wma.GetValue(8), 84.4958);

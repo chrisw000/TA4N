@@ -20,11 +20,13 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
+
+using TA4N.Test.FixtureData;
+
 namespace TA4N.Test.Indicators.Statistics
 {
     using TA4N.Indicators.Simple;
-    using TA4N.Mocks;
-	using CrossedDownIndicatorRule = TA4N.Trading.Rules.CrossedDownIndicatorRule;
+    using CrossedDownIndicatorRule = TA4N.Trading.Rules.CrossedDownIndicatorRule;
 	using CrossedUpIndicatorRule = TA4N.Trading.Rules.CrossedUpIndicatorRule;
     using NUnit.Framework;
     using TA4N.Indicators.Statistics;
@@ -37,7 +39,7 @@ namespace TA4N.Test.Indicators.Statistics
         [SetUp]
 		public void SetUp()
 		{
-			_mockdata = new MockTimeSeries(29.49, 28.30, 27.74, 27.65, 27.60, 28.70, 28.60, 28.19, 27.40, 27.20, 27.28, 27.00, 27.59, 26.20, 25.75, 24.75, 23.33, 24.45, 24.25, 25.02, 23.60, 24.20, 24.28, 25.70, 25.46, 25.10, 25.00, 25.00, 25.85);
+			_mockdata = GenerateTimeSeries.From(29.49, 28.30, 27.74, 27.65, 27.60, 28.70, 28.60, 28.19, 27.40, 27.20, 27.28, 27.00, 27.59, 26.20, 25.75, 24.75, 23.33, 24.45, 24.25, 25.02, 23.60, 24.20, 24.28, 25.70, 25.46, 25.10, 25.00, 25.00, 25.85);
 			_closePrice = new ClosePriceIndicator(_mockdata);
 		}
         

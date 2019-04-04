@@ -23,7 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using TA4N.Indicators.Simple;
 using NUnit.Framework;
-using TA4N.Mocks;
+using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Simple
 {
@@ -35,7 +35,7 @@ namespace TA4N.Test.Indicators.Simple
         [SetUp]
 		public void SetUp()
 		{
-			_timeSeries = new MockTimeSeries();
+			_timeSeries = GenerateTimeSeries.WithArbitraryTicks();
 			_closePrice = new ClosePriceIndicator(_timeSeries);
 		}
 

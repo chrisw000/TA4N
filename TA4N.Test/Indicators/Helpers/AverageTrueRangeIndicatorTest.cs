@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -24,7 +25,6 @@
 /// </summary>
 namespace TA4N.Test.Indicators.Helpers
 {
-    using TA4N.Mocks;
     using NUnit.Framework;
     using TA4N.Indicators.Helpers;
 
@@ -34,12 +34,12 @@ namespace TA4N.Test.Indicators.Helpers
 		public void GetValue()
 		{
 			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(new MockTick(0, 12, 15, 8));
-			ticks.Add(new MockTick(0, 8, 11, 6));
-			ticks.Add(new MockTick(0, 15, 17, 14));
-			ticks.Add(new MockTick(0, 15, 17, 14));
-			ticks.Add(new MockTick(0, 0, 0, 2));
-			var atr = new AverageTrueRangeIndicator(new MockTimeSeries(ticks), 3);
+			ticks.Add(GenerateTick.From(0, 12, 15, 8));
+			ticks.Add(GenerateTick.From(0, 8, 11, 6));
+			ticks.Add(GenerateTick.From(0, 15, 17, 14));
+			ticks.Add(GenerateTick.From(0, 15, 17, 14));
+			ticks.Add(GenerateTick.From(0, 0, 0, 2));
+			var atr = new AverageTrueRangeIndicator(GenerateTimeSeries.From(ticks), 3);
 
 			TaTestsUtils.AssertDecimalEquals(atr.GetValue(0), 1);
 			TaTestsUtils.AssertDecimalEquals(atr.GetValue(1), 8d / 3);

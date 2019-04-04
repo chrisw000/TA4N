@@ -74,8 +74,8 @@ namespace TA4N
 		/// Constructor. </summary>
 		/// <param name="entryOrderType"> the <seealso cref="OrderType"/> of entries in the trading session </param>
 		public TradingRecord(OrderType entryOrderType)
-		{
-		    _startingType = entryOrderType ?? throw new ArgumentNullException(nameof(entryOrderType));
+        {
+            _startingType = entryOrderType;
 			CurrentTrade = new Trade(entryOrderType);
 		}
 

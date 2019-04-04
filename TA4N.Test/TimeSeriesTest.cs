@@ -23,13 +23,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using NodaTime;
-using TA4N.Mocks;
-using TA4N.Trading.Rules;
+using NUnit.Framework;
 using TA4N.Extend;
+using TA4N.Test.FixtureData;
+using TA4N.Trading.Rules;
 
-namespace TA4N
+namespace TA4N.Test
 {
 	public sealed class TimeSeriesTest
 	{
@@ -47,12 +47,12 @@ namespace TA4N
 		{
 		    _ticks = new List<Tick>
 		    {
-		        new MockTick(new LocalDateTime(2014, 6, 13, 0, 0), 1d),
-		        new MockTick(new LocalDateTime(2014, 6, 14, 0, 0, 0), 2d),
-		        new MockTick(new LocalDateTime(2014, 6, 15, 0, 0, 0), 3d),
-		        new MockTick(new LocalDateTime(2014, 6, 20, 0, 0, 0), 4d),
-		        new MockTick(new LocalDateTime(2014, 6, 25, 0, 0, 0), 5d),
-		        new MockTick(new LocalDateTime(2014, 6, 30, 0, 0, 0), 6d)
+		        GenerateTick.From(new LocalDateTime(2014, 6, 13, 0, 0), 1d),
+		        GenerateTick.From(new LocalDateTime(2014, 6, 14, 0, 0, 0), 2d),
+		        GenerateTick.From(new LocalDateTime(2014, 6, 15, 0, 0, 0), 3d),
+		        GenerateTick.From(new LocalDateTime(2014, 6, 20, 0, 0, 0), 4d),
+		        GenerateTick.From(new LocalDateTime(2014, 6, 25, 0, 0, 0), 5d),
+		        GenerateTick.From(new LocalDateTime(2014, 6, 30, 0, 0, 0), 6d)
 		    };
 
             _date = new LocalDateTime();
@@ -62,7 +62,7 @@ namespace TA4N
 			_subSeries = _defaultSeries.Subseries(2, 4);
 			_emptySeries = new TimeSeries();
 
-			_seriesForRun = new MockTimeSeries(new[]
+			_seriesForRun = GenerateTimeSeries.From(new[]
 			                        {
 			                            1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d
 			                        }, new[]
@@ -229,15 +229,15 @@ namespace TA4N
         [Test]
 		public void AddTickWithEndTimePriorToSeriesEndTimeShouldThrowException()
 		{
-            Assert.Throws<ArgumentException>(() => _defaultSeries.AddTick(new MockTick(_date.WithDate(2000, 1, 1), 99d)));
+            Assert.Throws<ArgumentException>(() => _defaultSeries.AddTick(GenerateTick.From(_date.WithDate(2000, 1, 1), 99d)));
 		}
 
         [Test]
 		public void AddTick()
 		{
 			_defaultSeries = new TimeSeries();
-            Tick firstTick = new MockTick(_date.WithDate(2014, 6, 13), 1d);
-			Tick secondTick = new MockTick(_date.WithDate(2014, 6, 14), 2d);
+            Tick firstTick = GenerateTick.From(_date.WithDate(2014, 6, 13), 1d);
+			Tick secondTick = GenerateTick.From(_date.WithDate(2014, 6, 14), 2d);
 
 		    Assert.Multiple(() =>
 		    {
@@ -309,7 +309,7 @@ namespace TA4N
         [Test]
 		public void SplitEvery3Ticks()
 		{
-			TimeSeries series = new MockTimeSeries(_date.WithYear(2010), _date.WithYear(2011), _date.WithYear(2012), _date.WithYear(2015), _date.WithYear(2016), _date.WithYear(2017), _date.WithYear(2018), _date.WithYear(2019));
+			TimeSeries series = GenerateTimeSeries.From(_date.WithYear(2010), _date.WithYear(2011), _date.WithYear(2012), _date.WithYear(2015), _date.WithYear(2016), _date.WithYear(2017), _date.WithYear(2018), _date.WithYear(2019));
 
 			var subseries = series.Split(3);
 		    Assert.Multiple(() =>
@@ -330,7 +330,7 @@ namespace TA4N
         [Test]
 		public void SplitByYearForTwoYearsSubseries()
 		{
-			TimeSeries series = new MockTimeSeries(_date.WithYear(2010), _date.WithYear(2011), _date.WithYear(2012), _date.WithYear(2015), _date.WithYear(2016));
+			TimeSeries series = GenerateTimeSeries.From(_date.WithYear(2010), _date.WithYear(2011), _date.WithYear(2012), _date.WithYear(2015), _date.WithYear(2016));
 
 			var subseries = series.Split(Period.FromYears(1), Period.FromYears(2));
 
@@ -355,7 +355,7 @@ namespace TA4N
         [Test]
 		public void SplitByMonthForOneWeekSubseries()
 		{
-			TimeSeries series = new MockTimeSeries(_date.WithMonthOfYear(0x4), _date.WithMonthOfYear(0x5), _date.WithMonthOfYear(0x7));
+			TimeSeries series = GenerateTimeSeries.From(_date.WithMonthOfYear(0x4), _date.WithMonthOfYear(0x5), _date.WithMonthOfYear(0x7));
 
 			var subseries = series.Split(Period.FromMonths(1), Period.FromWeeks(1));
 		    Assert.Multiple(() =>
@@ -377,7 +377,7 @@ namespace TA4N
 		public void SplitByHour()
 		{
             var time = new LocalDateTime(1970, 1, 1, 10, 0, 0);
-			TimeSeries series = new MockTimeSeries(time, time.PlusMinutes(1), time.PlusMinutes(2), time.PlusMinutes(10), time.PlusMinutes(15), time.PlusMinutes(25), time.PlusHours(1), time.PlusHours(5), time.PlusHours(10).PlusMinutes(10), time.PlusHours(10).PlusMinutes(20), time.PlusHours(10).PlusMinutes(30));
+			TimeSeries series = GenerateTimeSeries.From(time, time.PlusMinutes(1), time.PlusMinutes(2), time.PlusMinutes(10), time.PlusMinutes(15), time.PlusMinutes(25), time.PlusHours(1), time.PlusHours(5), time.PlusHours(10).PlusMinutes(10), time.PlusHours(10).PlusMinutes(20), time.PlusHours(10).PlusMinutes(30));
 
 			var subseries = series.Split(Period.FromHours(1));
 		    Assert.Multiple(() =>
@@ -401,7 +401,7 @@ namespace TA4N
         [Test]
 		public void RunOnWholeSeries()
 		{
-			TimeSeries series = new MockTimeSeries(20d, 40d, 60d, 10d, 30d, 50d, 0d, 20d, 40d);
+			TimeSeries series = GenerateTimeSeries.From(20d, 40d, 60d, 10d, 30d, 50d, 0d, 20d, 40d);
 
 			var allTrades = series.Run(_strategy).Trades;
 			Assert.AreEqual(2, allTrades.Count);
@@ -410,7 +410,7 @@ namespace TA4N
         [Test]
 		public void RunOnWholeSeriesWithAmount()
 		{
-			TimeSeries series = new MockTimeSeries(20d, 40d, 60d, 10d, 30d, 50d, 0d, 20d, 40d);
+			TimeSeries series = GenerateTimeSeries.From(20d, 40d, 60d, 10d, 30d, 50d, 0d, 20d, 40d);
 
 			var allTrades = series.Run(_strategy,OrderType.Buy, Decimal.Hundred).Trades;
 		    Assert.Multiple(() =>
@@ -497,7 +497,7 @@ namespace TA4N
 		public void Splitted()
 		{
 			var date = new LocalDateTime();
-			TimeSeries series = new MockTimeSeries(new double[]{1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d, 10d}, new LocalDateTime[]{date.WithYear(2000), date.WithYear(2000), date.WithYear(2001), date.WithYear(2001), date.WithYear(2002), date.WithYear(2002), date.WithYear(2002), date.WithYear(2003), date.WithYear(2004), date.WithYear(2005)});
+			TimeSeries series = GenerateTimeSeries.From(new double[]{1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d, 10d}, new LocalDateTime[]{date.WithYear(2000), date.WithYear(2000), date.WithYear(2001), date.WithYear(2001), date.WithYear(2002), date.WithYear(2002), date.WithYear(2002), date.WithYear(2003), date.WithYear(2004), date.WithYear(2005)});
 
 			var aStrategy = new Strategy(new FixedRule(0, 3, 5, 7), new FixedRule(2, 4, 6, 9));
 

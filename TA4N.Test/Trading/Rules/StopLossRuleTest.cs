@@ -22,14 +22,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 using NUnit.Framework;
+using TA4N.Indicators.Simple;
+using TA4N.Test.FixtureData;
+using TA4N.Trading.Rules;
 
-namespace TA4N.Trading.Rules
+namespace TA4N.Test.Trading.Rules
 {
-
-	using TA4N.Indicators.Simple;
-	using MockTimeSeries = TA4N.Mocks.MockTimeSeries;
-
-	public class StopLossRuleTest
+    public class StopLossRuleTest
 	{
 		private TradingRecord _tradingRecord;
 		private ClosePriceIndicator _closePrice;
@@ -39,7 +38,7 @@ namespace TA4N.Trading.Rules
 		public virtual void SetUp()
 		{
 			_tradingRecord = new TradingRecord();
-			_closePrice = new ClosePriceIndicator(new MockTimeSeries(100, 105, 110, 120, 100, 150, 110, 100));
+			_closePrice = new ClosePriceIndicator(GenerateTimeSeries.From(100, 105, 110, 120, 100, 150, 110, 100));
 		}
 
         [Test]

@@ -22,19 +22,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 using System.Linq;
-using TA4N.Mocks;
 using NodaTime;
 using NUnit.Framework;
+using TA4N.Analysis;
 using TA4N.Extend;
+using TA4N.Test.FixtureData;
 
-namespace TA4N.Analysis
+namespace TA4N.Test.Analysis
 {
     public sealed class CashFlowTest
 	{
         [Test]
 		public void CashFlowSize()
 		{
-			TimeSeries sampleTimeSeries = new MockTimeSeries(1d, 2d, 3d, 4d, 5d);
+			TimeSeries sampleTimeSeries = GenerateTimeSeries.From(1d, 2d, 3d, 4d, 5d);
 			var cashFlow = new CashFlow(sampleTimeSeries, new TradingRecord());
 			Assert.AreEqual(5, cashFlow.Size);
 		}
@@ -42,7 +43,7 @@ namespace TA4N.Analysis
         [Test]
 		public void CashFlowBuyWithOnlyOneTrade()
 		{
-			TimeSeries sampleTimeSeries = new MockTimeSeries(1d, 2d);
+			TimeSeries sampleTimeSeries = GenerateTimeSeries.From(1d, 2d);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1));
 
 			var cashFlow = new CashFlow(sampleTimeSeries, tradingRecord);
@@ -54,7 +55,7 @@ namespace TA4N.Analysis
         [Test]
 		public void CashFlowWithSellAndBuyOrders()
 		{
-			TimeSeries sampleTimeSeries = new MockTimeSeries(2, 1, 3, 5, 6, 3, 20);
+			TimeSeries sampleTimeSeries = GenerateTimeSeries.From(2, 1, 3, 5, 6, 3, 20);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(3), Order.SellAt(4), Order.SellAt(5), Order.BuyAt(6));
 
 			var cashFlow = new CashFlow(sampleTimeSeries, tradingRecord);
@@ -71,7 +72,7 @@ namespace TA4N.Analysis
         [Test]
 		public void CashFlowSell()
 		{
-			TimeSeries sampleTimeSeries = new MockTimeSeries(1, 2, 4, 8, 16, 32);
+			TimeSeries sampleTimeSeries = GenerateTimeSeries.From(1, 2, 4, 8, 16, 32);
 			var tradingRecord = new TradingRecord(Order.SellAt(2), Order.BuyAt(3));
 
 			var cashFlow = new CashFlow(sampleTimeSeries, tradingRecord);
@@ -87,7 +88,7 @@ namespace TA4N.Analysis
         [Test]
 		public void CashFlowShortSell()
 		{
-			TimeSeries sampleTimeSeries = new MockTimeSeries(1, 2, 4, 8, 16, 32);
+			TimeSeries sampleTimeSeries = GenerateTimeSeries.From(1, 2, 4, 8, 16, 32);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.SellAt(2), Order.BuyAt(4), Order.BuyAt(4), Order.SellAt(5));
 
 			var cashFlow = new CashFlow(sampleTimeSeries, tradingRecord);
@@ -103,7 +104,7 @@ namespace TA4N.Analysis
         [Test]
 		public void CashFlowValueWithOnlyOneTradeAndAGapBefore()
 		{
-			TimeSeries sampleTimeSeries = new MockTimeSeries(1d, 1d, 2d);
+			TimeSeries sampleTimeSeries = GenerateTimeSeries.From(1d, 1d, 2d);
 			var tradingRecord = new TradingRecord(Order.BuyAt(1), Order.SellAt(2));
 
 			var cashFlow = new CashFlow(sampleTimeSeries, tradingRecord);
@@ -116,7 +117,7 @@ namespace TA4N.Analysis
         [Test]
 		public void CashFlowValueWithOnlyOneTradeAndAGapAfter()
 		{
-			TimeSeries sampleTimeSeries = new MockTimeSeries(1d, 2d, 2d);
+			TimeSeries sampleTimeSeries = GenerateTimeSeries.From(1d, 2d, 2d);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1));
 
 			var cashFlow = new CashFlow(sampleTimeSeries, tradingRecord);
@@ -130,7 +131,7 @@ namespace TA4N.Analysis
         [Test]
 		public void CashFlowValueWithTwoTradesAndLongTimeWithoutOrders()
 		{
-			TimeSeries sampleTimeSeries = new MockTimeSeries(1d, 2d, 4d, 8d, 16d, 32d);
+			TimeSeries sampleTimeSeries = GenerateTimeSeries.From(1d, 2d, 4d, 8d, 16d, 32d);
 			var tradingRecord = new TradingRecord(Order.BuyAt(1), Order.SellAt(2), Order.BuyAt(4), Order.SellAt(5));
 
 			var cashFlow = new CashFlow(sampleTimeSeries, tradingRecord);
@@ -146,7 +147,7 @@ namespace TA4N.Analysis
         [Test]
 		public void CashFlowValue()
 		{
-			TimeSeries sampleTimeSeries = new MockTimeSeries(3d, 2d, 5d, 1000d, 5000d, 0.0001d, 4d, 7d, 6d, 7d, 8d, 5d, 6d);
+			TimeSeries sampleTimeSeries = GenerateTimeSeries.From(3d, 2d, 5d, 1000d, 5000d, 0.0001d, 4d, 7d, 6d, 7d, 8d, 5d, 6d);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.BuyAt(6), Order.SellAt(8), Order.BuyAt(9), Order.SellAt(11));
 
 			var cashFlow = new CashFlow(sampleTimeSeries, tradingRecord);
@@ -169,7 +170,7 @@ namespace TA4N.Analysis
         [Test]
 		public void CashFlowValueWithNoTrades()
 		{
-			TimeSeries sampleTimeSeries = new MockTimeSeries(3d, 2d, 5d, 4d, 7d, 6d, 7d, 8d, 5d, 6d);
+			TimeSeries sampleTimeSeries = GenerateTimeSeries.From(3d, 2d, 5d, 4d, 7d, 6d, 7d, 8d, 5d, 6d);
 			var cashFlow = new CashFlow(sampleTimeSeries, new TradingRecord());
 			TaTestsUtils.AssertDecimalEquals(cashFlow.GetValue(4), 1);
 			TaTestsUtils.AssertDecimalEquals(cashFlow.GetValue(7), 1);
@@ -179,7 +180,7 @@ namespace TA4N.Analysis
         [Test]
 		public void CashFlowWithConstrainedSeries()
 		{
-			var series = new MockTimeSeries(5d, 6d, 3d, 7d, 8d, 6d, 10d, 15d, 6d);
+			var series = GenerateTimeSeries.From(5d, 6d, 3d, 7d, 8d, 6d, 10d, 15d, 6d);
 			var constrained = series.Subseries(4, 8);
 			var tradingRecord = new TradingRecord(Order.BuyAt(4), Order.SellAt(5), Order.BuyAt(6), Order.SellAt(8));
 
@@ -199,7 +200,7 @@ namespace TA4N.Analysis
 		public void ReallyLongCashFlow()
 		{
 			const int size = 1000000;
-			TimeSeries sampleTimeSeries = new MockTimeSeries(Enumerable.Repeat((Tick) new MockTick(10), size).ToList());
+			TimeSeries sampleTimeSeries = GenerateTimeSeries.From(Enumerable.Repeat((Tick) GenerateTick.From(10), size).ToList());
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(size - 1));
 			var cashFlow = new CashFlow(sampleTimeSeries, tradingRecord);
 			TaTestsUtils.AssertDecimalEquals(cashFlow.GetValue(size - 1), 1);
@@ -211,7 +212,7 @@ namespace TA4N.Analysis
             var data = new double[] { 2, 1, 3, 5, 6, 3, 20, 20, 3 };
 
             // We will rely on this being correct as it duplicates tests above...
-            TimeSeries confirmedSeries = new MockTimeSeries(data);
+            TimeSeries confirmedSeries = GenerateTimeSeries.From(data);
             var confirmedTradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.BuyAt(3), Order.SellAt(4), Order.BuyAt(5), Order.SellAt(6), Order.BuyAt(7), Order.SellAt(8));
             // use these results to check against the dynamically added Trades
             var confirmedCashFlow = new CashFlow(confirmedSeries, confirmedTradingRecord);
@@ -222,7 +223,7 @@ namespace TA4N.Analysis
             
 	        for (var i = 0; i < data.Length; i++)
 	        {
-	            sampleTimeSeries.AddTick(new MockTick((new LocalDateTime()).WithMillisOfSecond(i), data[i]));
+	            sampleTimeSeries.AddTick(GenerateTick.From((new LocalDateTime()).WithMillisOfSecond(i), data[i]));
                 switch (i)
                 {
                     case 0: // buy

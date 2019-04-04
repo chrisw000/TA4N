@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -26,8 +27,6 @@ namespace TA4N.Test.Indicators.Trackers
 {
     using TA4N.Indicators.Trackers;
     using TA4N.Indicators.Simple;
-    using TA4N.Mocks;
-
     using NUnit.Framework;
 
 	public sealed class EmaIndicatorTest
@@ -37,7 +36,7 @@ namespace TA4N.Test.Indicators.Trackers
         [SetUp]
 		public void SetUp()
 		{
-			_data = new MockTimeSeries(64.75, 63.79, 63.73, 63.73, 63.55, 63.19, 63.91, 63.85, 62.95, 63.37, 61.33, 61.51);
+			_data = GenerateTimeSeries.From(64.75, 63.79, 63.73, 63.73, 63.55, 63.19, 63.91, 63.85, 62.95, 63.37, 61.33, 61.51);
 		}
 
         [Test] 
@@ -75,9 +74,9 @@ namespace TA4N.Test.Indicators.Trackers
 			IList<Tick> bigListOfTicks = new List<Tick>();
 			for (var i = 0; i < 10000; i++)
 			{
-				bigListOfTicks.Add(new MockTick(i));
+				bigListOfTicks.Add(GenerateTick.From(i));
 			}
-			var bigSeries = new MockTimeSeries(bigListOfTicks);
+			var bigSeries = GenerateTimeSeries.From(bigListOfTicks);
 			var closePrice = new ClosePriceIndicator(bigSeries);
 			var ema = new EmaIndicator(closePrice, 10);
 			// If a StackOverflowError is thrown here, then the RecursiveCachedIndicator

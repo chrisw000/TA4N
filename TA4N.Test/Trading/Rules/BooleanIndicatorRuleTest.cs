@@ -21,10 +21,11 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using TA4N.Indicators.Simple;
 using NUnit.Framework;
+using TA4N.Indicators.Simple;
+using TA4N.Trading.Rules;
 
-namespace TA4N.Trading.Rules
+namespace TA4N.Test.Trading.Rules
 {
 	public sealed class BooleanIndicatorRuleTest
 	{

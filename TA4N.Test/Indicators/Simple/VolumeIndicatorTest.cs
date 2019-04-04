@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
 using NUnit.Framework;
-using TA4N.Mocks;
 using TA4N.Indicators.Simple;
+using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Simple
 {
@@ -33,7 +33,7 @@ namespace TA4N.Test.Indicators.Simple
         [Test]
 		public void IndicatorShouldRetrieveTickVolume()
 		{
-			TimeSeries series = new MockTimeSeries();
+			TimeSeries series = GenerateTimeSeries.WithArbitraryTicks();
 			var volumeIndicator = new VolumeIndicator(series);
 			for (var i = 0; i < 10; i++)
 			{
@@ -45,14 +45,14 @@ namespace TA4N.Test.Indicators.Simple
 		public void SumOfVolume()
 		{
 			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(new MockTick(0, 10));
-			ticks.Add(new MockTick(0, 11));
-			ticks.Add(new MockTick(0, 12));
-			ticks.Add(new MockTick(0, 13));
-			ticks.Add(new MockTick(0, 150));
-			ticks.Add(new MockTick(0, 155));
-			ticks.Add(new MockTick(0, 160));
-			var volumeIndicator = new VolumeIndicator(new MockTimeSeries(ticks), 3);
+			ticks.Add(GenerateTick.From(0, 10));
+			ticks.Add(GenerateTick.From(0, 11));
+			ticks.Add(GenerateTick.From(0, 12));
+			ticks.Add(GenerateTick.From(0, 13));
+			ticks.Add(GenerateTick.From(0, 150));
+			ticks.Add(GenerateTick.From(0, 155));
+			ticks.Add(GenerateTick.From(0, 160));
+			var volumeIndicator = new VolumeIndicator(GenerateTimeSeries.From(ticks), 3);
 
 			TaTestsUtils.AssertDecimalEquals(volumeIndicator.GetValue(0), 10);
 			TaTestsUtils.AssertDecimalEquals(volumeIndicator.GetValue(1), 21);

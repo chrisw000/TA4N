@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -24,7 +25,6 @@
 /// </summary>
 namespace TA4N.Test.Indicators.Trackers
 {
-    using TA4N.Mocks;
     using NUnit.Framework;
     using TA4N.Indicators.Trackers;
 
@@ -37,13 +37,13 @@ namespace TA4N.Test.Indicators.Trackers
 		{
 			IList<Tick> ticks = new List<Tick>();
 
-			ticks.Add(new MockTick(0, 0, 16, 8));
-			ticks.Add(new MockTick(0, 0, 12, 6));
-			ticks.Add(new MockTick(0, 0, 18, 14));
-			ticks.Add(new MockTick(0, 0, 10, 6));
-			ticks.Add(new MockTick(0, 0, 8, 4));
+			ticks.Add(GenerateTick.From(0, 0, 16, 8));
+			ticks.Add(GenerateTick.From(0, 0, 12, 6));
+			ticks.Add(GenerateTick.From(0, 0, 18, 14));
+			ticks.Add(GenerateTick.From(0, 0, 10, 6));
+			ticks.Add(GenerateTick.From(0, 0, 8, 4));
 
-			_series = new MockTimeSeries(ticks);
+			_series = GenerateTimeSeries.From(ticks);
 		}
 
         [Test] 

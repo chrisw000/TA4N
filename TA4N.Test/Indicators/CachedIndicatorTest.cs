@@ -22,12 +22,12 @@
 /// </summary>
 
 using TA4N.Indicators.Trackers;
+using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators
 {  
 	using TA4N.Indicators.Simple;
-	using TA4N.Mocks;
-	using OverIndicatorRule = TA4N.Trading.Rules.OverIndicatorRule;
+    using OverIndicatorRule = TA4N.Trading.Rules.OverIndicatorRule;
 	using UnderIndicatorRule = TA4N.Trading.Rules.UnderIndicatorRule;
     using NUnit.Framework;
 
@@ -38,7 +38,7 @@ namespace TA4N.Test.Indicators
         [SetUp]
 		public void SetUp()
 		{
-			_series = new MockTimeSeries(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
+			_series = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
 		}
 
 
@@ -72,7 +72,7 @@ namespace TA4N.Test.Indicators
 			var data = new double[200];
 
 			TaTestsUtils.ArraysFill(data, 10);
-			var sma = new SmaIndicator(new ClosePriceIndicator(new MockTimeSeries(data)), 100);
+			var sma = new SmaIndicator(new ClosePriceIndicator(GenerateTimeSeries.From(data)), 100);
 			TaTestsUtils.AssertDecimalEquals(sma.GetValue(105), 10);
 		}
         
@@ -81,7 +81,7 @@ namespace TA4N.Test.Indicators
 		{
 			var data = new double[20];
             TaTestsUtils.ArraysFill(data, 1);
-            TimeSeries timeSeries = new MockTimeSeries(data);
+            TimeSeries timeSeries = GenerateTimeSeries.From(data);
 			var sma = new SmaIndicator(new ClosePriceIndicator(timeSeries), 10);
 			TaTestsUtils.AssertDecimalEquals(sma.GetValue(5), 1);
 			TaTestsUtils.AssertDecimalEquals(sma.GetValue(10), 1);
@@ -92,7 +92,7 @@ namespace TA4N.Test.Indicators
         [Test]
 		public void StrategyExecutionOnCachedIndicatorAndLimitedTimeSeries()
 		{
-			TimeSeries timeSeries = new MockTimeSeries(0, 1, 2, 3, 4, 5, 6, 7);
+			TimeSeries timeSeries = GenerateTimeSeries.From(0, 1, 2, 3, 4, 5, 6, 7);
 			var sma = new SmaIndicator(new ClosePriceIndicator(timeSeries), 2);
 			// Theoretical values for SMA(2) cache: 0, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5
 			timeSeries.MaximumTickCount = 6;
@@ -132,7 +132,7 @@ namespace TA4N.Test.Indicators
         [Test] 
 		public void GetValueOnResultsCalculatedFromRemovedTicksShouldReturnFirstRemainingResult()
 		{
-			TimeSeries timeSeries = new MockTimeSeries(1, 1, 1, 1, 1);
+			TimeSeries timeSeries = GenerateTimeSeries.From(1, 1, 1, 1, 1);
 			timeSeries.MaximumTickCount = 3;
 			Assert.AreEqual(2, timeSeries.RemovedTicksCount);
 

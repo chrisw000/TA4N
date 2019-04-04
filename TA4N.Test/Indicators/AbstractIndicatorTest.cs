@@ -22,12 +22,11 @@
 /// </summary>
 
 using TA4N.Indicators.Trackers;
+using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators
 {
     using TA4N.Indicators.Simple;
-    using TA4N.Mocks;
-    
     using NUnit.Framework;
 
 	public sealed class AbstractIndicatorTest
@@ -37,7 +36,7 @@ namespace TA4N.Test.Indicators
         [SetUp]
 		public void SetUp()
 		{
-			_series = new MockTimeSeries(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
+			_series = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
 		}
         
         [Test]

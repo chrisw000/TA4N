@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -24,7 +25,6 @@
 /// </summary>
 namespace TA4N.Test.Indicators.Helpers
 {
-    using TA4N.Mocks;
     using NUnit.Framework;
     using TA4N.Indicators.Helpers;
 
@@ -33,11 +33,11 @@ namespace TA4N.Test.Indicators.Helpers
         [Test]
 		public void AverageDirectionalMovement()
 		{
-			var tick1 = new MockTick(0, 0, 13, 7);
-			var tick2 = new MockTick(0, 0, 11, 5);
-			var tick3 = new MockTick(0, 0, 15, 3);
-			var tick4 = new MockTick(0, 0, 14, 2);
-			var tick5 = new MockTick(0, 0, 13, 0.2);
+			var tick1 = GenerateTick.From(0, 0, 13, 7);
+			var tick2 = GenerateTick.From(0, 0, 11, 5);
+			var tick3 = GenerateTick.From(0, 0, 15, 3);
+			var tick4 = GenerateTick.From(0, 0, 14, 2);
+			var tick5 = GenerateTick.From(0, 0, 13, 0.2);
 
 			IList<Tick> ticks = new List<Tick>();
 			ticks.Add(tick1);
@@ -46,7 +46,7 @@ namespace TA4N.Test.Indicators.Helpers
 			ticks.Add(tick4);
 			ticks.Add(tick5);
 
-			var series = new MockTimeSeries(ticks);
+			var series = GenerateTimeSeries.From(ticks);
 			var admdown = new AverageDirectionalMovementDownIndicator(series, 3);
 			TaTestsUtils.AssertDecimalEquals(admdown.GetValue(0), 1);
 			TaTestsUtils.AssertDecimalEquals(admdown.GetValue(1), 4d / 3);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -25,7 +26,6 @@
 namespace TA4N.Test.Indicators.Oscillators
 {
     using MedianPriceIndicator = TA4N.Indicators.Simple.MedianPriceIndicator;
-    using TA4N.Mocks;
     using NUnit.Framework;
     using TA4N.Indicators.Oscillators;
 
@@ -37,13 +37,13 @@ namespace TA4N.Test.Indicators.Oscillators
 		public void SetUp()
 		{
 			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(new MockTick(0, 0, 16, 8));
-			ticks.Add(new MockTick(0, 0, 12, 6));
-			ticks.Add(new MockTick(0, 0, 18, 14));
-			ticks.Add(new MockTick(0, 0, 10, 6));
-			ticks.Add(new MockTick(0, 0, 8, 4));
+			ticks.Add(GenerateTick.From(0, 0, 16, 8));
+			ticks.Add(GenerateTick.From(0, 0, 12, 6));
+			ticks.Add(GenerateTick.From(0, 0, 18, 14));
+			ticks.Add(GenerateTick.From(0, 0, 10, 6));
+			ticks.Add(GenerateTick.From(0, 0, 8, 4));
 
-			this._series = new MockTimeSeries(ticks);
+			this._series = GenerateTimeSeries.From(ticks);
 		}
 
         [Test] 

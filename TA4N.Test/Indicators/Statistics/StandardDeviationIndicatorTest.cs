@@ -1,4 +1,5 @@
 ﻿using System;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -25,7 +26,6 @@
 namespace TA4N.Test.Indicators.Statistics
 {
 	using TA4N.Indicators.Simple;
-    using TA4N.Mocks;
     using NUnit.Framework;
     using TA4N.Indicators.Statistics;
 
@@ -36,7 +36,7 @@ namespace TA4N.Test.Indicators.Statistics
         [SetUp]
 		public void SetUp()
 		{
-			_data = new MockTimeSeries(1, 2, 3, 4, 3, 4, 5, 4, 3, 0, 9);
+			_data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 0, 9);
 		}
         
         [Test] 

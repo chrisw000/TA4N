@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -24,7 +25,6 @@
 /// </summary>
 namespace TA4N.Test.Indicators.Volume
 {
-    using TA4N.Mocks;
     using NUnit.Framework;
     using TA4N.Indicators.Volume;
 
@@ -34,17 +34,17 @@ namespace TA4N.Test.Indicators.Volume
 		public void GetValue()
 		{
             IList<Tick> ticks = new List<Tick>();
-			ticks.Add(new MockTick(1355.69, 2739.55));
-			ticks.Add(new MockTick(1325.51, 3119.46));
-			ticks.Add(new MockTick(1335.02, 3466.88));
-			ticks.Add(new MockTick(1313.72, 2577.12));
-			ticks.Add(new MockTick(1319.99, 2480.45));
-			ticks.Add(new MockTick(1331.85, 2329.79));
-			ticks.Add(new MockTick(1329.04, 2793.07));
-			ticks.Add(new MockTick(1362.16, 3378.78));
-			ticks.Add(new MockTick(1365.51, 2417.59));
-			ticks.Add(new MockTick(1374.02, 1442.81));
-			TimeSeries series = new MockTimeSeries(ticks);
+			ticks.Add(GenerateTick.From(1355.69, 2739.55));
+			ticks.Add(GenerateTick.From(1325.51, 3119.46));
+			ticks.Add(GenerateTick.From(1335.02, 3466.88));
+			ticks.Add(GenerateTick.From(1313.72, 2577.12));
+			ticks.Add(GenerateTick.From(1319.99, 2480.45));
+			ticks.Add(GenerateTick.From(1331.85, 2329.79));
+			ticks.Add(GenerateTick.From(1329.04, 2793.07));
+			ticks.Add(GenerateTick.From(1362.16, 3378.78));
+			ticks.Add(GenerateTick.From(1365.51, 2417.59));
+			ticks.Add(GenerateTick.From(1374.02, 1442.81));
+			TimeSeries series = GenerateTimeSeries.From(ticks);
 
 			var pvi = new PviIndicator(series);
 			TaTestsUtils.AssertDecimalEquals(pvi.GetValue(0), 1000);

@@ -21,10 +21,11 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using TA4N.Mocks;
 using NUnit.Framework;
+using TA4N.Analysis.Criteria;
+using TA4N.Test.FixtureData;
 
-namespace TA4N.Analysis.Criteria
+namespace TA4N.Test.Analysis.Criteria
 {
 	public sealed class RewardRiskRatioCriterionTest
 	{
@@ -41,7 +42,7 @@ namespace TA4N.Analysis.Criteria
 		{
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(4), Order.BuyAt(5), Order.SellAt(7));
 
-			var series = new MockTimeSeries(100, 105, 95, 100, 90, 95, 80, 120);
+			var series = GenerateTimeSeries.From(100, 105, 95, 100, 90, 95, 80, 120);
 
 			var totalProfit = (105d / 100) * (90d / 95d) * (120d / 95);
 			var peak = (105d / 100) * (100d / 95);
@@ -53,7 +54,7 @@ namespace TA4N.Analysis.Criteria
         [Test]
 		public void RewardRiskRatioCriterionOnlyWithGain()
 		{
-			var series = new MockTimeSeries(1, 2, 3, 6, 8, 20, 3);
+			var series = GenerateTimeSeries.From(1, 2, 3, 6, 8, 20, 3);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
 			Assert.IsTrue(double.IsInfinity(_rrc.Calculate(series, tradingRecord)));
 		}
@@ -61,7 +62,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void RewardRiskRatioCriterionWithNoTrades()
 		{
-			var series = new MockTimeSeries(1, 2, 3, 6, 8, 20, 3);
+			var series = GenerateTimeSeries.From(1, 2, 3, 6, 8, 20, 3);
 			Assert.IsTrue(double.IsInfinity(_rrc.Calculate(series, new TradingRecord())));
 		}
 
@@ -70,7 +71,7 @@ namespace TA4N.Analysis.Criteria
 		{
 			var trade = new Trade(Order.BuyAt(0), Order.SellAt(1));
 
-			var series = new MockTimeSeries(100, 95, 95, 100, 90, 95, 80, 120);
+			var series = GenerateTimeSeries.From(100, 95, 95, 100, 90, 95, 80, 120);
 
 			var ratioCriterion = new RewardRiskRatioCriterion();
 			Assert.AreEqual((95d / 100) / ((1d - 0.95d)), TaTestsUtils.TaOffset, ratioCriterion.Calculate(series, trade));

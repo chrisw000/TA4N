@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -24,7 +25,6 @@
 /// </summary>
 namespace TA4N.Test.Indicators.Trackers
 {
-    using TA4N.Mocks;
     using NUnit.Framework;
     using TA4N.Indicators.Trackers;
 
@@ -34,12 +34,12 @@ namespace TA4N.Test.Indicators.Trackers
 		public void TrendSwitchTest()
 		{
 			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(new MockTick(0, 10, 13, 8));
-			ticks.Add(new MockTick(0, 8, 11, 6));
-			ticks.Add(new MockTick(0, 6, 9, 4));
-			ticks.Add(new MockTick(0, 11, 15, 9));
-			ticks.Add(new MockTick(0, 13, 15, 9));
-			var sar = new ParabolicSarIndicator(new MockTimeSeries(ticks), 1);
+			ticks.Add(GenerateTick.From(0, 10, 13, 8));
+			ticks.Add(GenerateTick.From(0, 8, 11, 6));
+			ticks.Add(GenerateTick.From(0, 6, 9, 4));
+			ticks.Add(GenerateTick.From(0, 11, 15, 9));
+			ticks.Add(GenerateTick.From(0, 13, 15, 9));
+			var sar = new ParabolicSarIndicator(GenerateTimeSeries.From(ticks), 1);
 
 			TaTestsUtils.AssertDecimalEquals(sar.GetValue(0), 10);
 			TaTestsUtils.AssertDecimalEquals(sar.GetValue(1), 8);
@@ -52,13 +52,13 @@ namespace TA4N.Test.Indicators.Trackers
 		public void TrendSwitchTest2()
 		{
 			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(new MockTick(0, 10, 13, 11));
-			ticks.Add(new MockTick(0, 10, 15, 13));
-			ticks.Add(new MockTick(0, 12, 18, 11));
-			ticks.Add(new MockTick(0, 10, 15, 9));
-			ticks.Add(new MockTick(0, 9, 15, 9));
+			ticks.Add(GenerateTick.From(0, 10, 13, 11));
+			ticks.Add(GenerateTick.From(0, 10, 15, 13));
+			ticks.Add(GenerateTick.From(0, 12, 18, 11));
+			ticks.Add(GenerateTick.From(0, 10, 15, 9));
+			ticks.Add(GenerateTick.From(0, 9, 15, 9));
 
-			var sar = new ParabolicSarIndicator(new MockTimeSeries(ticks), 1);
+			var sar = new ParabolicSarIndicator(GenerateTimeSeries.From(ticks), 1);
 
 			TaTestsUtils.AssertDecimalEquals(sar.GetValue(0), 10);
 			TaTestsUtils.AssertDecimalEquals(sar.GetValue(1), 10);
@@ -71,13 +71,13 @@ namespace TA4N.Test.Indicators.Trackers
 		public void UpTrendTest()
 		{
 			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(new MockTick(0, 10, 13, 11));
-			ticks.Add(new MockTick(0, 17, 15, 11.38));
-			ticks.Add(new MockTick(0, 18, 16, 14));
-			ticks.Add(new MockTick(0, 19, 17, 12));
-			ticks.Add(new MockTick(0, 20, 18, 9));
+			ticks.Add(GenerateTick.From(0, 10, 13, 11));
+			ticks.Add(GenerateTick.From(0, 17, 15, 11.38));
+			ticks.Add(GenerateTick.From(0, 18, 16, 14));
+			ticks.Add(GenerateTick.From(0, 19, 17, 12));
+			ticks.Add(GenerateTick.From(0, 20, 18, 9));
 
-			var sar = new ParabolicSarIndicator(new MockTimeSeries(ticks), 1);
+			var sar = new ParabolicSarIndicator(GenerateTimeSeries.From(ticks), 1);
 
 			TaTestsUtils.AssertDecimalEquals(sar.GetValue(0), 10);
 			TaTestsUtils.AssertDecimalEquals(sar.GetValue(1), 17);
@@ -90,14 +90,14 @@ namespace TA4N.Test.Indicators.Trackers
 		public void DownTrendTest()
 		{
 			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(new MockTick(0, 20, 18, 9));
-			ticks.Add(new MockTick(0, 19, 17, 12));
-			ticks.Add(new MockTick(0, 18, 16, 14));
-			ticks.Add(new MockTick(0, 17, 15, 11.38));
-			ticks.Add(new MockTick(0, 10, 13, 11));
-			ticks.Add(new MockTick(0, 10, 30, 11));
+			ticks.Add(GenerateTick.From(0, 20, 18, 9));
+			ticks.Add(GenerateTick.From(0, 19, 17, 12));
+			ticks.Add(GenerateTick.From(0, 18, 16, 14));
+			ticks.Add(GenerateTick.From(0, 17, 15, 11.38));
+			ticks.Add(GenerateTick.From(0, 10, 13, 11));
+			ticks.Add(GenerateTick.From(0, 10, 30, 11));
 
-			var sar = new ParabolicSarIndicator(new MockTimeSeries(ticks), 1);
+			var sar = new ParabolicSarIndicator(GenerateTimeSeries.From(ticks), 1);
 
 			TaTestsUtils.AssertDecimalEquals(sar.GetValue(0), 20);
 			TaTestsUtils.AssertDecimalEquals(sar.GetValue(1), 19);

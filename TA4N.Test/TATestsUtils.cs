@@ -24,7 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using System;
 using NUnit.Framework;
 
-namespace TA4N
+namespace TA4N.Test
 {
 	/// <summary>
 	/// Utility class for <see cref="Decimal"/> tests.

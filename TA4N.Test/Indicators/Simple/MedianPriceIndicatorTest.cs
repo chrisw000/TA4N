@@ -24,7 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using TA4N.Indicators.Simple;
 using System.Collections.Generic;
 using NUnit.Framework;
-using TA4N.Mocks;
+using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Simple
 {
@@ -38,18 +38,18 @@ namespace TA4N.Test.Indicators.Simple
 		{
 			IList<Tick> ticks = new List<Tick>();
 
-			ticks.Add(new MockTick(0, 0, 16, 8));
-			ticks.Add(new MockTick(0, 0, 12, 6));
-			ticks.Add(new MockTick(0, 0, 18, 14));
-			ticks.Add(new MockTick(0, 0, 10, 6));
-			ticks.Add(new MockTick(0, 0, 32, 6));
-			ticks.Add(new MockTick(0, 0, 2, 2));
-			ticks.Add(new MockTick(0, 0, 0, 0));
-			ticks.Add(new MockTick(0, 0, 8, 1));
-			ticks.Add(new MockTick(0, 0, 83, 32));
-			ticks.Add(new MockTick(0, 0, 9, 3));
+			ticks.Add(GenerateTick.From(0, 0, 16, 8));
+			ticks.Add(GenerateTick.From(0, 0, 12, 6));
+			ticks.Add(GenerateTick.From(0, 0, 18, 14));
+			ticks.Add(GenerateTick.From(0, 0, 10, 6));
+			ticks.Add(GenerateTick.From(0, 0, 32, 6));
+			ticks.Add(GenerateTick.From(0, 0, 2, 2));
+			ticks.Add(GenerateTick.From(0, 0, 0, 0));
+			ticks.Add(GenerateTick.From(0, 0, 8, 1));
+			ticks.Add(GenerateTick.From(0, 0, 83, 32));
+			ticks.Add(GenerateTick.From(0, 0, 9, 3));
 
-			_timeSeries = new MockTimeSeries(ticks);
+			_timeSeries = GenerateTimeSeries.From(ticks);
 			_average = new MedianPriceIndicator(_timeSeries);
 		}
 

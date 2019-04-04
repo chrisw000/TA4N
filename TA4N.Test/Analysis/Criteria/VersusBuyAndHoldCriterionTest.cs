@@ -22,17 +22,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 using System;
-using TA4N.Mocks;
 using NUnit.Framework;
+using TA4N.Analysis.Criteria;
+using TA4N.Test.FixtureData;
 
-namespace TA4N.Analysis.Criteria
+namespace TA4N.Test.Analysis.Criteria
 {
 	public sealed class VersusBuyAndHoldCriterionTest
 	{
         [Test]
 		public void CalculateOnlyWithGainTrades()
 		{
-			var series = new MockTimeSeries(100, 105, 110, 100, 95, 105);
+			var series = GenerateTimeSeries.From(100, 105, 110, 100, 95, 105);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.BuyAt(3), Order.SellAt(5));
 
 			IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
@@ -42,7 +43,7 @@ namespace TA4N.Analysis.Criteria
         [Test]
 		public void CalculateOnlyWithLossTrades()
 		{
-			var series = new MockTimeSeries(100, 95, 100, 80, 85, 70);
+			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
 
 			IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
@@ -52,7 +53,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void CalculateWithOnlyOneTrade()
 		{
-			var series = new MockTimeSeries(100, 95, 100, 80, 85, 70);
+			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
 			var trade = new Trade(Order.BuyAt(0), Order.SellAt(1));
 
 			IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
@@ -62,7 +63,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void CalculateWithNoTrades()
 		{
-			var series = new MockTimeSeries(100, 95, 100, 80, 85, 70);
+			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
 
 			IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
 			Assert.AreEqual(1 / 0.7, buyAndHold.Calculate(series, new TradingRecord()), TaTestsUtils.TaOffset);
@@ -71,7 +72,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void CalculateWithAverageProfit()
 		{
-			var series = new MockTimeSeries(100, 95, 100, 80, 85, 130);
+			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 130);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
 
 			IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new AverageProfitCriterion());
@@ -82,7 +83,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void CalculateWithNumberOfTicks()
 		{
-			var series = new MockTimeSeries(100, 95, 100, 80, 85, 130);
+			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 130);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
 
 			IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new NumberOfTicksCriterion());

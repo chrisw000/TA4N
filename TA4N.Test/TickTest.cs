@@ -22,10 +22,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 using System;
-using NUnit.Framework;
 using NodaTime;
+using NUnit.Framework;
 
-namespace TA4N
+namespace TA4N.Test
 {
     public sealed class TickTest
 	{

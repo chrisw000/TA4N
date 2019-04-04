@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TA4N.Mocks;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -41,26 +41,26 @@ namespace TA4N.Test.Indicators.Statistics
 		{
 			IList<Tick> ticks = new List<Tick>();
 			// close, volume
-			ticks.Add(new MockTick(6, 100));
-			ticks.Add(new MockTick(7, 105));
-			ticks.Add(new MockTick(9, 130));
-			ticks.Add(new MockTick(12, 160));
-			ticks.Add(new MockTick(11, 150));
-			ticks.Add(new MockTick(10, 130));
-			ticks.Add(new MockTick(11, 95));
-			ticks.Add(new MockTick(13, 120));
-			ticks.Add(new MockTick(15, 180));
-			ticks.Add(new MockTick(12, 160));
-			ticks.Add(new MockTick(8, 150));
-			ticks.Add(new MockTick(4, 200));
-			ticks.Add(new MockTick(3, 150));
-			ticks.Add(new MockTick(4, 85));
-			ticks.Add(new MockTick(3, 70));
-			ticks.Add(new MockTick(5, 90));
-			ticks.Add(new MockTick(8, 100));
-			ticks.Add(new MockTick(9, 95));
-			ticks.Add(new MockTick(11, 110));
-			ticks.Add(new MockTick(10, 95));
+			ticks.Add(GenerateTick.From(6, 100));
+			ticks.Add(GenerateTick.From(7, 105));
+			ticks.Add(GenerateTick.From(9, 130));
+			ticks.Add(GenerateTick.From(12, 160));
+			ticks.Add(GenerateTick.From(11, 150));
+			ticks.Add(GenerateTick.From(10, 130));
+			ticks.Add(GenerateTick.From(11, 95));
+			ticks.Add(GenerateTick.From(13, 120));
+			ticks.Add(GenerateTick.From(15, 180));
+			ticks.Add(GenerateTick.From(12, 160));
+			ticks.Add(GenerateTick.From(8, 150));
+			ticks.Add(GenerateTick.From(4, 200));
+			ticks.Add(GenerateTick.From(3, 150));
+			ticks.Add(GenerateTick.From(4, 85));
+			ticks.Add(GenerateTick.From(3, 70));
+			ticks.Add(GenerateTick.From(5, 90));
+			ticks.Add(GenerateTick.From(8, 100));
+			ticks.Add(GenerateTick.From(9, 95));
+			ticks.Add(GenerateTick.From(11, 110));
+			ticks.Add(GenerateTick.From(10, 95));
 
 			_data = new TimeSeries(ticks);
 			_close = new ClosePriceIndicator(_data);

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using NUnit.Framework;
 
-namespace TA4N
+namespace TA4N.Test
 {
     [Ignore("NUnit is failing System.MissingMethodException on the .ConfigureForNodaTime extension method provided by NuGet package NodaTime.Serialization.JsonNet")]
     public sealed class JsonUtilTest

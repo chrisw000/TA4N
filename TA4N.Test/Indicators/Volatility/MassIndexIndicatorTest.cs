@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TA4N.Mocks;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -25,7 +25,6 @@ using TA4N.Mocks;
 /// </summary>
 namespace TA4N.Test.Indicators.Volatility
 {
-    using TA4N.Mocks;
     using TA4N.Indicators.Volatility;
     using NUnit.Framework;
 
@@ -39,26 +38,26 @@ namespace TA4N.Test.Indicators.Volatility
             IList<Tick> ticks = new List<Tick>
             {
                 // open, close, high, low
-                new MockTick(44.98, 45.05, 45.17, 44.96),
-                new MockTick(45.05, 45.10, 45.15, 44.99),
-                new MockTick(45.11, 45.19, 45.32, 45.11),
-                new MockTick(45.19, 45.14, 45.25, 45.04),
-                new MockTick(45.12, 45.15, 45.20, 45.10),
-                new MockTick(45.15, 45.14, 45.20, 45.10),
-                new MockTick(45.13, 45.10, 45.16, 45.07),
-                new MockTick(45.12, 45.15, 45.22, 45.10),
-                new MockTick(45.15, 45.22, 45.27, 45.14),
-                new MockTick(45.24, 45.43, 45.45, 45.20),
-                new MockTick(45.43, 45.44, 45.50, 45.39),
-                new MockTick(45.43, 45.55, 45.60, 45.35),
-                new MockTick(45.58, 45.55, 45.61, 45.39),
-                new MockTick(45.45, 45.01, 45.55, 44.80),
-                new MockTick(45.03, 44.23, 45.04, 44.17),
-                new MockTick(44.23, 43.95, 44.29, 43.81),
-                new MockTick(43.91, 43.08, 43.99, 43.08),
-                new MockTick(43.07, 43.55, 43.65, 43.06),
-                new MockTick(43.56, 43.95, 43.99, 43.53),
-                new MockTick(43.93, 44.47, 44.58, 43.93)
+                GenerateTick.From(44.98, 45.05, 45.17, 44.96),
+                GenerateTick.From(45.05, 45.10, 45.15, 44.99),
+                GenerateTick.From(45.11, 45.19, 45.32, 45.11),
+                GenerateTick.From(45.19, 45.14, 45.25, 45.04),
+                GenerateTick.From(45.12, 45.15, 45.20, 45.10),
+                GenerateTick.From(45.15, 45.14, 45.20, 45.10),
+                GenerateTick.From(45.13, 45.10, 45.16, 45.07),
+                GenerateTick.From(45.12, 45.15, 45.22, 45.10),
+                GenerateTick.From(45.15, 45.22, 45.27, 45.14),
+                GenerateTick.From(45.24, 45.43, 45.45, 45.20),
+                GenerateTick.From(45.43, 45.44, 45.50, 45.39),
+                GenerateTick.From(45.43, 45.55, 45.60, 45.35),
+                GenerateTick.From(45.58, 45.55, 45.61, 45.39),
+                GenerateTick.From(45.45, 45.01, 45.55, 44.80),
+                GenerateTick.From(45.03, 44.23, 45.04, 44.17),
+                GenerateTick.From(44.23, 43.95, 44.29, 43.81),
+                GenerateTick.From(43.91, 43.08, 43.99, 43.08),
+                GenerateTick.From(43.07, 43.55, 43.65, 43.06),
+                GenerateTick.From(43.56, 43.95, 43.99, 43.53),
+                GenerateTick.From(43.93, 44.47, 44.58, 43.93)
             };
 
             _data = new TimeSeries(ticks);

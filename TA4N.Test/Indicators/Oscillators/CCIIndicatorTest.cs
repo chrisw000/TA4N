@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using TA4N.Mocks;
 using NUnit.Framework;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -31,7 +31,7 @@ namespace TA4N.Test.Indicators.Oscillators
     public sealed class CciIndicatorTest
 	{
 		private readonly double[] _typicalPrices = {23.98, 23.92, 23.79, 23.67, 23.54, 23.36, 23.65, 23.72, 24.16, 23.91, 23.81, 23.92, 23.74, 24.68, 24.94, 24.93, 25.10, 25.12, 25.20, 25.06, 24.50, 24.31, 24.57, 24.62, 24.49, 24.37, 24.41, 24.35, 23.75, 24.09};
-		private MockTimeSeries _series;
+		private TimeSeries _series;
 
         [SetUp]
 		public void SetUp()
@@ -39,9 +39,9 @@ namespace TA4N.Test.Indicators.Oscillators
 			var ticks = new List<Tick>();
 			foreach (var price in _typicalPrices)
 			{
-				ticks.Add(new MockTick(price, price, price, price));
+				ticks.Add(GenerateTick.From(price, price, price, price));
 			}
-			_series = new MockTimeSeries(ticks);
+			_series = GenerateTimeSeries.From(ticks);
 		}
 
         [Test]

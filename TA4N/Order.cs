@@ -29,135 +29,19 @@ namespace TA4N
 {
     public static class Extensions
     {
-        public static OrderTypeEnum ComplementType(this OrderTypeEnum value)
+        public static OrderType ComplementType(this OrderType value)
         {
-            return value == OrderTypeEnum.Buy
-                                ? OrderTypeEnum.Sell
-                                : OrderTypeEnum.Buy;
+            return value == OrderType.Buy
+                                ? OrderType.Sell
+                                : OrderType.Buy;
         }
     }
 
-    public enum OrderTypeEnum
+    public enum OrderType
     {
         Buy,
         Sell
     }
-
-    /// <summary>
-    /// <para>The type of an <seealso cref="Order"/>.</para>
-    /// <para>A BUY corresponds to a <i>BID</i> order.</para>
-    /// <para>A SELL corresponds to an <i>ASK</i> order.</para>
-    /// </summary>
-    public class OrderType
-    {
-        public static OrderType Buy
-        {
-            get
-            {
-                var buy = new OrderType("BUY", OrderTypeEnum.Buy);
-                var sell = new OrderType("SELL", OrderTypeEnum.Sell);
-                buy.ComplementType = sell;
-                sell.ComplementType = buy;
-
-                return buy;
-            }   
-        }
-
-        public static OrderType Sell
-        {
-            get
-            {
-                var buy = new OrderType("BUY", OrderTypeEnum.Buy);
-                var sell = new OrderType("SELL", OrderTypeEnum.Sell);
-                buy.ComplementType = sell;
-                sell.ComplementType = buy;
-
-                return sell;
-            }
-        }
-
-
-        private static readonly IList<OrderType> ValueList = new List<OrderType>() {Buy, Sell};
-
-        private readonly string _nameValue;
-        private static int _nextOrdinal;
-
-        private OrderType()
-        {
-        }
-
-        private OrderType(string name, OrderTypeEnum innerEnum)
-        {
-            _nameValue = name;
-            Ordinal = _nextOrdinal++;
-            InnerEnumValue = innerEnum;
-        }
-
-        /// <returns> the complementary order type </returns>
-        public OrderType ComplementType
-        {
-            get { return _complementType; }
-            private set { _complementType = value; }
-        }
-
-        private OrderType _complementType;
-
-        public static IEnumerable<OrderType> Values()
-        {
-            return ValueList;
-        }
-
-        public OrderTypeEnum InnerEnumValue { get; }
-
-        public int Ordinal { get; }
-
-        public override int GetHashCode()
-        {
-            return _nameValue.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-            {
-                return false;
-            }
-            if (GetType() != obj.GetType())
-            {
-                return false;
-            }
-
-            var other = obj as OrderType;
-            if (InnerEnumValue != other?.InnerEnumValue)
-            {
-                return false;
-            }
-            if (_nameValue != other._nameValue)
-            {
-                return false;
-            }
-            if (ComplementType.InnerEnumValue != other.ComplementType.InnerEnumValue)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public override string ToString()
-        {
-            return _nameValue;
-        }
-
-        public static OrderType ValueOf(string name)
-        {
-            foreach (var enumInstance in Values().Where(enumInstance => enumInstance._nameValue == name))
-            {
-                return enumInstance;
-            }
-            throw new ArgumentException(nameof(name));
-        }
-    }
-
 
     /// <summary>
     /// An order.
@@ -175,8 +59,6 @@ namespace TA4N
     [Serializable]
     public class Order
     {
-        private const long SerialVersionUid = -905474949010114150L;
-
         /// <summary>
         /// Type of the order </summary>
         private readonly OrderType _orderType;
@@ -236,7 +118,7 @@ namespace TA4N
         public override int GetHashCode()
         {
             var hash = 7;
-            hash = 29*hash + (_orderType != null ? _orderType.GetHashCode() : 0);
+            hash = 29*hash + _orderType.GetHashCode();
             hash = 29*hash + _index;
             hash = 29*hash + (_price != null ? _price.GetHashCode() : 0);
             hash = 29*hash + (_amount != null ? _amount.GetHashCode() : 0);
@@ -255,7 +137,7 @@ namespace TA4N
             }
 
             var other = obj as Order;
-            if (_orderType.InnerEnumValue != other?.OrderType?.InnerEnumValue)
+            if (_orderType != other?.OrderType)
             {
                 return false;
             }

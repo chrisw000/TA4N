@@ -21,17 +21,18 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using TA4N.Mocks;
 using NUnit.Framework;
+using TA4N.Analysis.Criteria;
+using TA4N.Test.FixtureData;
 
-namespace TA4N.Analysis.Criteria
+namespace TA4N.Test.Analysis.Criteria
 {
 	public sealed class AverageProfitableTradesCriterionTest
 	{
         [Test] 
 		public void Calculate()
 		{
-			TimeSeries series = new MockTimeSeries(100d, 95d, 102d, 105d, 97d, 113d);
+			TimeSeries series = GenerateTimeSeries.From(100d, 95d, 102d, 105d, 97d, 113d);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(3), Order.BuyAt(4), Order.SellAt(5));
 
 			var average = new AverageProfitableTradesCriterion();
@@ -42,7 +43,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void CalculateWithOneTrade()
 		{
-			TimeSeries series = new MockTimeSeries(100d, 95d, 102d, 105d, 97d, 113d);
+			TimeSeries series = GenerateTimeSeries.From(100d, 95d, 102d, 105d, 97d, 113d);
 			var trade = new Trade(Order.BuyAt(0), Order.SellAt(1));
 
 			var average = new AverageProfitableTradesCriterion();

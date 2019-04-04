@@ -22,8 +22,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 using NUnit.Framework;
+using TA4N.Trading.Rules;
 
-namespace TA4N.Trading.Rules
+namespace TA4N.Test.Trading.Rules
 {
 	public sealed class NotRuleTest
 	{

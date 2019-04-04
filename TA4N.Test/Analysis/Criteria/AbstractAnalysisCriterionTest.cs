@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
-
+using NUnit.Framework;
+using TA4N.Analysis.Criteria;
+using TA4N.Test.FixtureData;
+using TA4N.Trading.Rules;
 /*
 The MIT License (MIT)
 
@@ -23,11 +26,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using TA4N.Mocks;
-using NUnit.Framework;
-using TA4N.Trading.Rules;
-
-namespace TA4N.Analysis.Criteria
+namespace TA4N.Test.Analysis.Criteria
 {
 	public sealed class AbstractAnalysisCriterionTest
 	{
@@ -50,7 +49,7 @@ namespace TA4N.Analysis.Criteria
         [Test]
 		public void BestShouldBeAlwaysOperateOnProfit()
 		{
-			var series = new MockTimeSeries(6.0, 9.0, 6.0, 6.0);
+			var series = GenerateTimeSeries.From(6.0, 9.0, 6.0, 6.0);
 			var bestStrategy = (new TotalProfitCriterion()).ChooseBest(series, _strategies);
 			Assert.AreEqual(_alwaysStrategy, bestStrategy);
 		}
@@ -58,7 +57,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void BestShouldBeBuyAndHoldOnLoss()
 		{
-			var series = new MockTimeSeries(6.0, 3.0, 6.0, 6.0);
+			var series = GenerateTimeSeries.From(6.0, 3.0, 6.0, 6.0);
 			var bestStrategy = (new TotalProfitCriterion()).ChooseBest(series, _strategies);
 			Assert.AreEqual(_buyAndHoldStrategy, bestStrategy);
 		}

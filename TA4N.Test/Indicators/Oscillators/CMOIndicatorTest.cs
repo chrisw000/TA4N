@@ -20,11 +20,13 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
+
+using TA4N.Test.FixtureData;
+
 namespace TA4N.Test.Indicators.Oscillators
 {
     using NUnit.Framework;
     using TA4N.Indicators.Simple;
-    using TA4N.Mocks;
     using TA4N.Indicators.Oscillators;
 
     public sealed class CmoIndicatorTest
@@ -34,7 +36,7 @@ namespace TA4N.Test.Indicators.Oscillators
         [SetUp]
 		public void SetUp()
 		{
-			_series = new MockTimeSeries(21.27, 22.19, 22.08, 22.47, 22.48, 22.53, 22.23, 21.43, 21.24, 21.29, 22.15, 22.39, 22.38, 22.61, 23.36, 24.05, 24.75, 24.83, 23.95, 23.63, 23.82, 23.87, 23.15, 23.19, 23.10, 22.65, 22.48, 22.87, 22.93, 22.91);
+			_series = GenerateTimeSeries.From(21.27, 22.19, 22.08, 22.47, 22.48, 22.53, 22.23, 21.43, 21.24, 21.29, 22.15, 22.39, 22.38, 22.61, 23.36, 24.05, 24.75, 24.83, 23.95, 23.63, 23.82, 23.87, 23.15, 23.19, 23.10, 22.65, 22.48, 22.87, 22.93, 22.91);
 		}
         
         [Test]

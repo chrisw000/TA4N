@@ -20,10 +20,12 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
+
+using TA4N.Test.FixtureData;
+
 namespace TA4N.Test.Indicators.Statistics
 {
     using TA4N.Indicators.Simple;
-    using TA4N.Mocks;
     //	using SimpleRegression = org.apache.commons.math3.stat.regression.SimpleRegression;
     using TA4N.Indicators.Statistics;
 
@@ -38,7 +40,7 @@ namespace TA4N.Test.Indicators.Statistics
 		public void SetUp()
 		{
 			_data = new double[] {10, 20, 30, 40, 30, 40, 30, 20, 30, 50, 60, 70, 80};
-			_closePrice = new ClosePriceIndicator(new MockTimeSeries(_data));
+			_closePrice = new ClosePriceIndicator(GenerateTimeSeries.From(_data));
 		}
         
         [Test]
@@ -92,7 +94,7 @@ namespace TA4N.Test.Indicators.Statistics
 		public void CalculateLinearRegression()
 		{
 			var values = new double[] {1, 2, 1.3, 3.75, 2.25};
-			var indicator = new ClosePriceIndicator(new MockTimeSeries(values));
+			var indicator = new ClosePriceIndicator(GenerateTimeSeries.From(values));
 			var reg = new SimpleLinearRegressionIndicator(indicator, 5);
 
 //			SimpleRegression origReg = buildSimpleRegression(values);

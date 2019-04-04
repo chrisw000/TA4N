@@ -22,19 +22,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 using System;
-using TA4N.Mocks;
 using NUnit.Framework;
+using TA4N.Analysis.Criteria;
+using TA4N.Test.FixtureData;
 
-namespace TA4N.Analysis.Criteria
+namespace TA4N.Test.Analysis.Criteria
 {
 	public sealed class AverageProfitCriterionTest
 	{
-		private MockTimeSeries _series;
-
         [Test] 
 		public void CalculateOnlyWithGainTrades()
 		{
-			_series = new MockTimeSeries(100d, 105d, 110d, 100d, 95d, 105d);
+			var _series = GenerateTimeSeries.From(100d, 105d, 110d, 100d, 95d, 105d);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.BuyAt(3), Order.SellAt(5));
 			IAnalysisCriterion averageProfit = new AverageProfitCriterion();
 			Assert.AreEqual(1.0243, TaTestsUtils.TaOffset, averageProfit.Calculate(_series, tradingRecord));
@@ -43,7 +42,7 @@ namespace TA4N.Analysis.Criteria
         [Test]
 		public void CalculateWithASimpleTrade()
 		{
-			_series = new MockTimeSeries(100d, 105d, 110d, 100d, 95d, 105d);
+			var _series = GenerateTimeSeries.From(100d, 105d, 110d, 100d, 95d, 105d);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2));
 			IAnalysisCriterion averageProfit = new AverageProfitCriterion();
 			Assert.AreEqual(Math.Pow(110d / 100, 1d / 3), averageProfit.Calculate(_series, tradingRecord), TaTestsUtils.TaOffset);
@@ -52,7 +51,7 @@ namespace TA4N.Analysis.Criteria
         [Test]
 		public void CalculateOnlyWithLossTrades()
 		{
-			_series = new MockTimeSeries(100, 95, 100, 80, 85, 70);
+			var _series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
 			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
 			IAnalysisCriterion averageProfit = new AverageProfitCriterion();
 			Assert.AreEqual(Math.Pow(95d / 100 * 70d / 100, 1d / 6), averageProfit.Calculate(_series, tradingRecord), TaTestsUtils.TaOffset);
@@ -61,7 +60,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void CalculateWithNoTicksShouldReturn1()
 		{
-			_series = new MockTimeSeries(100, 95, 100, 80, 85, 70);
+			var _series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
 			IAnalysisCriterion averageProfit = new AverageProfitCriterion();
 			Assert.AreEqual(1d, averageProfit.Calculate(_series, new TradingRecord()), TaTestsUtils.TaOffset);
 		}
@@ -69,7 +68,7 @@ namespace TA4N.Analysis.Criteria
         [Test] 
 		public void CalculateWithOneTrade()
 		{
-			_series = new MockTimeSeries(100, 105);
+			var _series = GenerateTimeSeries.From(100, 105);
 			var trade = new Trade(Order.BuyAt(0), Order.SellAt(1));
 			IAnalysisCriterion average = new AverageProfitCriterion();
 			Assert.AreEqual(Math.Pow(105d / 100, 1d / 2), average.Calculate(_series, trade), TaTestsUtils.TaOffset);

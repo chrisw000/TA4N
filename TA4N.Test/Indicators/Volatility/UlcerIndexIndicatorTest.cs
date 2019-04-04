@@ -20,11 +20,13 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
+
+using TA4N.Test.FixtureData;
+
 namespace TA4N.Test.Indicators.Volatility
 {
     using TA4N.Indicators.Simple;
     using TA4N.Indicators.Volatility;
-    using TA4N.Mocks;
     using NUnit.Framework;
 
 	public sealed class UlcerIndexIndicatorTest
@@ -34,7 +36,7 @@ namespace TA4N.Test.Indicators.Volatility
         [SetUp]
 		public void SetUp()
 		{
-			_ibmData = new MockTimeSeries(194.75, 195.00, 195.10, 194.46, 190.60, 188.86, 185.47, 184.46, 182.31, 185.22, 184.00, 182.87, 187.45, 194.51, 191.63, 190.02, 189.53, 190.27, 193.13, 195.55, 195.84, 195.15, 194.35, 193.62, 197.68, 197.91, 199.08, 199.03, 198.42, 199.29, 199.01, 198.29, 198.40, 200.84, 201.22, 200.50, 198.65, 197.25, 195.70, 197.77, 195.69, 194.87, 195.08);
+			_ibmData = GenerateTimeSeries.From(194.75, 195.00, 195.10, 194.46, 190.60, 188.86, 185.47, 184.46, 182.31, 185.22, 184.00, 182.87, 187.45, 194.51, 191.63, 190.02, 189.53, 190.27, 193.13, 195.55, 195.84, 195.15, 194.35, 193.62, 197.68, 197.91, 199.08, 199.03, 198.42, 199.29, 199.01, 198.29, 198.40, 200.84, 201.22, 200.50, 198.65, 197.25, 195.70, 197.77, 195.69, 194.87, 195.08);
 		}
         
         [Test]

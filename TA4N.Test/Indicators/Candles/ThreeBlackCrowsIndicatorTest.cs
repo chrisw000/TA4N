@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TA4N.Test.FixtureData;
 
 /// <summary>
 /// The MIT License (MIT)
@@ -24,7 +25,6 @@
 /// </summary>
 namespace TA4N.Test.Indicators.Candles
 {
-    using TA4N.Mocks;
     using NUnit.Framework;
     using TA4N.Indicators.Candles;
 
@@ -37,15 +37,15 @@ namespace TA4N.Test.Indicators.Candles
 		{
 			IList<Tick> ticks = new List<Tick>();
 			// open, close, high, low
-			ticks.Add(new MockTick(19, 19, 22, 15));
-			ticks.Add(new MockTick(10, 18, 20, 8));
-			ticks.Add(new MockTick(17, 20, 21, 17));
-			ticks.Add(new MockTick(19, 17, 20, 16.9));
-			ticks.Add(new MockTick(17.5, 14, 18, 13.9));
-			ticks.Add(new MockTick(15, 11, 15, 11));
-			ticks.Add(new MockTick(12, 14, 15, 8));
-			ticks.Add(new MockTick(13, 16, 16, 11));
-			_series = new MockTimeSeries(ticks);
+			ticks.Add(GenerateTick.From(19, 19, 22, 15));
+			ticks.Add(GenerateTick.From(10, 18, 20, 8));
+			ticks.Add(GenerateTick.From(17, 20, 21, 17));
+			ticks.Add(GenerateTick.From(19, 17, 20, 16.9));
+			ticks.Add(GenerateTick.From(17.5, 14, 18, 13.9));
+			ticks.Add(GenerateTick.From(15, 11, 15, 11));
+			ticks.Add(GenerateTick.From(12, 14, 15, 8));
+			ticks.Add(GenerateTick.From(13, 16, 16, 11));
+			_series = GenerateTimeSeries.From(ticks);
 		}
         
         [Test]
