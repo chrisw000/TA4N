@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Helpers
@@ -30,40 +29,39 @@ namespace TA4N.Test.Indicators.Helpers
     using TA4N.Indicators.Helpers;
 
     public sealed class MeanDeviationIndicatorTest
-	{
-		private TimeSeries _data;
+    {
+        private TimeSeries _data;
 
         [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(1, 2, 7, 6, 3, 4, 5, 11, 3, 0, 9);
-		}
-        
-        [Test] 
-		public void MeanDeviationUsingTimeFrame5UsingClosePrice()
-		{
-			var meanDeviation = new MeanDeviationIndicator(new ClosePriceIndicator(_data), 5);
-
-			TaTestsUtils.AssertDecimalEquals(meanDeviation.GetValue(2), 2.44444444444444);
-			TaTestsUtils.AssertDecimalEquals(meanDeviation.GetValue(3), 2.5);
-			TaTestsUtils.AssertDecimalEquals(meanDeviation.GetValue(7), 2.16);
-			TaTestsUtils.AssertDecimalEquals(meanDeviation.GetValue(8), 2.32);
-			TaTestsUtils.AssertDecimalEquals(meanDeviation.GetValue(9), 2.72);
-		}
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(1, 2, 7, 6, 3, 4, 5, 11, 3, 0, 9);
+        }
 
         [Test]
-		public void FirstValueShouldBeZero()
-		{
-			var meanDeviation = new MeanDeviationIndicator(new ClosePriceIndicator(_data), 5);
-			TaTestsUtils.AssertDecimalEquals(meanDeviation.GetValue(0), 0);
-		}
+        public void MeanDeviationUsingTimeFrame5UsingClosePrice()
+        {
+            var meanDeviation = new MeanDeviationIndicator(new ClosePriceIndicator(_data), 5);
+            Assert.That(meanDeviation.GetValue(2).ToDouble(), Is.EqualTo(2.44444444444444).Within(TaTestsUtils.TaOffset));
+            Assert.That(meanDeviation.GetValue(3).ToDouble(), Is.EqualTo(2.5).Within(TaTestsUtils.TaOffset));
+            Assert.That(meanDeviation.GetValue(7).ToDouble(), Is.EqualTo(2.16).Within(TaTestsUtils.TaOffset));
+            Assert.That(meanDeviation.GetValue(8).ToDouble(), Is.EqualTo(2.32).Within(TaTestsUtils.TaOffset));
+            Assert.That(meanDeviation.GetValue(9).ToDouble(), Is.EqualTo(2.72).Within(TaTestsUtils.TaOffset));
+        }
 
-        [Test] 
-		public void MeanDeviationShouldBeZeroWhenTimeFrameIs1()
-		{
-			var meanDeviation = new MeanDeviationIndicator(new ClosePriceIndicator(_data), 1);
-			TaTestsUtils.AssertDecimalEquals(meanDeviation.GetValue(2), 0);
-			TaTestsUtils.AssertDecimalEquals(meanDeviation.GetValue(7), 0);
-		}
-	}
+        [Test]
+        public void FirstValueShouldBeZero()
+        {
+            var meanDeviation = new MeanDeviationIndicator(new ClosePriceIndicator(_data), 5);
+            Assert.That(meanDeviation.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+        }
+
+        [Test]
+        public void MeanDeviationShouldBeZeroWhenTimeFrameIs1()
+        {
+            var meanDeviation = new MeanDeviationIndicator(new ClosePriceIndicator(_data), 1);
+            Assert.That(meanDeviation.GetValue(2), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(meanDeviation.GetValue(7), Is.EqualTo(Decimal.ValueOf(0)));
+        }
+    }
 }

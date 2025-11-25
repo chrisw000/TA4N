@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,37 +20,34 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Trading.Rules;
 
 namespace TA4N.Test.Trading.Rules
 {
-	public sealed class XorRuleTest
-	{
-		private IRule _satisfiedRule;
-		private IRule _unsatisfiedRule;
+    public sealed class XorRuleTest
+    {
+        private IRule _satisfiedRule;
+        private IRule _unsatisfiedRule;
 
         [SetUp]
-		public void SetUp()
-		{
-			_satisfiedRule = new BooleanRule(true);
-			_unsatisfiedRule = new BooleanRule(false);
-		}
+        public void SetUp()
+        {
+            _satisfiedRule = new BooleanRule(true);
+            _unsatisfiedRule = new BooleanRule(false);
+        }
 
         [Test]
-		public void IsSatisfied()
-		{
-			Assert.IsTrue(_satisfiedRule.Xor(BooleanRule.False).IsSatisfied(0));
-			Assert.IsTrue(BooleanRule.False.Xor(_satisfiedRule).IsSatisfied(0));
-			Assert.IsFalse(_unsatisfiedRule.Xor(BooleanRule.False).IsSatisfied(0));
-			Assert.IsFalse(BooleanRule.False.Xor(_unsatisfiedRule).IsSatisfied(0));
-
-			Assert.IsFalse(_satisfiedRule.Xor(BooleanRule.True).IsSatisfied(10));
-			Assert.IsFalse(BooleanRule.True.Xor(_satisfiedRule).IsSatisfied(10));
-			Assert.IsTrue(_unsatisfiedRule.Xor(BooleanRule.True).IsSatisfied(10));
-			Assert.IsTrue(BooleanRule.True.Xor(_unsatisfiedRule).IsSatisfied(10));
-		}
-	}
-
+        public void IsSatisfied()
+        {
+            Assert.That(_satisfiedRule.Xor(BooleanRule.False).IsSatisfied(0), Is.True);
+            Assert.That(BooleanRule.False.Xor(_satisfiedRule).IsSatisfied(0), Is.True);
+            Assert.That(_unsatisfiedRule.Xor(BooleanRule.False).IsSatisfied(0), Is.False);
+            Assert.That(BooleanRule.False.Xor(_unsatisfiedRule).IsSatisfied(0), Is.False);
+            Assert.That(_satisfiedRule.Xor(BooleanRule.True).IsSatisfied(10), Is.False);
+            Assert.That(BooleanRule.True.Xor(_satisfiedRule).IsSatisfied(10), Is.False);
+            Assert.That(_unsatisfiedRule.Xor(BooleanRule.True).IsSatisfied(10), Is.True);
+            Assert.That(BooleanRule.True.Xor(_unsatisfiedRule).IsSatisfied(10), Is.True);
+        }
+    }
 }

@@ -92,7 +92,7 @@ namespace TA4N.Examples.Strategies
 			Console.WriteLine("Number of trades for the strategy: " + tradingRecord.TradeCount);
 
 			// Analysis
-			Console.WriteLine("Total profit for the strategy: " + (new TotalProfitCriterion()).Calculate(series, tradingRecord));
+			Console.WriteLine("Total profit for the strategy: " + new TotalProfitCriterion().Calculate(series, tradingRecord));
 		}
 	}
 

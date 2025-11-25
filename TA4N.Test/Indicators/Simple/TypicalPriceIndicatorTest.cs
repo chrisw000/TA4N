@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,35 +20,33 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Indicators.Simple;
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class TypicalPriceIndicatorTest
-	{
-		private TypicalPriceIndicator _typicalPriceIndicator;
-
-	    private TimeSeries _timeSeries;
+    public sealed class TypicalPriceIndicatorTest
+    {
+        private TypicalPriceIndicator _typicalPriceIndicator;
+        private TimeSeries _timeSeries;
 
         [SetUp]
-		public void SetUp()
-		{
-			_timeSeries = GenerateTimeSeries.WithArbitraryTicks();
-			_typicalPriceIndicator = new TypicalPriceIndicator(_timeSeries);
-		}
+        public void SetUp()
+        {
+            _timeSeries = GenerateTimeSeries.WithArbitraryTicks();
+            _typicalPriceIndicator = new TypicalPriceIndicator(_timeSeries);
+        }
 
         [Test]
-		public void IndicatorShouldRetrieveTickMaxPrice()
-		{
-			for (var i = 0; i < 10; i++)
-			{
-				var tick = _timeSeries.GetTick(i);
-				var typicalPrice = tick.MaxPrice.Plus(tick.MinPrice).Plus(tick.ClosePrice).DividedBy(Decimal.Three);
-				Assert.AreEqual(typicalPrice, _typicalPriceIndicator.GetValue(i));
-			}
-		}
-	}
+        public void IndicatorShouldRetrieveTickMaxPrice()
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                var tick = _timeSeries.GetTick(i);
+                var typicalPrice = tick.MaxPrice.Plus(tick.MinPrice).Plus(tick.ClosePrice).DividedBy(Decimal.Three);
+                Assert.That(_typicalPriceIndicator.GetValue(i), Is.EqualTo(typicalPrice));
+            }
+        }
+    }
 }

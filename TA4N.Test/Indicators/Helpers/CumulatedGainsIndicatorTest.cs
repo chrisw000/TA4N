@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Helpers
@@ -30,33 +29,32 @@ namespace TA4N.Test.Indicators.Helpers
     using TA4N.Indicators.Helpers;
 
     public sealed class CumulatedGainsIndicatorTest
-	{
+    {
         private TimeSeries _data;
 
         [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
-		}
-        
-        [Test] 
-		public void AverageGainUsingTimeFrame5UsingClosePrice()
-		{
-			var gains = new CumulatedGainsIndicator(new ClosePriceIndicator(_data), 5);
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
+        }
 
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(0), 0);
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(1), 1);
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(2), 2);
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(3), 3);
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(4), 3);
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(5), 4);
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(6), 4);
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(7), 3);
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(8), 2);
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(9), 2);
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(10), 2);
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(11), 1);
-			TaTestsUtils.AssertDecimalEquals(gains.GetValue(12), 1);
-		}
-	}
+        [Test]
+        public void AverageGainUsingTimeFrame5UsingClosePrice()
+        {
+            var gains = new CumulatedGainsIndicator(new ClosePriceIndicator(_data), 5);
+            Assert.That(gains.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(gains.GetValue(1), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(gains.GetValue(2), Is.EqualTo(Decimal.ValueOf(2)));
+            Assert.That(gains.GetValue(3), Is.EqualTo(Decimal.ValueOf(3)));
+            Assert.That(gains.GetValue(4), Is.EqualTo(Decimal.ValueOf(3)));
+            Assert.That(gains.GetValue(5), Is.EqualTo(Decimal.ValueOf(4)));
+            Assert.That(gains.GetValue(6), Is.EqualTo(Decimal.ValueOf(4)));
+            Assert.That(gains.GetValue(7), Is.EqualTo(Decimal.ValueOf(3)));
+            Assert.That(gains.GetValue(8), Is.EqualTo(Decimal.ValueOf(2)));
+            Assert.That(gains.GetValue(9), Is.EqualTo(Decimal.ValueOf(2)));
+            Assert.That(gains.GetValue(10), Is.EqualTo(Decimal.ValueOf(2)));
+            Assert.That(gains.GetValue(11), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(gains.GetValue(12), Is.EqualTo(Decimal.ValueOf(1)));
+        }
+    }
 }

@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using NUnit.Framework;
 using TA4N.Indicators.Simple;
 using TA4N.Indicators.Trackers.Bollinger;
@@ -44,27 +43,26 @@ namespace TA4N.Test.Indicators.Trackers.Bollinger
         public void PercentBUsingSmaAndStandardDeviation()
         {
             var pcb = new PercentBIndicator(_closePrice, 5, Decimal.Two);
-
-            Assert.IsTrue(pcb.GetValue(0).NaN);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(1), 0.75);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(2), 0.8244);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(3), 0.6627);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(4), 0.8517);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(5), 0.90328);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(6), 0.83);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(7), 0.6552);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(8), 0.5737);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(9), 0.1047);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(10), 0.5);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(11), 0.0284);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(12), 0.0344);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(13), 0.2064);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(14), 0.1835);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(15), 0.2131);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(16), 0.3506);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(17), 0.5737);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(18), 0.5);
-            TaTestsUtils.AssertDecimalEquals(pcb.GetValue(19), 0.7673);
+            Assert.That(pcb.GetValue(0).NaN, Is.True);
+            Assert.That(pcb.GetValue(1).ToDouble(), Is.EqualTo(0.75).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(2).ToDouble(), Is.EqualTo(0.8244).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(3).ToDouble(), Is.EqualTo(0.6627).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(4).ToDouble(), Is.EqualTo(0.8517).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(5).ToDouble(), Is.EqualTo(0.90328).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(6).ToDouble(), Is.EqualTo(0.83).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(7).ToDouble(), Is.EqualTo(0.6552).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(8).ToDouble(), Is.EqualTo(0.5737).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(9).ToDouble(), Is.EqualTo(0.1047).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(10).ToDouble(), Is.EqualTo(0.5).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(11).ToDouble(), Is.EqualTo(0.0284).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(12).ToDouble(), Is.EqualTo(0.0344).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(13).ToDouble(), Is.EqualTo(0.2064).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(14).ToDouble(), Is.EqualTo(0.1835).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(15).ToDouble(), Is.EqualTo(0.2131).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(16).ToDouble(), Is.EqualTo(0.3506).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(17).ToDouble(), Is.EqualTo(0.5737).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(18).ToDouble(), Is.EqualTo(0.5).Within(TaTestsUtils.TaOffset));
+            Assert.That(pcb.GetValue(19).ToDouble(), Is.EqualTo(0.7673).Within(TaTestsUtils.TaOffset));
         }
     }
 }

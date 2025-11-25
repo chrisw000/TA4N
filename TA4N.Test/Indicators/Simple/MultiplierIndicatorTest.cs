@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,31 +20,30 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using TA4N.Indicators.Simple;
 using NUnit.Framework;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class MultiplierIndicatorTest
-	{
-		private ConstantIndicator<Decimal> _constantIndicator;
-		private MultiplierIndicator _multiplierIndicator;
+    public sealed class MultiplierIndicatorTest
+    {
+        private ConstantIndicator<Decimal> _constantIndicator;
+        private MultiplierIndicator _multiplierIndicator;
 
         [SetUp]
-		public void SetUp()
-		{
-			_constantIndicator = new ConstantIndicator<Decimal>(Decimal.ValueOf(6));
-			_multiplierIndicator = new MultiplierIndicator(_constantIndicator, Decimal.ValueOf("0.75"));
-		}
+        public void SetUp()
+        {
+            _constantIndicator = new ConstantIndicator<Decimal>(Decimal.ValueOf(6));
+            _multiplierIndicator = new MultiplierIndicator(_constantIndicator, Decimal.ValueOf("0.75"));
+        }
 
         [Test]
-		public void ConstantIndicator()
-		{
-			TaTestsUtils.AssertDecimalEquals(_multiplierIndicator.GetValue(10), "4.5");
-			TaTestsUtils.AssertDecimalEquals(_multiplierIndicator.GetValue(1), "4.5");
-			TaTestsUtils.AssertDecimalEquals(_multiplierIndicator.GetValue(0), "4.5");
-			TaTestsUtils.AssertDecimalEquals(_multiplierIndicator.GetValue(30), "4.5");
-		}
-	}
+        public void ConstantIndicator()
+        {
+            Assert.That(_multiplierIndicator.GetValue(10), Is.EqualTo(Decimal.ValueOf("4.5")));
+            Assert.That(_multiplierIndicator.GetValue(1), Is.EqualTo(Decimal.ValueOf("4.5")));
+            Assert.That(_multiplierIndicator.GetValue(0), Is.EqualTo(Decimal.ValueOf("4.5")));
+            Assert.That(_multiplierIndicator.GetValue(30), Is.EqualTo(Decimal.ValueOf("4.5")));
+        }
+    }
 }

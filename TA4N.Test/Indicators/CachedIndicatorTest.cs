@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,127 +20,116 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Indicators.Trackers;
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators
-{  
-	using TA4N.Indicators.Simple;
+{
+    using TA4N.Indicators.Simple;
     using OverIndicatorRule = TA4N.Trading.Rules.OverIndicatorRule;
-	using UnderIndicatorRule = TA4N.Trading.Rules.UnderIndicatorRule;
+    using UnderIndicatorRule = TA4N.Trading.Rules.UnderIndicatorRule;
     using NUnit.Framework;
 
-	public sealed class CachedIndicatorTest
-	{
+    public sealed class CachedIndicatorTest
+    {
         private TimeSeries _series;
-        
+
         [SetUp]
-		public void SetUp()
-		{
-			_series = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
-		}
-
-
-        [Test]
-		public void IfCacheWorks()
-		{
-			var sma = new SmaIndicator(new ClosePriceIndicator(_series), 3);
-			var firstTime = sma.GetValue(4);
-			var secondTime = sma.GetValue(4);
-			Assert.AreEqual(firstTime, secondTime);
-		}
-
+        public void SetUp()
+        {
+            _series = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
+        }
 
         [Test]
-		public void GetValueWithNullTimeSeries()
-		{
-			var constant = new ConstantIndicator<Decimal>(Decimal.Ten);
-			Assert.AreEqual(Decimal.Ten, constant.GetValue(0));
-			Assert.AreEqual(Decimal.Ten, constant.GetValue(100));
-			Assert.IsNull(constant.TimeSeries);
-
-			var sma = new SmaIndicator(constant, 10);
-			Assert.AreEqual(Decimal.Ten, sma.GetValue(0));
-			Assert.AreEqual(Decimal.Ten, sma.GetValue(100));
-			Assert.IsNull(sma.TimeSeries);
-		}
+        public void IfCacheWorks()
+        {
+            var sma = new SmaIndicator(new ClosePriceIndicator(_series), 3);
+            var firstTime = sma.GetValue(4);
+            var secondTime = sma.GetValue(4);
+            Assert.That(secondTime, Is.EqualTo(firstTime));
+        }
 
         [Test]
-		public void GetValueWithCacheLengthIncrease()
-		{
-			var data = new double[200];
+        public void GetValueWithNullTimeSeries()
+        {
+            var constant = new ConstantIndicator<Decimal>(Decimal.Ten);
+            Assert.That(constant.GetValue(0), Is.EqualTo(Decimal.Ten));
+            Assert.That(constant.GetValue(100), Is.EqualTo(Decimal.Ten));
+            Assert.That(constant.TimeSeries, Is.Null);
+            var sma = new SmaIndicator(constant, 10);
+            Assert.That(sma.GetValue(0), Is.EqualTo(Decimal.Ten));
+            Assert.That(sma.GetValue(100), Is.EqualTo(Decimal.Ten));
+            Assert.That(sma.TimeSeries, Is.Null);
+        }
 
-			TaTestsUtils.ArraysFill(data, 10);
-			var sma = new SmaIndicator(new ClosePriceIndicator(GenerateTimeSeries.From(data)), 100);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(105), 10);
-		}
-        
         [Test]
-		public void GetValueWithOldResultsRemoval()
-		{
-			var data = new double[20];
+        public void GetValueWithCacheLengthIncrease()
+        {
+            var data = new double[200];
+            TaTestsUtils.ArraysFill(data, 10);
+            var sma = new SmaIndicator(new ClosePriceIndicator(GenerateTimeSeries.From(data)), 100);
+            Assert.That(sma.GetValue(105), Is.EqualTo(Decimal.ValueOf(10)));
+        }
+
+        [Test]
+        public void GetValueWithOldResultsRemoval()
+        {
+            var data = new double[20];
             TaTestsUtils.ArraysFill(data, 1);
             TimeSeries timeSeries = GenerateTimeSeries.From(data);
-			var sma = new SmaIndicator(new ClosePriceIndicator(timeSeries), 10);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(5), 1);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(10), 1);
-			timeSeries.MaximumTickCount = 12;
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(19), 1);
-		}
-        
+            var sma = new SmaIndicator(new ClosePriceIndicator(timeSeries), 10);
+            Assert.That(sma.GetValue(5), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(sma.GetValue(10), Is.EqualTo(Decimal.ValueOf(1)));
+            timeSeries.MaximumTickCount = 12;
+            Assert.That(sma.GetValue(19), Is.EqualTo(Decimal.ValueOf(1)));
+        }
+
         [Test]
-		public void StrategyExecutionOnCachedIndicatorAndLimitedTimeSeries()
-		{
-			TimeSeries timeSeries = GenerateTimeSeries.From(0, 1, 2, 3, 4, 5, 6, 7);
-			var sma = new SmaIndicator(new ClosePriceIndicator(timeSeries), 2);
-			// Theoretical values for SMA(2) cache: 0, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5
-			timeSeries.MaximumTickCount = 6;
-			// Theoretical values for SMA(2) cache: null, null, 2, 2.5, 3.5, 4.5, 5.5, 6.5
+        public void StrategyExecutionOnCachedIndicatorAndLimitedTimeSeries()
+        {
+            TimeSeries timeSeries = GenerateTimeSeries.From(0, 1, 2, 3, 4, 5, 6, 7);
+            var sma = new SmaIndicator(new ClosePriceIndicator(timeSeries), 2);
+            // Theoretical values for SMA(2) cache: 0, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5
+            timeSeries.MaximumTickCount = 6;
+            // Theoretical values for SMA(2) cache: null, null, 2, 2.5, 3.5, 4.5, 5.5, 6.5
+            var strategy = new Strategy(new OverIndicatorRule(sma, Decimal.Three), new UnderIndicatorRule(sma, Decimal.Three));
+            // Theoretical shouldEnter results: false, false, false, false, true, true, true, true
+            // Theoretical shouldExit results: false, false, true, true, false, false, false, false
+            // As we return the first tick/result found for the removed ticks:
+            // -> Approximated values for ClosePrice cache: 2, 2, 2, 3, 4, 5, 6, 7
+            // -> Approximated values for SMA(2) cache: 2, 2, 2, 2.5, 3.5, 4.5, 5.5, 6.5
+            // Then enters/exits are also approximated:
+            // -> shouldEnter results: false, false, false, false, true, true, true, true
+            // -> shouldExit results: true, true, true, true, false, false, false, false
+            Assert.That(strategy.ShouldEnter(0), Is.False);
+            Assert.That(strategy.ShouldExit(0), Is.True);
+            Assert.That(strategy.ShouldEnter(1), Is.False);
+            Assert.That(strategy.ShouldExit(1), Is.True);
+            Assert.That(strategy.ShouldEnter(2), Is.False);
+            Assert.That(strategy.ShouldExit(2), Is.True);
+            Assert.That(strategy.ShouldEnter(3), Is.False);
+            Assert.That(strategy.ShouldExit(3), Is.True);
+            Assert.That(strategy.ShouldEnter(4), Is.True);
+            Assert.That(strategy.ShouldExit(4), Is.False);
+            Assert.That(strategy.ShouldEnter(5), Is.True);
+            Assert.That(strategy.ShouldExit(5), Is.False);
+            Assert.That(strategy.ShouldEnter(6), Is.True);
+            Assert.That(strategy.ShouldExit(6), Is.False);
+            Assert.That(strategy.ShouldEnter(7), Is.True);
+            Assert.That(strategy.ShouldExit(7), Is.False);
+        }
 
-			var strategy = new Strategy(new OverIndicatorRule(sma, Decimal.Three), new UnderIndicatorRule(sma, Decimal.Three)
-		   );
-			// Theoretical shouldEnter results: false, false, false, false, true, true, true, true
-			// Theoretical shouldExit results: false, false, true, true, false, false, false, false
-
-			// As we return the first tick/result found for the removed ticks:
-			// -> Approximated values for ClosePrice cache: 2, 2, 2, 3, 4, 5, 6, 7
-			// -> Approximated values for SMA(2) cache: 2, 2, 2, 2.5, 3.5, 4.5, 5.5, 6.5
-
-			// Then enters/exits are also approximated:
-			// -> shouldEnter results: false, false, false, false, true, true, true, true
-			// -> shouldExit results: true, true, true, true, false, false, false, false
-
-			Assert.IsFalse(strategy.ShouldEnter(0));
-			Assert.IsTrue(strategy.ShouldExit(0));
-			Assert.IsFalse(strategy.ShouldEnter(1));
-			Assert.IsTrue(strategy.ShouldExit(1));
-			Assert.IsFalse(strategy.ShouldEnter(2));
-			Assert.IsTrue(strategy.ShouldExit(2));
-			Assert.IsFalse(strategy.ShouldEnter(3));
-			Assert.IsTrue(strategy.ShouldExit(3));
-			Assert.IsTrue(strategy.ShouldEnter(4));
-			Assert.IsFalse(strategy.ShouldExit(4));
-			Assert.IsTrue(strategy.ShouldEnter(5));
-			Assert.IsFalse(strategy.ShouldExit(5));
-			Assert.IsTrue(strategy.ShouldEnter(6));
-			Assert.IsFalse(strategy.ShouldExit(6));
-			Assert.IsTrue(strategy.ShouldEnter(7));
-			Assert.IsFalse(strategy.ShouldExit(7));
-		}
-
-        [Test] 
-		public void GetValueOnResultsCalculatedFromRemovedTicksShouldReturnFirstRemainingResult()
-		{
-			TimeSeries timeSeries = GenerateTimeSeries.From(1, 1, 1, 1, 1);
-			timeSeries.MaximumTickCount = 3;
-			Assert.AreEqual(2, timeSeries.RemovedTicksCount);
-
-			var sma = new SmaIndicator(new ClosePriceIndicator(timeSeries), 2);
-			for (var i = 0; i < 5; i++)
-			{
-				TaTestsUtils.AssertDecimalEquals(sma.GetValue(i), 1);
-			}
-		}
-	}
+        [Test]
+        public void GetValueOnResultsCalculatedFromRemovedTicksShouldReturnFirstRemainingResult()
+        {
+            TimeSeries timeSeries = GenerateTimeSeries.From(1, 1, 1, 1, 1);
+            timeSeries.MaximumTickCount = 3;
+            Assert.That(timeSeries.RemovedTicksCount, Is.EqualTo(2));
+            var sma = new SmaIndicator(new ClosePriceIndicator(timeSeries), 2);
+            for (var i = 0; i < 5; i++)
+            {
+                Assert.That(sma.GetValue(i), Is.EqualTo(Decimal.ValueOf(1)));
+            }
+        }
+    }
 }

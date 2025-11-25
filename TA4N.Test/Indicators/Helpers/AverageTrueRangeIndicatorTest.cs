@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,23 +29,22 @@ namespace TA4N.Test.Indicators.Helpers
     using TA4N.Indicators.Helpers;
 
     public sealed class AverageTrueRangeIndicatorTest
-	{
+    {
         [Test]
-		public void GetValue()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(0, 12, 15, 8));
-			ticks.Add(GenerateTick.From(0, 8, 11, 6));
-			ticks.Add(GenerateTick.From(0, 15, 17, 14));
-			ticks.Add(GenerateTick.From(0, 15, 17, 14));
-			ticks.Add(GenerateTick.From(0, 0, 0, 2));
-			var atr = new AverageTrueRangeIndicator(GenerateTimeSeries.From(ticks), 3);
-
-			TaTestsUtils.AssertDecimalEquals(atr.GetValue(0), 1);
-			TaTestsUtils.AssertDecimalEquals(atr.GetValue(1), 8d / 3);
-			TaTestsUtils.AssertDecimalEquals(atr.GetValue(2), 8d / 3 * 2d / 3 + 3);
-			TaTestsUtils.AssertDecimalEquals(atr.GetValue(3), (8d / 3 * 2d / 3 + 3) * 2d / 3 + 1);
-			TaTestsUtils.AssertDecimalEquals(atr.GetValue(4), ((8d / 3 * 2d / 3 + 3) * 2d / 3 + 1) * 2d / 3 + 15d / 3);
-		}
-	}
+        public void GetValue()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(0, 12, 15, 8));
+            ticks.Add(GenerateTick.From(0, 8, 11, 6));
+            ticks.Add(GenerateTick.From(0, 15, 17, 14));
+            ticks.Add(GenerateTick.From(0, 15, 17, 14));
+            ticks.Add(GenerateTick.From(0, 0, 0, 2));
+            var atr = new AverageTrueRangeIndicator(GenerateTimeSeries.From(ticks), 3);
+            Assert.That(atr.GetValue(0), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(atr.GetValue(1).ToDouble(), Is.EqualTo(8d / 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(atr.GetValue(2).ToDouble(), Is.EqualTo(8d / 3 * 2d / 3 + 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(atr.GetValue(3).ToDouble(), Is.EqualTo((8d / 3 * 2d / 3 + 3) * 2d / 3 + 1).Within(TaTestsUtils.TaOffset));
+            Assert.That(atr.GetValue(4).ToDouble(), Is.EqualTo(((8d / 3 * 2d / 3 + 3) * 2d / 3 + 1) * 2d / 3 + 15d / 3).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

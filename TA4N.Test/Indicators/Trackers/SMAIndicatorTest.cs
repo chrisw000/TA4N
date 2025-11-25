@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,53 +20,51 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Trackers
 {
-	using TA4N.Indicators.Simple;
+    using TA4N.Indicators.Simple;
     using NUnit.Framework;
     using TA4N.Indicators.Trackers;
 
     public sealed class SmaIndicatorTest
-	{
-		private TimeSeries _data;
-        
+    {
+        private TimeSeries _data;
+
         [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
-		}
-        
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
+        }
+
         [Test]
-		public void SmaUsingTimeFrame3UsingClosePrice()
-		{
-			var sma = new SmaIndicator(new ClosePriceIndicator(_data), 3);
+        public void SmaUsingTimeFrame3UsingClosePrice()
+        {
+            var sma = new SmaIndicator(new ClosePriceIndicator(_data), 3);
+            Assert.That(sma.GetValue(0), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(sma.GetValue(1).ToDouble(), Is.EqualTo(1.5).Within(TaTestsUtils.TaOffset));
+            Assert.That(sma.GetValue(2), Is.EqualTo(Decimal.ValueOf(2)));
+            Assert.That(sma.GetValue(3), Is.EqualTo(Decimal.ValueOf(3)));
+            Assert.That(sma.GetValue(4).ToDouble(), Is.EqualTo(10d / 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(sma.GetValue(5).ToDouble(), Is.EqualTo(11d / 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(sma.GetValue(6), Is.EqualTo(Decimal.ValueOf(4)));
+            Assert.That(sma.GetValue(7).ToDouble(), Is.EqualTo(13d / 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(sma.GetValue(8), Is.EqualTo(Decimal.ValueOf(4)));
+            Assert.That(sma.GetValue(9).ToDouble(), Is.EqualTo(10d / 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(sma.GetValue(10).ToDouble(), Is.EqualTo(10d / 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(sma.GetValue(11).ToDouble(), Is.EqualTo(10d / 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(sma.GetValue(12), Is.EqualTo(Decimal.ValueOf(3)));
+        }
 
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(0), 1);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(1), 1.5);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(2), 2);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(3), 3);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(4), 10d / 3);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(5), 11d / 3);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(6), 4);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(7), 13d / 3);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(8), 4);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(9), 10d / 3);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(10), 10d / 3);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(11), 10d / 3);
-			TaTestsUtils.AssertDecimalEquals(sma.GetValue(12), 3);
-		}
-
-        [Test] 
-		public void SmaWhenTimeFrameIs1ResultShouldBeIndicatorValue()
-		{
-			var quoteSma = new SmaIndicator(new ClosePriceIndicator(_data), 1);
-			for (var i = 0; i < _data.TickCount; i++)
-			{
-				Assert.AreEqual(_data.GetTick(i).ClosePrice, quoteSma.GetValue(i));
-			}
-		}
-	}
+        [Test]
+        public void SmaWhenTimeFrameIs1ResultShouldBeIndicatorValue()
+        {
+            var quoteSma = new SmaIndicator(new ClosePriceIndicator(_data), 1);
+            for (var i = 0; i < _data.TickCount; i++)
+            {
+                Assert.That(quoteSma.GetValue(i), Is.EqualTo(_data.GetTick(i).ClosePrice));
+            }
+        }
+    }
 }

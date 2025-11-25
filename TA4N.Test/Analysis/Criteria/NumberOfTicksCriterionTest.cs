@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,49 +20,46 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Analysis.Criteria;
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Analysis.Criteria
 {
-	public sealed class NumberOfTicksCriterionTest
-	{
+    public sealed class NumberOfTicksCriterionTest
+    {
         [Test]
-		public void CalculateWithNoTrades()
-		{
-			var series = GenerateTimeSeries.From(100, 105, 110, 100, 95, 105);
+        public void CalculateWithNoTrades()
+        {
+            var series = GenerateTimeSeries.From(100, 105, 110, 100, 95, 105);
+            IAnalysisCriterion numberOfTicks = new NumberOfTicksCriterion();
+            Assert.That((int)numberOfTicks.Calculate(series, new TradingRecord()), Is.EqualTo(0));
+        }
 
-			IAnalysisCriterion numberOfTicks = new NumberOfTicksCriterion();
-			Assert.AreEqual(0, (int) numberOfTicks.Calculate(series, new TradingRecord()));
-		}
+        [Test]
+        public void CalculateWithTwoTrades()
+        {
+            var series = GenerateTimeSeries.From(100, 105, 110, 100, 95, 105);
+            var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.BuyAt(3), Order.SellAt(5));
+            IAnalysisCriterion numberOfTicks = new NumberOfTicksCriterion();
+            Assert.That(numberOfTicks.Calculate(series, tradingRecord), Is.EqualTo(6).Within(TaTestsUtils.TaOffset));
+        }
 
-        [Test] 
-		public void CalculateWithTwoTrades()
-		{
-			var series = GenerateTimeSeries.From(100, 105, 110, 100, 95, 105);
-			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.BuyAt(3), Order.SellAt(5));
+        [Test]
+        public void CalculateWithOneTrade()
+        {
+            var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
+            var t = new Trade(Order.BuyAt(2), Order.SellAt(5));
+            IAnalysisCriterion numberOfTicks = new NumberOfTicksCriterion();
+            Assert.That(numberOfTicks.Calculate(series, t), Is.EqualTo(4).Within(TaTestsUtils.TaOffset));
+        }
 
-			IAnalysisCriterion numberOfTicks = new NumberOfTicksCriterion();
-			Assert.AreEqual(6, numberOfTicks.Calculate(series, tradingRecord), TaTestsUtils.TaOffset);
-		}
-        
-        [Test] 
-		public void CalculateWithOneTrade()
-		{
-			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
-			var t = new Trade(Order.BuyAt(2), Order.SellAt(5));
-			IAnalysisCriterion numberOfTicks = new NumberOfTicksCriterion();
-			Assert.AreEqual(4, numberOfTicks.Calculate(series, t), TaTestsUtils.TaOffset);
-		}
-        
-        [Test] 
-		public void BetterThan()
-		{
-			IAnalysisCriterion criterion = new NumberOfTicksCriterion();
-			Assert.IsTrue(criterion.BetterThan(3, 6));
-			Assert.IsFalse(criterion.BetterThan(6, 2));
-		}
-	}
+        [Test]
+        public void BetterThan()
+        {
+            IAnalysisCriterion criterion = new NumberOfTicksCriterion();
+            Assert.That(criterion.BetterThan(3, 6), Is.True);
+            Assert.That(criterion.BetterThan(6, 2), Is.False);
+        }
+    }
 }

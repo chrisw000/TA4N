@@ -64,11 +64,11 @@ namespace TA4N.Examples.Strategies
 
 			// Entry rule
 			// The long-term trend is up when a security is above its 200-period SMA.
-			var entryRule = (new OverIndicatorRule(shortSma, longSma)).And(new CrossedDownIndicatorRule(rsi, Decimal.ValueOf(5))).And(new OverIndicatorRule(shortSma, closePrice)); // Signal 2 -  Signal 1 -  Trend
+			var entryRule = new OverIndicatorRule(shortSma, longSma).And(new CrossedDownIndicatorRule(rsi, Decimal.ValueOf(5))).And(new OverIndicatorRule(shortSma, closePrice)); // Signal 2 -  Signal 1 -  Trend
 
 			// Exit rule
 			// The long-term trend is down when a security is below its 200-period SMA.
-			var exitRule = (new UnderIndicatorRule(shortSma, longSma)).And(new CrossedUpIndicatorRule(rsi, Decimal.ValueOf(95))).And(new UnderIndicatorRule(shortSma, closePrice)); // Signal 2 -  Signal 1 -  Trend
+			var exitRule = new UnderIndicatorRule(shortSma, longSma).And(new CrossedUpIndicatorRule(rsi, Decimal.ValueOf(95))).And(new UnderIndicatorRule(shortSma, closePrice)); // Signal 2 -  Signal 1 -  Trend
 
 			return new Strategy(entryRule, exitRule);
 		}
@@ -87,7 +87,7 @@ namespace TA4N.Examples.Strategies
 			Console.WriteLine("Number of trades for the strategy: " + tradingRecord.TradeCount);
 
 			// Analysis
-			Console.WriteLine("Total profit for the strategy: " + (new TotalProfitCriterion()).Calculate(series, tradingRecord));
+			Console.WriteLine("Total profit for the strategy: " + new TotalProfitCriterion().Calculate(series, tradingRecord));
 		}
 	}
 }

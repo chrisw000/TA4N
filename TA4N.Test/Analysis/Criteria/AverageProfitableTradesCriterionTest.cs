@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,45 +20,40 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Analysis.Criteria;
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Analysis.Criteria
 {
-	public sealed class AverageProfitableTradesCriterionTest
-	{
-        [Test] 
-		public void Calculate()
-		{
-			TimeSeries series = GenerateTimeSeries.From(100d, 95d, 102d, 105d, 97d, 113d);
-			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(3), Order.BuyAt(4), Order.SellAt(5));
-
-			var average = new AverageProfitableTradesCriterion();
-
-			Assert.AreEqual(2d / 3, average.Calculate(series, tradingRecord), TaTestsUtils.TaOffset);
-		}
-        
-        [Test] 
-		public void CalculateWithOneTrade()
-		{
-			TimeSeries series = GenerateTimeSeries.From(100d, 95d, 102d, 105d, 97d, 113d);
-			var trade = new Trade(Order.BuyAt(0), Order.SellAt(1));
-
-			var average = new AverageProfitableTradesCriterion();
-			Assert.AreEqual(0d, average.Calculate(series, trade), TaTestsUtils.TaOffset);
-
-			trade = new Trade(Order.BuyAt(1), Order.SellAt(2));
-			Assert.AreEqual(1d, average.Calculate(series, trade), TaTestsUtils.TaOffset);
-		}
+    public sealed class AverageProfitableTradesCriterionTest
+    {
+        [Test]
+        public void Calculate()
+        {
+            TimeSeries series = GenerateTimeSeries.From(100d, 95d, 102d, 105d, 97d, 113d);
+            var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(3), Order.BuyAt(4), Order.SellAt(5));
+            var average = new AverageProfitableTradesCriterion();
+            Assert.That(average.Calculate(series, tradingRecord), Is.EqualTo(2d / 3).Within(TaTestsUtils.TaOffset));
+        }
 
         [Test]
-		public void BetterThan()
-		{
-			IAnalysisCriterion criterion = new AverageProfitableTradesCriterion();
-			Assert.IsTrue(criterion.BetterThan(12, 8));
-			Assert.IsFalse(criterion.BetterThan(8, 12));
-		}
-	}
+        public void CalculateWithOneTrade()
+        {
+            TimeSeries series = GenerateTimeSeries.From(100d, 95d, 102d, 105d, 97d, 113d);
+            var trade = new Trade(Order.BuyAt(0), Order.SellAt(1));
+            var average = new AverageProfitableTradesCriterion();
+            Assert.That(average.Calculate(series, trade), Is.EqualTo(0d).Within(TaTestsUtils.TaOffset));
+            trade = new Trade(Order.BuyAt(1), Order.SellAt(2));
+            Assert.That(average.Calculate(series, trade), Is.EqualTo(1d).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void BetterThan()
+        {
+            IAnalysisCriterion criterion = new AverageProfitableTradesCriterion();
+            Assert.That(criterion.BetterThan(12, 8), Is.True);
+            Assert.That(criterion.BetterThan(8, 12), Is.False);
+        }
+    }
 }

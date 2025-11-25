@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using NUnit.Framework;
 using TA4N.Indicators.Simple;
 using TA4N.Indicators.Trackers;
@@ -30,25 +29,24 @@ using TA4N.Test.FixtureData;
 namespace TA4N.Test.Indicators.Trackers.Bollinger
 {
     public sealed class BollingerBandsMiddleIndicatorTest
-	{
-		private TimeSeries _data;
-        
-        [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
-		}
-        
-        [Test]
-		public void BollingerBandsMiddleUsingSma()
-		{
-			var sma = new SmaIndicator(new ClosePriceIndicator(_data), 3);
-			var bbmSma = new BollingerBandsMiddleIndicator(sma);
+    {
+        private TimeSeries _data;
 
-			for (var i = 0; i < _data.TickCount; i++)
-			{
-				Assert.AreEqual(sma.GetValue(i), bbmSma.GetValue(i));
-			}
-		}
-	}
+        [SetUp]
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
+        }
+
+        [Test]
+        public void BollingerBandsMiddleUsingSma()
+        {
+            var sma = new SmaIndicator(new ClosePriceIndicator(_data), 3);
+            var bbmSma = new BollingerBandsMiddleIndicator(sma);
+            for (var i = 0; i < _data.TickCount; i++)
+            {
+                Assert.That(bbmSma.GetValue(i), Is.EqualTo(sma.GetValue(i)));
+            }
+        }
+    }
 }

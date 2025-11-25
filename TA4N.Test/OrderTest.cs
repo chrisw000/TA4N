@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,47 +20,43 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 
 namespace TA4N.Test
 {
-	public sealed class OrderTest
-	{
-	    private Order _opEquals1, _opEquals2, _opNotEquals1, _opNotEquals2;
+    public sealed class OrderTest
+    {
+        private Order _opEquals1, _opEquals2, _opNotEquals1, _opNotEquals2;
 
-	    [SetUp]
-		public void SetUp()
-		{
-			_opEquals1 = Order.BuyAt(1);
-			_opEquals2 = Order.BuyAt(1);
-
-			_opNotEquals1 = Order.SellAt(1);
-			_opNotEquals2 = Order.BuyAt(2);
-		}
-
-        [Test]
-		public void Type()
-		{
-            Assert.Multiple(()=>
-		    {
-		        Assert.AreEqual(OrderType.Sell, _opNotEquals1.OrderType);
-		        Assert.IsFalse(_opNotEquals1.IsBuy);
-		        Assert.IsTrue(_opNotEquals1.IsSell);
-		        Assert.AreEqual(OrderType.Buy, _opNotEquals2.OrderType);
-		        Assert.IsTrue(_opNotEquals2.IsBuy);
-		        Assert.IsFalse(_opNotEquals2.IsSell);
-		    });
-		}
+        [SetUp]
+        public void SetUp()
+        {
+            _opEquals1 = Order.BuyAt(1);
+            _opEquals2 = Order.BuyAt(1);
+            _opNotEquals1 = Order.SellAt(1);
+            _opNotEquals2 = Order.BuyAt(2);
+        }
 
         [Test]
-		public void OverrideToString()
-		{
-            Assert.AreEqual(_opEquals1.ToString(), _opEquals2.ToString());
+        public void Type()
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(_opNotEquals1.OrderType, Is.EqualTo(OrderType.Sell));
+                Assert.That(_opNotEquals1.IsBuy, Is.False);
+                Assert.That(_opNotEquals1.IsSell, Is.True);
+                Assert.That(_opNotEquals2.OrderType, Is.EqualTo(OrderType.Buy));
+                Assert.That(_opNotEquals2.IsBuy, Is.True);
+                Assert.That(_opNotEquals2.IsSell, Is.False);
+            });
+        }
 
-            Assert.AreNotEqual(_opEquals1.ToString(), _opNotEquals1.ToString());
-            Assert.AreNotEqual(_opEquals1.ToString(), _opNotEquals2.ToString());
-		}
-	}
-
+        [Test]
+        public void OverrideToString()
+        {
+            Assert.That(_opEquals2.ToString(), Is.EqualTo(_opEquals1.ToString()));
+            Assert.That(_opNotEquals1.ToString(), Is.Not.EqualTo(_opEquals1.ToString()));
+            Assert.That(_opNotEquals2.ToString(), Is.Not.EqualTo(_opEquals1.ToString()));
+        }
+    }
 }

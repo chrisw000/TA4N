@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,35 +20,34 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using TA4N.Indicators.Simple;
 using NUnit.Framework;
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class PriceVariationIndicatorTest
-	{
+    public sealed class PriceVariationIndicatorTest
+    {
         private PriceVariationIndicator _variationIndicator;
         private TimeSeries _timeSeries;
-        
+
         [SetUp]
-		public void SetUp()
-		{
-			_timeSeries = GenerateTimeSeries.WithArbitraryTicks();
-			_variationIndicator = new PriceVariationIndicator(_timeSeries);
-		}
+        public void SetUp()
+        {
+            _timeSeries = GenerateTimeSeries.WithArbitraryTicks();
+            _variationIndicator = new PriceVariationIndicator(_timeSeries);
+        }
 
         [Test]
-		public void IndicatorShouldRetrieveTickVariation()
-		{
-			TaTestsUtils.AssertDecimalEquals(_variationIndicator.GetValue(0), 1);
-			for (var i = 1; i < 10; i++)
-			{
-				var previousTickClosePrice = _timeSeries.GetTick(i - 1).ClosePrice;
-				var currentTickClosePrice = _timeSeries.GetTick(i).ClosePrice;
-				Assert.AreEqual(_variationIndicator.GetValue(i), currentTickClosePrice.DividedBy(previousTickClosePrice));
-			}
-		}
-	}
+        public void IndicatorShouldRetrieveTickVariation()
+        {
+            Assert.That(_variationIndicator.GetValue(0), Is.EqualTo(Decimal.ValueOf(1)));
+            for (var i = 1; i < 10; i++)
+            {
+                var previousTickClosePrice = _timeSeries.GetTick(i - 1).ClosePrice;
+                var currentTickClosePrice = _timeSeries.GetTick(i).ClosePrice;
+                Assert.That(currentTickClosePrice.DividedBy(previousTickClosePrice), Is.EqualTo(_variationIndicator.GetValue(i)));
+            }
+        }
+    }
 }

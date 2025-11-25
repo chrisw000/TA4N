@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,69 +20,66 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Statistics
 {
-	using TA4N.Indicators.Simple;
+    using TA4N.Indicators.Simple;
     using NUnit.Framework;
     using TA4N.Indicators.Statistics;
 
     public sealed class VarianceIndicatorTest
-	{
-		private TimeSeries _data;
-        
+    {
+        private TimeSeries _data;
+
         [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 0, 9);
-		}
-        
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 0, 9);
+        }
+
         [Test]
         public void VarianceUsingTimeFrame4UsingClosePrice()
-		{
-			var variance = new VarianceIndicator(new ClosePriceIndicator(_data), 4);
-
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(0), 0);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(1), 0.25);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(2), 2.0 / 3);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(3), 1.25);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(4), 0.5);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(5), 0.25);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(6), 0.5);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(7), 0.5);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(8), 0.5);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(9), 3.5);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(10), 10.5);
-		}
-        
-        [Test]
-		public void FirstValueShouldBeZero()
-		{
-			var variance = new VarianceIndicator(new ClosePriceIndicator(_data), 4);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(0), 0);
-		}
+        {
+            var variance = new VarianceIndicator(new ClosePriceIndicator(_data), 4);
+            Assert.That(variance.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(variance.GetValue(1).ToDouble(), Is.EqualTo(0.25).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(2).ToDouble(), Is.EqualTo(2.0 / 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(3).ToDouble(), Is.EqualTo(1.25).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(4).ToDouble(), Is.EqualTo(0.5).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(5).ToDouble(), Is.EqualTo(0.25).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(6).ToDouble(), Is.EqualTo(0.5).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(7).ToDouble(), Is.EqualTo(0.5).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(8).ToDouble(), Is.EqualTo(0.5).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(9).ToDouble(), Is.EqualTo(3.5).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(10).ToDouble(), Is.EqualTo(10.5).Within(TaTestsUtils.TaOffset));
+        }
 
         [Test]
-		public void VarianceShouldBeZeroWhenTimeFrameIs1()
-		{
-			var variance = new VarianceIndicator(new ClosePriceIndicator(_data), 1);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(3), 0);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(8), 0);
-		}
+        public void FirstValueShouldBeZero()
+        {
+            var variance = new VarianceIndicator(new ClosePriceIndicator(_data), 4);
+            Assert.That(variance.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+        }
 
-        [Test] 
-		public void VarianceUsingTimeFrame2UsingClosePrice()
-		{
-			var variance = new VarianceIndicator(new ClosePriceIndicator(_data), 2);
+        [Test]
+        public void VarianceShouldBeZeroWhenTimeFrameIs1()
+        {
+            var variance = new VarianceIndicator(new ClosePriceIndicator(_data), 1);
+            Assert.That(variance.GetValue(3), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(variance.GetValue(8), Is.EqualTo(Decimal.ValueOf(0)));
+        }
 
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(0), 0);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(1), 0.25);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(2), 0.25);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(3), 0.25);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(9), 2.25);
-			TaTestsUtils.AssertDecimalEquals(variance.GetValue(10), 20.25);
-		}
-	}
+        [Test]
+        public void VarianceUsingTimeFrame2UsingClosePrice()
+        {
+            var variance = new VarianceIndicator(new ClosePriceIndicator(_data), 2);
+            Assert.That(variance.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(variance.GetValue(1).ToDouble(), Is.EqualTo(0.25).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(2).ToDouble(), Is.EqualTo(0.25).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(3).ToDouble(), Is.EqualTo(0.25).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(9).ToDouble(), Is.EqualTo(2.25).Within(TaTestsUtils.TaOffset));
+            Assert.That(variance.GetValue(10).ToDouble(), Is.EqualTo(20.25).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

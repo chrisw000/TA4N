@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,48 +29,46 @@ namespace TA4N.Test.Indicators.Trackers
     using TA4N.Indicators.Trackers;
 
     public sealed class ChandelierExitLongIndicatorTest
-	{
-		private TimeSeries _data;
+    {
+        private TimeSeries _data;
 
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			// open, close, high, low
-			ticks.Add(GenerateTick.From(44.98, 45.05, 45.17, 44.96));
-			ticks.Add(GenerateTick.From(45.05, 45.10, 45.15, 44.99));
-			ticks.Add(GenerateTick.From(45.11, 45.19, 45.32, 45.11));
-			ticks.Add(GenerateTick.From(45.19, 45.14, 45.25, 45.04));
-			ticks.Add(GenerateTick.From(45.12, 45.15, 45.20, 45.10));
-			ticks.Add(GenerateTick.From(45.15, 45.14, 45.20, 45.10));
-			ticks.Add(GenerateTick.From(45.13, 45.10, 45.16, 45.07));
-			ticks.Add(GenerateTick.From(45.12, 45.15, 45.22, 45.10));
-			ticks.Add(GenerateTick.From(45.15, 45.22, 45.27, 45.14));
-			ticks.Add(GenerateTick.From(45.24, 45.43, 45.45, 45.20));
-			ticks.Add(GenerateTick.From(45.43, 45.44, 45.50, 45.39));
-			ticks.Add(GenerateTick.From(45.43, 45.55, 45.60, 45.35));
-			ticks.Add(GenerateTick.From(45.58, 45.55, 45.61, 45.39));
-			ticks.Add(GenerateTick.From(45.45, 45.01, 45.55, 44.80));
-			ticks.Add(GenerateTick.From(45.03, 44.23, 45.04, 44.17));
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            // open, close, high, low
+            ticks.Add(GenerateTick.From(44.98, 45.05, 45.17, 44.96));
+            ticks.Add(GenerateTick.From(45.05, 45.10, 45.15, 44.99));
+            ticks.Add(GenerateTick.From(45.11, 45.19, 45.32, 45.11));
+            ticks.Add(GenerateTick.From(45.19, 45.14, 45.25, 45.04));
+            ticks.Add(GenerateTick.From(45.12, 45.15, 45.20, 45.10));
+            ticks.Add(GenerateTick.From(45.15, 45.14, 45.20, 45.10));
+            ticks.Add(GenerateTick.From(45.13, 45.10, 45.16, 45.07));
+            ticks.Add(GenerateTick.From(45.12, 45.15, 45.22, 45.10));
+            ticks.Add(GenerateTick.From(45.15, 45.22, 45.27, 45.14));
+            ticks.Add(GenerateTick.From(45.24, 45.43, 45.45, 45.20));
+            ticks.Add(GenerateTick.From(45.43, 45.44, 45.50, 45.39));
+            ticks.Add(GenerateTick.From(45.43, 45.55, 45.60, 45.35));
+            ticks.Add(GenerateTick.From(45.58, 45.55, 45.61, 45.39));
+            ticks.Add(GenerateTick.From(45.45, 45.01, 45.55, 44.80));
+            ticks.Add(GenerateTick.From(45.03, 44.23, 45.04, 44.17));
+            _data = new TimeSeries(ticks);
+        }
 
-			_data = new TimeSeries(ticks);
-		}
-
-        [Test] 
-		public void MassIndexUsing3And8TimeFrames()
-		{
-			var cel = new ChandelierExitLongIndicator(_data, 5, Decimal.Two);
-
-			TaTestsUtils.AssertDecimalEquals(cel.GetValue(5), 44.4676);
-			TaTestsUtils.AssertDecimalEquals(cel.GetValue(6), 44.6021);
-			TaTestsUtils.AssertDecimalEquals(cel.GetValue(7), 44.6277);
-			TaTestsUtils.AssertDecimalEquals(cel.GetValue(8), 44.7201);
-			TaTestsUtils.AssertDecimalEquals(cel.GetValue(9), 44.9101);
-			TaTestsUtils.AssertDecimalEquals(cel.GetValue(10), 45.0241);
-			TaTestsUtils.AssertDecimalEquals(cel.GetValue(11), 45.1193);
-			TaTestsUtils.AssertDecimalEquals(cel.GetValue(12), 45.1374);
-			TaTestsUtils.AssertDecimalEquals(cel.GetValue(13), 44.9319);
-			TaTestsUtils.AssertDecimalEquals(cel.GetValue(14), 44.7195);
-		}
-	}
+        [Test]
+        public void MassIndexUsing3And8TimeFrames()
+        {
+            var cel = new ChandelierExitLongIndicator(_data, 5, Decimal.Two);
+            Assert.That(cel.GetValue(5).ToDouble(), Is.EqualTo(44.4676).Within(TaTestsUtils.TaOffset));
+            Assert.That(cel.GetValue(6).ToDouble(), Is.EqualTo(44.6021).Within(TaTestsUtils.TaOffset));
+            Assert.That(cel.GetValue(7).ToDouble(), Is.EqualTo(44.6277).Within(TaTestsUtils.TaOffset));
+            Assert.That(cel.GetValue(8).ToDouble(), Is.EqualTo(44.7201).Within(TaTestsUtils.TaOffset));
+            Assert.That(cel.GetValue(9).ToDouble(), Is.EqualTo(44.9101).Within(TaTestsUtils.TaOffset));
+            Assert.That(cel.GetValue(10).ToDouble(), Is.EqualTo(45.0241).Within(TaTestsUtils.TaOffset));
+            Assert.That(cel.GetValue(11).ToDouble(), Is.EqualTo(45.1193).Within(TaTestsUtils.TaOffset));
+            Assert.That(cel.GetValue(12).ToDouble(), Is.EqualTo(45.1374).Within(TaTestsUtils.TaOffset));
+            Assert.That(cel.GetValue(13).ToDouble(), Is.EqualTo(44.9319).Within(TaTestsUtils.TaOffset));
+            Assert.That(cel.GetValue(14).ToDouble(), Is.EqualTo(44.7195).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

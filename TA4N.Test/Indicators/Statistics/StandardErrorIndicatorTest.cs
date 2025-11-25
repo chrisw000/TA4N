@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Statistics
@@ -29,41 +28,40 @@ namespace TA4N.Test.Indicators.Statistics
     using TA4N.Indicators.Statistics;
     using NUnit.Framework;
 
-	public sealed class StandardErrorIndicatorTest
-	{
-		private TimeSeries _data;
-        
-        [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(10, 20, 30, 40, 50, 40, 40, 50, 40, 30, 20, 10);
-		}
-        
-        [Test]
-		public void UsingTimeFrame5UsingClosePrice()
-		{
-			var se = new StandardErrorIndicator(new ClosePriceIndicator(_data), 5);
+    public sealed class StandardErrorIndicatorTest
+    {
+        private TimeSeries _data;
 
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(0), 0);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(1), 3.5355);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(2), 4.714);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(3), 5.5902);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(4), 6.3246);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(5), 4.5607);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(6), 2.8284);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(7), 2.1909);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(8), 2.1909);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(9), 2.8284);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(10), 4.5607);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(11), 6.3246);
-		}
-        
-        [Test] 
-		public void ShouldBeZeroWhenTimeFrameIs1()
-		{
-			var se = new StandardErrorIndicator(new ClosePriceIndicator(_data), 1);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(1), 0);
-			TaTestsUtils.AssertDecimalEquals(se.GetValue(3), 0);
-		}
-	}
+        [SetUp]
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(10, 20, 30, 40, 50, 40, 40, 50, 40, 30, 20, 10);
+        }
+
+        [Test]
+        public void UsingTimeFrame5UsingClosePrice()
+        {
+            var se = new StandardErrorIndicator(new ClosePriceIndicator(_data), 5);
+            Assert.That(se.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(se.GetValue(1).ToDouble(), Is.EqualTo(3.5355).Within(TaTestsUtils.TaOffset));
+            Assert.That(se.GetValue(2).ToDouble(), Is.EqualTo(4.714).Within(TaTestsUtils.TaOffset));
+            Assert.That(se.GetValue(3).ToDouble(), Is.EqualTo(5.5902).Within(TaTestsUtils.TaOffset));
+            Assert.That(se.GetValue(4).ToDouble(), Is.EqualTo(6.3246).Within(TaTestsUtils.TaOffset));
+            Assert.That(se.GetValue(5).ToDouble(), Is.EqualTo(4.5607).Within(TaTestsUtils.TaOffset));
+            Assert.That(se.GetValue(6).ToDouble(), Is.EqualTo(2.8284).Within(TaTestsUtils.TaOffset));
+            Assert.That(se.GetValue(7).ToDouble(), Is.EqualTo(2.1909).Within(TaTestsUtils.TaOffset));
+            Assert.That(se.GetValue(8).ToDouble(), Is.EqualTo(2.1909).Within(TaTestsUtils.TaOffset));
+            Assert.That(se.GetValue(9).ToDouble(), Is.EqualTo(2.8284).Within(TaTestsUtils.TaOffset));
+            Assert.That(se.GetValue(10).ToDouble(), Is.EqualTo(4.5607).Within(TaTestsUtils.TaOffset));
+            Assert.That(se.GetValue(11).ToDouble(), Is.EqualTo(6.3246).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void ShouldBeZeroWhenTimeFrameIs1()
+        {
+            var se = new StandardErrorIndicator(new ClosePriceIndicator(_data), 1);
+            Assert.That(se.GetValue(1), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(se.GetValue(3), Is.EqualTo(Decimal.ValueOf(0)));
+        }
+    }
 }

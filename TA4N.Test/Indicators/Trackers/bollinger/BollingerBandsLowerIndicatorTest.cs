@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using NUnit.Framework;
 using TA4N.Indicators.Simple;
 using TA4N.Indicators.Statistics;
@@ -31,49 +30,44 @@ using TA4N.Test.FixtureData;
 namespace TA4N.Test.Indicators.Trackers.Bollinger
 {
     public sealed class BollingerBandsLowerIndicatorTest
-	{
-		private TimeSeries _data;
-		private int _timeFrame;
-		private ClosePriceIndicator _closePrice;
-		private SmaIndicator _sma;
+    {
+        private TimeSeries _data;
+        private int _timeFrame;
+        private ClosePriceIndicator _closePrice;
+        private SmaIndicator _sma;
 
         [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
-			_timeFrame = 3;
-			_closePrice = new ClosePriceIndicator(_data);
-			_sma = new SmaIndicator(_closePrice, _timeFrame);
-		}
-        
-        [Test] 
-		public void BollingerBandsLowerUsingSmaAndStandardDeviation()
-		{
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
+            _timeFrame = 3;
+            _closePrice = new ClosePriceIndicator(_data);
+            _sma = new SmaIndicator(_closePrice, _timeFrame);
+        }
+
+        [Test]
+        public void BollingerBandsLowerUsingSmaAndStandardDeviation()
+        {
             var bbmSma = new BollingerBandsMiddleIndicator(_sma);
-			var standardDeviation = new StandardDeviationIndicator(_closePrice, _timeFrame);
-			var bblSma = new BollingerBandsLowerIndicator(bbmSma, standardDeviation);
-
-			TaTestsUtils.AssertDecimalEquals(bblSma.K, 2);
-
-			TaTestsUtils.AssertDecimalEquals(bblSma.GetValue(0), 1);
-			TaTestsUtils.AssertDecimalEquals(bblSma.GetValue(1), 0.5);
-			TaTestsUtils.AssertDecimalEquals(bblSma.GetValue(2), 0.367);
-			TaTestsUtils.AssertDecimalEquals(bblSma.GetValue(3), 1.367);
-			TaTestsUtils.AssertDecimalEquals(bblSma.GetValue(4), 2.3905);
-			TaTestsUtils.AssertDecimalEquals(bblSma.GetValue(5), 2.7239);
-			TaTestsUtils.AssertDecimalEquals(bblSma.GetValue(6), 2.367);
-
-			var bblSmAwithK = new BollingerBandsLowerIndicator(bbmSma, standardDeviation, Decimal.ValueOf("1.5"));
-
-			TaTestsUtils.AssertDecimalEquals(bblSmAwithK.K, 1.5);
-
-			TaTestsUtils.AssertDecimalEquals(bblSmAwithK.GetValue(0), 1);
-			TaTestsUtils.AssertDecimalEquals(bblSmAwithK.GetValue(1), 0.75);
-			TaTestsUtils.AssertDecimalEquals(bblSmAwithK.GetValue(2), 0.7752);
-			TaTestsUtils.AssertDecimalEquals(bblSmAwithK.GetValue(3), 1.7752);
-			TaTestsUtils.AssertDecimalEquals(bblSmAwithK.GetValue(4), 2.6262);
-			TaTestsUtils.AssertDecimalEquals(bblSmAwithK.GetValue(5), 2.9595);
-			TaTestsUtils.AssertDecimalEquals(bblSmAwithK.GetValue(6), 2.7752);
-		}
-	}
+            var standardDeviation = new StandardDeviationIndicator(_closePrice, _timeFrame);
+            var bblSma = new BollingerBandsLowerIndicator(bbmSma, standardDeviation);
+            Assert.That(bblSma.K.ToDouble(), Is.EqualTo(2));
+            Assert.That(bblSma.GetValue(0), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(bblSma.GetValue(1).ToDouble(), Is.EqualTo(0.5).Within(TaTestsUtils.TaOffset));
+            Assert.That(bblSma.GetValue(2).ToDouble(), Is.EqualTo(0.367).Within(TaTestsUtils.TaOffset));
+            Assert.That(bblSma.GetValue(3).ToDouble(), Is.EqualTo(1.367).Within(TaTestsUtils.TaOffset));
+            Assert.That(bblSma.GetValue(4).ToDouble(), Is.EqualTo(2.3905).Within(TaTestsUtils.TaOffset));
+            Assert.That(bblSma.GetValue(5).ToDouble(), Is.EqualTo(2.7239).Within(TaTestsUtils.TaOffset));
+            Assert.That(bblSma.GetValue(6).ToDouble(), Is.EqualTo(2.367).Within(TaTestsUtils.TaOffset));
+            var bblSmAwithK = new BollingerBandsLowerIndicator(bbmSma, standardDeviation, Decimal.ValueOf("1.5"));
+            Assert.That(bblSmAwithK.K.ToDouble(), Is.EqualTo(1.5));
+            Assert.That(bblSmAwithK.GetValue(0), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(bblSmAwithK.GetValue(1).ToDouble(), Is.EqualTo(0.75).Within(TaTestsUtils.TaOffset));
+            Assert.That(bblSmAwithK.GetValue(2).ToDouble(), Is.EqualTo(0.7752).Within(TaTestsUtils.TaOffset));
+            Assert.That(bblSmAwithK.GetValue(3).ToDouble(), Is.EqualTo(1.7752).Within(TaTestsUtils.TaOffset));
+            Assert.That(bblSmAwithK.GetValue(4).ToDouble(), Is.EqualTo(2.6262).Within(TaTestsUtils.TaOffset));
+            Assert.That(bblSmAwithK.GetValue(5).ToDouble(), Is.EqualTo(2.9595).Within(TaTestsUtils.TaOffset));
+            Assert.That(bblSmAwithK.GetValue(6).ToDouble(), Is.EqualTo(2.7752).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,34 +29,33 @@ namespace TA4N.Test.Indicators.Volume
     using TA4N.Indicators.Volume;
 
     public sealed class PviIndicatorTest
-	{
+    {
         [Test]
-		public void GetValue()
-		{
+        public void GetValue()
+        {
             IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(1355.69, 2739.55));
-			ticks.Add(GenerateTick.From(1325.51, 3119.46));
-			ticks.Add(GenerateTick.From(1335.02, 3466.88));
-			ticks.Add(GenerateTick.From(1313.72, 2577.12));
-			ticks.Add(GenerateTick.From(1319.99, 2480.45));
-			ticks.Add(GenerateTick.From(1331.85, 2329.79));
-			ticks.Add(GenerateTick.From(1329.04, 2793.07));
-			ticks.Add(GenerateTick.From(1362.16, 3378.78));
-			ticks.Add(GenerateTick.From(1365.51, 2417.59));
-			ticks.Add(GenerateTick.From(1374.02, 1442.81));
-			TimeSeries series = GenerateTimeSeries.From(ticks);
-
-			var pvi = new PviIndicator(series);
-			TaTestsUtils.AssertDecimalEquals(pvi.GetValue(0), 1000);
-			TaTestsUtils.AssertDecimalEquals(pvi.GetValue(1), 977.7383);
-			TaTestsUtils.AssertDecimalEquals(pvi.GetValue(2), 984.7532);
-			TaTestsUtils.AssertDecimalEquals(pvi.GetValue(3), 984.7532);
-			TaTestsUtils.AssertDecimalEquals(pvi.GetValue(4), 984.7532);
-			TaTestsUtils.AssertDecimalEquals(pvi.GetValue(5), 984.7532);
-			TaTestsUtils.AssertDecimalEquals(pvi.GetValue(6), 982.6755);
-			TaTestsUtils.AssertDecimalEquals(pvi.GetValue(7), 1007.164);
-			TaTestsUtils.AssertDecimalEquals(pvi.GetValue(8), 1007.164);
-			TaTestsUtils.AssertDecimalEquals(pvi.GetValue(9), 1007.164);
-		}
-	}
+            ticks.Add(GenerateTick.From(1355.69, 2739.55));
+            ticks.Add(GenerateTick.From(1325.51, 3119.46));
+            ticks.Add(GenerateTick.From(1335.02, 3466.88));
+            ticks.Add(GenerateTick.From(1313.72, 2577.12));
+            ticks.Add(GenerateTick.From(1319.99, 2480.45));
+            ticks.Add(GenerateTick.From(1331.85, 2329.79));
+            ticks.Add(GenerateTick.From(1329.04, 2793.07));
+            ticks.Add(GenerateTick.From(1362.16, 3378.78));
+            ticks.Add(GenerateTick.From(1365.51, 2417.59));
+            ticks.Add(GenerateTick.From(1374.02, 1442.81));
+            TimeSeries series = GenerateTimeSeries.From(ticks);
+            var pvi = new PviIndicator(series);
+            Assert.That(pvi.GetValue(0), Is.EqualTo(Decimal.ValueOf(1000)));
+            Assert.That(pvi.GetValue(1).ToDouble(), Is.EqualTo(977.7383).Within(TaTestsUtils.TaOffset));
+            Assert.That(pvi.GetValue(2).ToDouble(), Is.EqualTo(984.7532).Within(TaTestsUtils.TaOffset));
+            Assert.That(pvi.GetValue(3).ToDouble(), Is.EqualTo(984.7532).Within(TaTestsUtils.TaOffset));
+            Assert.That(pvi.GetValue(4).ToDouble(), Is.EqualTo(984.7532).Within(TaTestsUtils.TaOffset));
+            Assert.That(pvi.GetValue(5).ToDouble(), Is.EqualTo(984.7532).Within(TaTestsUtils.TaOffset));
+            Assert.That(pvi.GetValue(6).ToDouble(), Is.EqualTo(982.6755).Within(TaTestsUtils.TaOffset));
+            Assert.That(pvi.GetValue(7).ToDouble(), Is.EqualTo(1007.164).Within(TaTestsUtils.TaOffset));
+            Assert.That(pvi.GetValue(8).ToDouble(), Is.EqualTo(1007.164).Within(TaTestsUtils.TaOffset));
+            Assert.That(pvi.GetValue(9).ToDouble(), Is.EqualTo(1007.164).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

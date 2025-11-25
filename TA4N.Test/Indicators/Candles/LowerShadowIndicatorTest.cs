@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,31 +29,31 @@ namespace TA4N.Test.Indicators.Candles
     using TA4N.Indicators.Candles;
 
     public sealed class LowerShadowIndicatorTest
-	{
+    {
         private TimeSeries _series;
-        
+
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			// open, close, high, low
-			ticks.Add(GenerateTick.From(10, 18, 20, 10));
-			ticks.Add(GenerateTick.From(17, 20, 21, 17));
-			ticks.Add(GenerateTick.From(15, 15, 16, 14));
-			ticks.Add(GenerateTick.From(15, 11, 15, 8));
-			ticks.Add(GenerateTick.From(11, 12, 12, 10));
-			_series = GenerateTimeSeries.From(ticks);
-		}
-        
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            // open, close, high, low
+            ticks.Add(GenerateTick.From(10, 18, 20, 10));
+            ticks.Add(GenerateTick.From(17, 20, 21, 17));
+            ticks.Add(GenerateTick.From(15, 15, 16, 14));
+            ticks.Add(GenerateTick.From(15, 11, 15, 8));
+            ticks.Add(GenerateTick.From(11, 12, 12, 10));
+            _series = GenerateTimeSeries.From(ticks);
+        }
+
         [Test]
-		public void GetValue()
-		{
-			var lowerShadow = new LowerShadowIndicator(_series);
-			TaTestsUtils.AssertDecimalEquals(lowerShadow.GetValue(0), 0);
-			TaTestsUtils.AssertDecimalEquals(lowerShadow.GetValue(1), 0);
-			TaTestsUtils.AssertDecimalEquals(lowerShadow.GetValue(2), 1);
-			TaTestsUtils.AssertDecimalEquals(lowerShadow.GetValue(3), 3);
-			TaTestsUtils.AssertDecimalEquals(lowerShadow.GetValue(4), 1);
-		}
-	}
+        public void GetValue()
+        {
+            var lowerShadow = new LowerShadowIndicator(_series);
+            Assert.That(lowerShadow.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(lowerShadow.GetValue(1), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(lowerShadow.GetValue(2), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(lowerShadow.GetValue(3), Is.EqualTo(Decimal.ValueOf(3)));
+            Assert.That(lowerShadow.GetValue(4), Is.EqualTo(Decimal.ValueOf(1)));
+        }
+    }
 }

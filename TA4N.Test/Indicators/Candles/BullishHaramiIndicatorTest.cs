@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,31 +29,31 @@ namespace TA4N.Test.Indicators.Candles
     using TA4N.Indicators.Candles;
 
     public sealed class BullishHaramiIndicatorTest
-	{
+    {
         private TimeSeries _series;
-        
+
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			// open, close, high, low
-			ticks.Add(GenerateTick.From(10, 18, 20, 10));
-			ticks.Add(GenerateTick.From(21, 15, 22, 14));
-			ticks.Add(GenerateTick.From(17, 20, 21, 17));
-			ticks.Add(GenerateTick.From(15, 11, 15, 8));
-			ticks.Add(GenerateTick.From(11, 12, 12, 10));
-			_series = GenerateTimeSeries.From(ticks);
-		}
-        
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            // open, close, high, low
+            ticks.Add(GenerateTick.From(10, 18, 20, 10));
+            ticks.Add(GenerateTick.From(21, 15, 22, 14));
+            ticks.Add(GenerateTick.From(17, 20, 21, 17));
+            ticks.Add(GenerateTick.From(15, 11, 15, 8));
+            ticks.Add(GenerateTick.From(11, 12, 12, 10));
+            _series = GenerateTimeSeries.From(ticks);
+        }
+
         [Test]
-		public void GetValue()
-		{
-			var bhp = new BullishHaramiIndicator(_series);
-			Assert.IsFalse(bhp.GetValue(0));
-			Assert.IsFalse(bhp.GetValue(1));
-			Assert.IsTrue(bhp.GetValue(2));
-			Assert.IsFalse(bhp.GetValue(3));
-			Assert.IsFalse(bhp.GetValue(4));
-		}
-	}
+        public void GetValue()
+        {
+            var bhp = new BullishHaramiIndicator(_series);
+            Assert.That(bhp.GetValue(0), Is.False);
+            Assert.That(bhp.GetValue(1), Is.False);
+            Assert.That(bhp.GetValue(2), Is.True);
+            Assert.That(bhp.GetValue(3), Is.False);
+            Assert.That(bhp.GetValue(4), Is.False);
+        }
+    }
 }

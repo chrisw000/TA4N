@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,37 +29,37 @@ namespace TA4N.Test.Indicators.Candles
     using TA4N.Indicators.Candles;
 
     public sealed class ThreeBlackCrowsIndicatorTest
-	{
+    {
         private TimeSeries _series;
-        
+
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			// open, close, high, low
-			ticks.Add(GenerateTick.From(19, 19, 22, 15));
-			ticks.Add(GenerateTick.From(10, 18, 20, 8));
-			ticks.Add(GenerateTick.From(17, 20, 21, 17));
-			ticks.Add(GenerateTick.From(19, 17, 20, 16.9));
-			ticks.Add(GenerateTick.From(17.5, 14, 18, 13.9));
-			ticks.Add(GenerateTick.From(15, 11, 15, 11));
-			ticks.Add(GenerateTick.From(12, 14, 15, 8));
-			ticks.Add(GenerateTick.From(13, 16, 16, 11));
-			_series = GenerateTimeSeries.From(ticks);
-		}
-        
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            // open, close, high, low
+            ticks.Add(GenerateTick.From(19, 19, 22, 15));
+            ticks.Add(GenerateTick.From(10, 18, 20, 8));
+            ticks.Add(GenerateTick.From(17, 20, 21, 17));
+            ticks.Add(GenerateTick.From(19, 17, 20, 16.9));
+            ticks.Add(GenerateTick.From(17.5, 14, 18, 13.9));
+            ticks.Add(GenerateTick.From(15, 11, 15, 11));
+            ticks.Add(GenerateTick.From(12, 14, 15, 8));
+            ticks.Add(GenerateTick.From(13, 16, 16, 11));
+            _series = GenerateTimeSeries.From(ticks);
+        }
+
         [Test]
-		public void GetValue()
-		{
-			var tbc = new ThreeBlackCrowsIndicator(_series, 3, Decimal.ValueOf("0.1"));
-			Assert.IsFalse(tbc.GetValue(0));
-			Assert.IsFalse(tbc.GetValue(1));
-			Assert.IsFalse(tbc.GetValue(2));
-			Assert.IsFalse(tbc.GetValue(3));
-			Assert.IsFalse(tbc.GetValue(4));
-			Assert.IsTrue(tbc.GetValue(5));
-			Assert.IsFalse(tbc.GetValue(6));
-			Assert.IsFalse(tbc.GetValue(7));
-		}
-	}
+        public void GetValue()
+        {
+            var tbc = new ThreeBlackCrowsIndicator(_series, 3, Decimal.ValueOf("0.1"));
+            Assert.That(tbc.GetValue(0), Is.False);
+            Assert.That(tbc.GetValue(1), Is.False);
+            Assert.That(tbc.GetValue(2), Is.False);
+            Assert.That(tbc.GetValue(3), Is.False);
+            Assert.That(tbc.GetValue(4), Is.False);
+            Assert.That(tbc.GetValue(5), Is.True);
+            Assert.That(tbc.GetValue(6), Is.False);
+            Assert.That(tbc.GetValue(7), Is.False);
+        }
+    }
 }

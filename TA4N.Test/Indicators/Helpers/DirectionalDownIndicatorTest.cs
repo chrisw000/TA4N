@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,24 +29,23 @@ namespace TA4N.Test.Indicators.Helpers
     using TA4N.Indicators.Helpers;
 
     public sealed class DirectionalDownIndicatorTest
-	{
+    {
         [Test]
-		public void AverageDirectionalMovement()
-		{
+        public void AverageDirectionalMovement()
+        {
             IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(0, 0, 13, 7));
-			ticks.Add(GenerateTick.From(0, 0, 11, 5));
-			ticks.Add(GenerateTick.From(0, 0, 15, 3));
-			ticks.Add(GenerateTick.From(0, 0, 14, 2));
-			ticks.Add(GenerateTick.From(0, 0, 13, 0.2));
-
-			var series = GenerateTimeSeries.From(ticks);
-			var ddown = new DirectionalDownIndicator(series, 3);
-			TaTestsUtils.AssertDecimalEquals(ddown.GetValue(0), 1);
-			TaTestsUtils.AssertDecimalEquals(ddown.GetValue(1), (4d / 3) / (13d / 3));
-			TaTestsUtils.AssertDecimalEquals(ddown.GetValue(2), (4d / 3 * 2d / 3) / (13d / 3 * 2d / 3 + 15d / 3));
-			TaTestsUtils.AssertDecimalEquals(ddown.GetValue(3), ((4d / 3 * 2d / 3) * 2d / 3 + 1d / 3) / (((13d / 3 * 2d / 3 + 15d / 3) * 2d / 3) + 14d / 3));
-			TaTestsUtils.AssertDecimalEquals(ddown.GetValue(4), (((4d / 3 * 2d / 3) * 2d / 3 + 1d / 3) * 2d / 3 + 1.8 * 1d / 3) / (((((13d / 3 * 2d / 3 + 15d / 3) * 2d / 3) + 14d / 3) * 2d / 3) + 13d / 3));
-		}
-	}
+            ticks.Add(GenerateTick.From(0, 0, 13, 7));
+            ticks.Add(GenerateTick.From(0, 0, 11, 5));
+            ticks.Add(GenerateTick.From(0, 0, 15, 3));
+            ticks.Add(GenerateTick.From(0, 0, 14, 2));
+            ticks.Add(GenerateTick.From(0, 0, 13, 0.2));
+            var series = GenerateTimeSeries.From(ticks);
+            var ddown = new DirectionalDownIndicator(series, 3);
+            Assert.That(ddown.GetValue(0), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(ddown.GetValue(1).ToDouble(), Is.EqualTo((4d / 3) / (13d / 3)).Within(TaTestsUtils.TaOffset));
+            Assert.That(ddown.GetValue(2).ToDouble(), Is.EqualTo((4d / 3 * 2d / 3) / (13d / 3 * 2d / 3 + 15d / 3)).Within(TaTestsUtils.TaOffset));
+            Assert.That(ddown.GetValue(3).ToDouble(), Is.EqualTo(((4d / 3 * 2d / 3) * 2d / 3 + 1d / 3) / (((13d / 3 * 2d / 3 + 15d / 3) * 2d / 3) + 14d / 3)).Within(TaTestsUtils.TaOffset));
+            Assert.That(ddown.GetValue(4).ToDouble(), Is.EqualTo((((4d / 3 * 2d / 3) * 2d / 3 + 1d / 3) * 2d / 3 + 1.8 * 1d / 3) / (((((13d / 3 * 2d / 3 + 15d / 3) * 2d / 3) + 14d / 3) * 2d / 3) + 13d / 3)).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

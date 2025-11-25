@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,31 +29,31 @@ namespace TA4N.Test.Indicators.Helpers
     using TA4N.Indicators.Helpers;
 
     public sealed class CloseLocationValueIndicatorTest
-	{
+    {
         private TimeSeries _series;
-        
+
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			// open, close, high, low
-			ticks.Add(GenerateTick.From(10, 18, 20, 10));
-			ticks.Add(GenerateTick.From(17, 20, 21, 17));
-			ticks.Add(GenerateTick.From(15, 15, 16, 14));
-			ticks.Add(GenerateTick.From(15, 11, 15, 8));
-			ticks.Add(GenerateTick.From(11, 12, 12, 10));
-			_series = GenerateTimeSeries.From(ticks);
-		}
-        
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            // open, close, high, low
+            ticks.Add(GenerateTick.From(10, 18, 20, 10));
+            ticks.Add(GenerateTick.From(17, 20, 21, 17));
+            ticks.Add(GenerateTick.From(15, 15, 16, 14));
+            ticks.Add(GenerateTick.From(15, 11, 15, 8));
+            ticks.Add(GenerateTick.From(11, 12, 12, 10));
+            _series = GenerateTimeSeries.From(ticks);
+        }
+
         [Test]
-		public void GetValue()
-		{
-			var clv = new CloseLocationValueIndicator(_series);
-			TaTestsUtils.AssertDecimalEquals(clv.GetValue(0), 0.6);
-			TaTestsUtils.AssertDecimalEquals(clv.GetValue(1), 0.5);
-			TaTestsUtils.AssertDecimalEquals(clv.GetValue(2), 0);
-			TaTestsUtils.AssertDecimalEquals(clv.GetValue(3), -1d / 7);
-			TaTestsUtils.AssertDecimalEquals(clv.GetValue(4), 1);
-		}
-	}
+        public void GetValue()
+        {
+            var clv = new CloseLocationValueIndicator(_series);
+            Assert.That(clv.GetValue(0).ToDouble(), Is.EqualTo(0.6).Within(TaTestsUtils.TaOffset));
+            Assert.That(clv.GetValue(1).ToDouble(), Is.EqualTo(0.5).Within(TaTestsUtils.TaOffset));
+            Assert.That(clv.GetValue(2), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(clv.GetValue(3).ToDouble(), Is.EqualTo(-1d / 7).Within(TaTestsUtils.TaOffset));
+            Assert.That(clv.GetValue(4), Is.EqualTo(Decimal.ValueOf(1)));
+        }
+    }
 }

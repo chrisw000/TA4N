@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,25 +29,23 @@ namespace TA4N.Test.Indicators.Helpers
     using TA4N.Indicators.Helpers;
 
     public sealed class DirectionalUpIndicatorTest
-	{
+    {
         [Test]
-		public void GetValue()
-		{
-			IList<Tick> ticks = new List<Tick>();
-
-			ticks.Add(GenerateTick.From(0, 0, 10, 2));
-			ticks.Add(GenerateTick.From(0, 0, 12, 2));
-			ticks.Add(GenerateTick.From(0, 0, 15, 2));
-			ticks.Add(GenerateTick.From(0, 0, 11, 2));
-			ticks.Add(GenerateTick.From(0, 0, 13, 7));
-
-			var series = GenerateTimeSeries.From(ticks);
-			var dup = new DirectionalUpIndicator(series, 3);
-			TaTestsUtils.AssertDecimalEquals(dup.GetValue(0), 1);
-			TaTestsUtils.AssertDecimalEquals(dup.GetValue(1), (4d / 3) / (14d / 3));
-			TaTestsUtils.AssertDecimalEquals(dup.GetValue(2), (4d / 3 * 2d / 3 + 1) / (14d / 3 * 2d / 3 + 15d / 3));
-			TaTestsUtils.AssertDecimalEquals(dup.GetValue(3), ((4d / 3 * 2d / 3 + 1) * 2d / 3) / (((14d / 3 * 2d / 3 + 15d / 3) * 2d / 3) + 11d / 3));
-			TaTestsUtils.AssertDecimalEquals(dup.GetValue(4), ((4d / 3 * 2d / 3 + 1) * 2d / 3 * 2d / 3 + 2d / 3) / (((((14d / 3 * 2d / 3 + 15d / 3) * 2d / 3) + 11d / 3) * 2d / 3) + 13d / 3));
-		}
-	}
+        public void GetValue()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(0, 0, 10, 2));
+            ticks.Add(GenerateTick.From(0, 0, 12, 2));
+            ticks.Add(GenerateTick.From(0, 0, 15, 2));
+            ticks.Add(GenerateTick.From(0, 0, 11, 2));
+            ticks.Add(GenerateTick.From(0, 0, 13, 7));
+            var series = GenerateTimeSeries.From(ticks);
+            var dup = new DirectionalUpIndicator(series, 3);
+            Assert.That(dup.GetValue(0), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(dup.GetValue(1).ToDouble(), Is.EqualTo((4d / 3) / (14d / 3)).Within(TaTestsUtils.TaOffset));
+            Assert.That(dup.GetValue(2).ToDouble(), Is.EqualTo((4d / 3 * 2d / 3 + 1) / (14d / 3 * 2d / 3 + 15d / 3)).Within(TaTestsUtils.TaOffset));
+            Assert.That(dup.GetValue(3).ToDouble(), Is.EqualTo(((4d / 3 * 2d / 3 + 1) * 2d / 3) / (((14d / 3 * 2d / 3 + 15d / 3) * 2d / 3) + 11d / 3)).Within(TaTestsUtils.TaOffset));
+            Assert.That(dup.GetValue(4).ToDouble(), Is.EqualTo(((4d / 3 * 2d / 3 + 1) * 2d / 3 * 2d / 3 + 2d / 3) / (((((14d / 3 * 2d / 3 + 15d / 3) * 2d / 3) + 11d / 3) * 2d / 3) + 13d / 3)).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

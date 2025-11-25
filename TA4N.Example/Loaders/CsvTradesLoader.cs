@@ -65,11 +65,17 @@ namespace TA4N.Examples.Loaders
 		    {
 		        if (stream != null)
 		            using (var reader = new StreamReader(stream))
-		            {
-		                // Reading all lines of the CSV file
-		                var csvReader = new CsvReader(reader);
-		                lines = csvReader.GetRecords<dynamic>().ToList();
-		            }
+					{
+						// Reading all lines of the CSV file
+						var config = new CsvHelper.Configuration.CsvConfiguration(System.Globalization.CultureInfo.InvariantCulture)
+						{
+							HasHeaderRecord = true
+						};
+						using (var csvReader = new CsvReader(reader, config))
+						{
+							lines = csvReader.GetRecords<dynamic>().ToList();
+						}
+					}
 		    }
 
             // NOTE: csvReader takes care of the header, so don't need to remove it like Java version
@@ -131,7 +137,7 @@ namespace TA4N.Examples.Loaders
 		/// <returns> the list of empty ticks </returns>
 		private static IList<Tick> BuildEmptyTicks(LocalDateTime beginTime, LocalDateTime endTime, int duration)
 		{
-			IList<Tick> emptyTicks = new List<Tick>();
+			IList<Tick> emptyTicks = [];
 
 			var tickTimePeriod = Period.FromSeconds(duration);
 			var tickEndTime = beginTime;

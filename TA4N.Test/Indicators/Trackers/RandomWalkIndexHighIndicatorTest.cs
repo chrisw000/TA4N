@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -32,54 +32,53 @@ namespace TA4N.Test.Indicators.Trackers
     /// The Class RandomWalkIndexHighIndicatorTest.
     /// </summary>
     public sealed class RandomWalkIndexHighIndicatorTest
-	{
-	    private TimeSeries _data;
+    {
+        private TimeSeries _data;
 
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(44.98, 45.05, 45.17, 44.96));
-			ticks.Add(GenerateTick.From(45.05, 45.10, 45.15, 44.99));
-			ticks.Add(GenerateTick.From(45.11, 45.19, 45.32, 45.11));
-			ticks.Add(GenerateTick.From(45.19, 45.14, 45.25, 45.04));
-			ticks.Add(GenerateTick.From(45.12, 45.15, 45.20, 45.10));
-			ticks.Add(GenerateTick.From(45.15, 45.14, 45.20, 45.10));
-			ticks.Add(GenerateTick.From(45.13, 45.10, 45.16, 45.07));
-			ticks.Add(GenerateTick.From(45.12, 45.15, 45.22, 45.10));
-			ticks.Add(GenerateTick.From(45.15, 45.22, 45.27, 45.14));
-			ticks.Add(GenerateTick.From(45.24, 45.43, 45.45, 45.20));
-			ticks.Add(GenerateTick.From(45.43, 45.44, 45.50, 45.39));
-			ticks.Add(GenerateTick.From(45.43, 45.55, 45.60, 45.35));
-			ticks.Add(GenerateTick.From(45.58, 45.55, 45.61, 45.39));
-			ticks.Add(GenerateTick.From(45.45, 45.01, 45.55, 44.80));
-			ticks.Add(GenerateTick.From(45.03, 44.23, 45.04, 44.17));
-			ticks.Add(GenerateTick.From(44.23, 43.95, 44.29, 43.81));
-			ticks.Add(GenerateTick.From(43.91, 43.08, 43.99, 43.08));
-			ticks.Add(GenerateTick.From(43.07, 43.55, 43.65, 43.06));
-			ticks.Add(GenerateTick.From(43.56, 43.95, 43.99, 43.53));
-			ticks.Add(GenerateTick.From(43.93, 44.47, 44.58, 43.93));
-			_data = GenerateTimeSeries.From(ticks);
-		}
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(44.98, 45.05, 45.17, 44.96));
+            ticks.Add(GenerateTick.From(45.05, 45.10, 45.15, 44.99));
+            ticks.Add(GenerateTick.From(45.11, 45.19, 45.32, 45.11));
+            ticks.Add(GenerateTick.From(45.19, 45.14, 45.25, 45.04));
+            ticks.Add(GenerateTick.From(45.12, 45.15, 45.20, 45.10));
+            ticks.Add(GenerateTick.From(45.15, 45.14, 45.20, 45.10));
+            ticks.Add(GenerateTick.From(45.13, 45.10, 45.16, 45.07));
+            ticks.Add(GenerateTick.From(45.12, 45.15, 45.22, 45.10));
+            ticks.Add(GenerateTick.From(45.15, 45.22, 45.27, 45.14));
+            ticks.Add(GenerateTick.From(45.24, 45.43, 45.45, 45.20));
+            ticks.Add(GenerateTick.From(45.43, 45.44, 45.50, 45.39));
+            ticks.Add(GenerateTick.From(45.43, 45.55, 45.60, 45.35));
+            ticks.Add(GenerateTick.From(45.58, 45.55, 45.61, 45.39));
+            ticks.Add(GenerateTick.From(45.45, 45.01, 45.55, 44.80));
+            ticks.Add(GenerateTick.From(45.03, 44.23, 45.04, 44.17));
+            ticks.Add(GenerateTick.From(44.23, 43.95, 44.29, 43.81));
+            ticks.Add(GenerateTick.From(43.91, 43.08, 43.99, 43.08));
+            ticks.Add(GenerateTick.From(43.07, 43.55, 43.65, 43.06));
+            ticks.Add(GenerateTick.From(43.56, 43.95, 43.99, 43.53));
+            ticks.Add(GenerateTick.From(43.93, 44.47, 44.58, 43.93));
+            _data = GenerateTimeSeries.From(ticks);
+        }
 
-        [Test] 
-		public void RandomWalkIndexHigh()
-		{
-			var rwih = new RandomWalkIndexHighIndicator(_data, 5);
-
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(6), 0.2118);
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(7), 0.1581);
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(8), 0.3741);
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(9), 0.5798);
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(10), 0.7518);
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(11), 0.9861);
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(12), 0.9652);
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(13), 0.5408);
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(14), -0.1607);
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(15), -1.0879);
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(16), -1.1186);
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(17), -1.4072);
-			TaTestsUtils.AssertDecimalEquals(rwih.GetValue(18), -0.6779);
-		}
-	}
+        [Test]
+        public void RandomWalkIndexHigh()
+        {
+            var rwih = new RandomWalkIndexHighIndicator(_data, 5);
+            Assert.That(rwih.GetValue(6).ToDouble(), Is.EqualTo(0.2118).Within(TaTestsUtils.TaOffset));
+            Assert.That(rwih.GetValue(7).ToDouble(), Is.EqualTo(0.1581).Within(TaTestsUtils.TaOffset));
+            Assert.That(rwih.GetValue(8).ToDouble(), Is.EqualTo(0.3741).Within(TaTestsUtils.TaOffset));
+            Assert.That(rwih.GetValue(9).ToDouble(), Is.EqualTo(0.5798).Within(TaTestsUtils.TaOffset));
+            Assert.That(rwih.GetValue(10).ToDouble(), Is.EqualTo(0.7518).Within(TaTestsUtils.TaOffset));
+            Assert.That(rwih.GetValue(11).ToDouble(), Is.EqualTo(0.9861).Within(TaTestsUtils.TaOffset));
+            Assert.That(rwih.GetValue(12).ToDouble(), Is.EqualTo(0.9652).Within(TaTestsUtils.TaOffset));
+            Assert.That(rwih.GetValue(13).ToDouble(), Is.EqualTo(0.5408).Within(TaTestsUtils.TaOffset));
+            Assert.That(rwih.GetValue(14).ToDouble(), Is.EqualTo(-0.1607).Within(TaTestsUtils.TaOffset));
+            Assert.That(rwih.GetValue(15).ToDouble(), Is.EqualTo(-1.0879).Within(TaTestsUtils.TaOffset));
+            Assert.That(rwih.GetValue(16).ToDouble(), Is.EqualTo(-1.1186).Within(TaTestsUtils.TaOffset));
+            Assert.That(rwih.GetValue(17).ToDouble(), Is.EqualTo(-1.4072).Within(TaTestsUtils.TaOffset));
+            Assert.That(rwih.GetValue(18).ToDouble(), Is.EqualTo(-0.6779).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

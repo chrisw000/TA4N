@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,40 +20,38 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using TA4N.Indicators.Simple;
 using NUnit.Framework;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class FixedIndicatorTest
-	{
+    public sealed class FixedIndicatorTest
+    {
         private FixedDecimalIndicator _fixedDecimalIndicator;
         private FixedBooleanIndicator _fixedBooleanIndicator;
-        
-        [Test]
-		public void GetValueOnFixedDecimalIndicator()
-		{
-			_fixedDecimalIndicator = new FixedDecimalIndicator(13.37, 42, -17);
-			TaTestsUtils.AssertDecimalEquals(_fixedDecimalIndicator.GetValue(0), 13.37);
-			TaTestsUtils.AssertDecimalEquals(_fixedDecimalIndicator.GetValue(1), 42);
-			TaTestsUtils.AssertDecimalEquals(_fixedDecimalIndicator.GetValue(2), -17);
-
-			_fixedDecimalIndicator = new FixedDecimalIndicator("3.0", "-123.456", "0");
-			TaTestsUtils.AssertDecimalEquals(_fixedDecimalIndicator.GetValue(0), "3");
-			TaTestsUtils.AssertDecimalEquals(_fixedDecimalIndicator.GetValue(1), "-123.456");
-			TaTestsUtils.AssertDecimalEquals(_fixedDecimalIndicator.GetValue(2), "0.0");
-		}
 
         [Test]
-		public void GetValueOnFixedBooleanIndicator()
-		{
-			_fixedBooleanIndicator = new FixedBooleanIndicator(false, false, true, false, true);
-			Assert.IsFalse(_fixedBooleanIndicator.GetValue(0));
-			Assert.IsFalse(_fixedBooleanIndicator.GetValue(1));
-			Assert.IsTrue(_fixedBooleanIndicator.GetValue(2));
-			Assert.IsFalse(_fixedBooleanIndicator.GetValue(3));
-			Assert.IsTrue(_fixedBooleanIndicator.GetValue(4));
-		}
-	}
+        public void GetValueOnFixedDecimalIndicator()
+        {
+            _fixedDecimalIndicator = new FixedDecimalIndicator(13.37, 42, -17);
+            Assert.That(_fixedDecimalIndicator.GetValue(0).ToDouble(), Is.EqualTo(13.37).Within(TaTestsUtils.TaOffset));
+            Assert.That(_fixedDecimalIndicator.GetValue(1), Is.EqualTo(Decimal.ValueOf(42)));
+            Assert.That(_fixedDecimalIndicator.GetValue(2).ToDouble(), Is.EqualTo(-17).Within(TaTestsUtils.TaOffset));
+            _fixedDecimalIndicator = new FixedDecimalIndicator("3.0", "-123.456", "0");
+            Assert.That(_fixedDecimalIndicator.GetValue(0), Is.EqualTo(Decimal.ValueOf("3")));
+            Assert.That(_fixedDecimalIndicator.GetValue(1), Is.EqualTo(Decimal.ValueOf("-123.456")));
+            Assert.That(_fixedDecimalIndicator.GetValue(2), Is.EqualTo(Decimal.ValueOf("0.0")));
+        }
+
+        [Test]
+        public void GetValueOnFixedBooleanIndicator()
+        {
+            _fixedBooleanIndicator = new FixedBooleanIndicator(false, false, true, false, true);
+            Assert.That(_fixedBooleanIndicator.GetValue(0), Is.False);
+            Assert.That(_fixedBooleanIndicator.GetValue(1), Is.False);
+            Assert.That(_fixedBooleanIndicator.GetValue(2), Is.True);
+            Assert.That(_fixedBooleanIndicator.GetValue(3), Is.False);
+            Assert.That(_fixedBooleanIndicator.GetValue(4), Is.True);
+        }
+    }
 }

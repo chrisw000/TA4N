@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,87 +20,82 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Analysis.Criteria;
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Analysis.Criteria
 {
-	public sealed class MaximumDrawdownCriterionTest
-	{
-        [Test] 
-		public void CalculateWithNoTrades()
-		{
-			var series = GenerateTimeSeries.From(1, 2, 3, 6, 5, 20, 3);
-			var mdd = new MaximumDrawdownCriterion();
+    public sealed class MaximumDrawdownCriterionTest
+    {
+        [Test]
+        public void CalculateWithNoTrades()
+        {
+            var series = GenerateTimeSeries.From(1, 2, 3, 6, 5, 20, 3);
+            var mdd = new MaximumDrawdownCriterion();
+            Assert.That(mdd.Calculate(series, new TradingRecord()), Is.EqualTo(0d).Within(TaTestsUtils.TaOffset));
+        }
 
-			Assert.AreEqual(0d, mdd.Calculate(series, new TradingRecord()), TaTestsUtils.TaOffset);
-		}
+        [Test]
+        public void CalculateWithOnlyGains()
+        {
+            var series = GenerateTimeSeries.From(1, 2, 3, 6, 8, 20, 3);
+            var mdd = new MaximumDrawdownCriterion();
+            var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
+            Assert.That(mdd.Calculate(series, tradingRecord), Is.EqualTo(0d).Within(TaTestsUtils.TaOffset));
+        }
 
-        [Test] 
-		public void CalculateWithOnlyGains()
-		{
-			var series = GenerateTimeSeries.From(1, 2, 3, 6, 8, 20, 3);
-			var mdd = new MaximumDrawdownCriterion();
-			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
+        [Test]
+        public void CalculateShouldWork()
+        {
+            var series = GenerateTimeSeries.From(1, 2, 3, 6, 5, 20, 3);
+            var mdd = new MaximumDrawdownCriterion();
+            var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(3), Order.SellAt(4), Order.BuyAt(5), Order.SellAt(6));
+            Assert.That(mdd.Calculate(series, tradingRecord), Is.EqualTo(.875d).Within(TaTestsUtils.TaOffset));
+        }
 
-			Assert.AreEqual(0d, mdd.Calculate(series, tradingRecord), TaTestsUtils.TaOffset);
-		}
+        [Test]
+        public void CalculateWithNullSeriesSizeShouldReturn0()
+        {
+            var series = GenerateTimeSeries.From(new double[] { });
+            var mdd = new MaximumDrawdownCriterion();
+            Assert.That(mdd.Calculate(series, new TradingRecord()), Is.EqualTo(0d).Within(TaTestsUtils.TaOffset));
+        }
 
-        [Test] 
-		public void CalculateShouldWork()
-		{
-			var series = GenerateTimeSeries.From(1, 2, 3, 6, 5, 20, 3);
-			var mdd = new MaximumDrawdownCriterion();
-			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(3), Order.SellAt(4), Order.BuyAt(5), Order.SellAt(6));
+        [Test]
+        public void WithTradesThatSellBeforeBuying()
+        {
+            var series = GenerateTimeSeries.From(2, 1, 3, 5, 6, 3, 20);
+            var mdd = new MaximumDrawdownCriterion();
+            var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(3), Order.SellAt(4), Order.SellAt(5), Order.BuyAt(6));
+            Assert.That(mdd.Calculate(series, tradingRecord), Is.EqualTo(.91).Within(TaTestsUtils.TaOffset));
+        }
 
-			Assert.AreEqual(.875d, mdd.Calculate(series, tradingRecord), TaTestsUtils.TaOffset);
+        [Test]
+        public void WithSimpleTrades()
+        {
+            var series = GenerateTimeSeries.From(1, 10, 5, 6, 1);
+            var mdd = new MaximumDrawdownCriterion();
+            var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(1), Order.SellAt(2), Order.BuyAt(2), Order.SellAt(3), Order.BuyAt(3), Order.SellAt(4));
+            Assert.That(mdd.Calculate(series, tradingRecord), Is.EqualTo(.9d).Within(TaTestsUtils.TaOffset));
+        }
 
-		}
+        [Test]
+        public void WithConstrainedTimeSeries()
+        {
+            var sampleSeries = GenerateTimeSeries.From(new double[] { 1, 1, 1, 1, 1, 10, 5, 6, 1, 1, 1 });
+            var subSeries = sampleSeries.Subseries(4, 8);
+            var mdd = new MaximumDrawdownCriterion();
+            var tradingRecord = new TradingRecord(Order.BuyAt(4), Order.SellAt(5), Order.BuyAt(5), Order.SellAt(6), Order.BuyAt(6), Order.SellAt(7), Order.BuyAt(7), Order.SellAt(8));
+            Assert.That(mdd.Calculate(subSeries, tradingRecord), Is.EqualTo(.9d).Within(TaTestsUtils.TaOffset));
+        }
 
-        [Test] 
-		public void CalculateWithNullSeriesSizeShouldReturn0()
-		{
-			var series = GenerateTimeSeries.From(new double[] {});
-			var mdd = new MaximumDrawdownCriterion();
-			Assert.AreEqual(0d, mdd.Calculate(series, new TradingRecord()), TaTestsUtils.TaOffset);
-		}
-
-        [Test] 
-		public void WithTradesThatSellBeforeBuying()
-		{
-			var series = GenerateTimeSeries.From(2, 1, 3, 5, 6, 3, 20);
-			var mdd = new MaximumDrawdownCriterion();
-			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(3), Order.SellAt(4), Order.SellAt(5), Order.BuyAt(6));
-			Assert.AreEqual(.91, mdd.Calculate(series, tradingRecord), TaTestsUtils.TaOffset);
-		}
-
-        [Test] 
-		public void WithSimpleTrades()
-		{
-			var series = GenerateTimeSeries.From(1, 10, 5, 6, 1);
-			var mdd = new MaximumDrawdownCriterion();
-			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(1), Order.SellAt(2), Order.BuyAt(2), Order.SellAt(3), Order.BuyAt(3), Order.SellAt(4));
-			Assert.AreEqual(.9d, mdd.Calculate(series, tradingRecord), TaTestsUtils.TaOffset);
-		}
-
-        [Test] 
-		public void WithConstrainedTimeSeries()
-		{
-			var sampleSeries = GenerateTimeSeries.From(new double[] {1, 1, 1, 1, 1, 10, 5, 6, 1, 1, 1});
-			var subSeries = sampleSeries.Subseries(4, 8);
-			var mdd = new MaximumDrawdownCriterion();
-			var tradingRecord = new TradingRecord(Order.BuyAt(4), Order.SellAt(5), Order.BuyAt(5), Order.SellAt(6), Order.BuyAt(6), Order.SellAt(7), Order.BuyAt(7), Order.SellAt(8));
-			Assert.AreEqual(.9d, mdd.Calculate(subSeries, tradingRecord), TaTestsUtils.TaOffset);
-		}
-
-        [Test] 
-		public void BetterThan()
-		{
-			IAnalysisCriterion criterion = new MaximumDrawdownCriterion();
-			Assert.IsTrue(criterion.BetterThan(0.9, 1.5));
-			Assert.IsFalse(criterion.BetterThan(1.2, 0.4));
-		}
-	}
+        [Test]
+        public void BetterThan()
+        {
+            IAnalysisCriterion criterion = new MaximumDrawdownCriterion();
+            Assert.That(criterion.BetterThan(0.9, 1.5), Is.True);
+            Assert.That(criterion.BetterThan(1.2, 0.4), Is.False);
+        }
+    }
 }

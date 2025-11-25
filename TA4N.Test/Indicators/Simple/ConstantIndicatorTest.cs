@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,29 +20,28 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using TA4N.Indicators.Simple;
 using NUnit.Framework;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class ConstantIndicatorTest
-	{
-		private ConstantIndicator<Decimal> _constantIndicator;
+    public sealed class ConstantIndicatorTest
+    {
+        private ConstantIndicator<Decimal> _constantIndicator;
 
         [SetUp]
-		public void SetUp()
-		{
-			_constantIndicator = new ConstantIndicator<Decimal>(Decimal.ValueOf("30.33"));
-		}
+        public void SetUp()
+        {
+            _constantIndicator = new ConstantIndicator<Decimal>(Decimal.ValueOf("30.33"));
+        }
 
         [Test]
-		public void ConstantIndicator()
-		{
-			TaTestsUtils.AssertDecimalEquals(_constantIndicator.GetValue(0), "30.33");
-			TaTestsUtils.AssertDecimalEquals(_constantIndicator.GetValue(1), "30.33");
-			TaTestsUtils.AssertDecimalEquals(_constantIndicator.GetValue(10), "30.33");
-			TaTestsUtils.AssertDecimalEquals(_constantIndicator.GetValue(30), "30.33");
-		}
-	}
+        public void ConstantIndicator()
+        {
+            Assert.That(_constantIndicator.GetValue(0), Is.EqualTo(Decimal.ValueOf("30.33")));
+            Assert.That(_constantIndicator.GetValue(1), Is.EqualTo(Decimal.ValueOf("30.33")));
+            Assert.That(_constantIndicator.GetValue(10), Is.EqualTo(Decimal.ValueOf("30.33")));
+            Assert.That(_constantIndicator.GetValue(30), Is.EqualTo(Decimal.ValueOf("30.33")));
+        }
+    }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -30,41 +30,41 @@ namespace TA4N.Test.Indicators.Volume
     using TA4N.Indicators.Volume;
 
     public sealed class OnBalanceVolumeIndicatorTest
-	{
+    {
         [Test]
-		public void GetValue()
-		{
-			var now = new LocalDateTime();
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(now, 0, 10, 0, 0, 0, 4, 0));
-			ticks.Add(GenerateTick.From(now, 0, 5, 0, 0, 0, 2, 0));
-			ticks.Add(GenerateTick.From(now, 0, 6, 0, 0, 0, 3, 0));
-			ticks.Add(GenerateTick.From(now, 0, 7, 0, 0, 0, 8, 0));
-			ticks.Add(GenerateTick.From(now, 0, 7, 0, 0, 0, 6, 0));
-			ticks.Add(GenerateTick.From(now, 0, 6, 0, 0, 0, 10, 0));
+        public void GetValue()
+        {
+            var now = new LocalDateTime();
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(now, 0, 10, 0, 0, 0, 4, 0));
+            ticks.Add(GenerateTick.From(now, 0, 5, 0, 0, 0, 2, 0));
+            ticks.Add(GenerateTick.From(now, 0, 6, 0, 0, 0, 3, 0));
+            ticks.Add(GenerateTick.From(now, 0, 7, 0, 0, 0, 8, 0));
+            ticks.Add(GenerateTick.From(now, 0, 7, 0, 0, 0, 6, 0));
+            ticks.Add(GenerateTick.From(now, 0, 6, 0, 0, 0, 10, 0));
+            var obv = new OnBalanceVolumeIndicator(GenerateTimeSeries.From(ticks));
+            Assert.That(obv.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(obv.GetValue(1).ToDouble(), Is.EqualTo(-2).Within(TaTestsUtils.TaOffset));
+            Assert.That(obv.GetValue(2), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(obv.GetValue(3), Is.EqualTo(Decimal.ValueOf(9)));
+            Assert.That(obv.GetValue(4), Is.EqualTo(Decimal.ValueOf(9)));
+            Assert.That(obv.GetValue(5).ToDouble(), Is.EqualTo(-1).Within(TaTestsUtils.TaOffset));
+        }
 
-			var obv = new OnBalanceVolumeIndicator(GenerateTimeSeries.From(ticks));
-			TaTestsUtils.AssertDecimalEquals(obv.GetValue(0), 0);
-			TaTestsUtils.AssertDecimalEquals(obv.GetValue(1), -2);
-			TaTestsUtils.AssertDecimalEquals(obv.GetValue(2), 1);
-			TaTestsUtils.AssertDecimalEquals(obv.GetValue(3), 9);
-			TaTestsUtils.AssertDecimalEquals(obv.GetValue(4), 9);
-			TaTestsUtils.AssertDecimalEquals(obv.GetValue(5), -1);
-		}
-        
         [Test]
-		public void StackOverflowError()
-		{
-			IList<Tick> bigListOfTicks = new List<Tick>();
-			for (var i = 0; i < 10000; i++)
-			{
-				bigListOfTicks.Add(GenerateTick.From(i));
-			}
-			var bigSeries = GenerateTimeSeries.From(bigListOfTicks);
-			var obv = new OnBalanceVolumeIndicator(bigSeries);
-			// If a StackOverflowError is thrown here, then the RecursiveCachedIndicator
-			// does not work as intended.
-			TaTestsUtils.AssertDecimalEquals(obv.GetValue(9999), 0);
-		}
-	}
+        public void StackOverflowError()
+        {
+            IList<Tick> bigListOfTicks = new List<Tick>();
+            for (var i = 0; i < 10000; i++)
+            {
+                bigListOfTicks.Add(GenerateTick.From(i));
+            }
+
+            var bigSeries = GenerateTimeSeries.From(bigListOfTicks);
+            var obv = new OnBalanceVolumeIndicator(bigSeries);
+            // If a StackOverflowError is thrown here, then the RecursiveCachedIndicator
+            // does not work as intended.
+            Assert.That(obv.GetValue(9999), Is.EqualTo(Decimal.ValueOf(0)));
+        }
+    }
 }

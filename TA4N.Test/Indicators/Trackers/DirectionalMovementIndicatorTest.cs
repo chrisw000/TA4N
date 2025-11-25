@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,24 +29,23 @@ namespace TA4N.Test.Indicators.Trackers
     using TA4N.Indicators.Trackers;
 
     public sealed class DirectionalMovementIndicatorTest
-	{
+    {
         [Test]
-		public void GetValue()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(0, 0, 10, 2));
-			ticks.Add(GenerateTick.From(0, 0, 12, 2));
-			ticks.Add(GenerateTick.From(0, 0, 15, 2));
-			var series = GenerateTimeSeries.From(ticks);
-
-			var dm = new DirectionalMovementIndicator(series, 3);
-			TaTestsUtils.AssertDecimalEquals(dm.GetValue(0), 0);
-			var dup = (2d / 3 + 2d / 3) / (2d / 3 + 12d / 3);
-			var ddown = (2d / 3) / (2d / 3 + 12d / 3);
-			TaTestsUtils.AssertDecimalEquals(dm.GetValue(1), (dup - ddown) / (dup + ddown) * 100d);
-			dup = ((2d / 3 + 2d / 3) * 2d / 3 + 1) / ((2d / 3 + 12d / 3) * 2d / 3 + 15d / 3);
-			ddown = (4d / 9) / ((2d / 3 + 12d / 3) * 2d / 3 + 15d / 3);
-			TaTestsUtils.AssertDecimalEquals(dm.GetValue(2), (dup - ddown) / (dup + ddown) * 100d);
-		}
-	}
+        public void GetValue()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(0, 0, 10, 2));
+            ticks.Add(GenerateTick.From(0, 0, 12, 2));
+            ticks.Add(GenerateTick.From(0, 0, 15, 2));
+            var series = GenerateTimeSeries.From(ticks);
+            var dm = new DirectionalMovementIndicator(series, 3);
+            Assert.That(dm.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            var dup = (2d / 3 + 2d / 3) / (2d / 3 + 12d / 3);
+            var ddown = (2d / 3) / (2d / 3 + 12d / 3);
+            Assert.That(dm.GetValue(1).ToDouble(), Is.EqualTo((dup - ddown) / (dup + ddown) * 100d).Within(TaTestsUtils.TaOffset));
+            dup = ((2d / 3 + 2d / 3) * 2d / 3 + 1) / ((2d / 3 + 12d / 3) * 2d / 3 + 15d / 3);
+            ddown = (4d / 9) / ((2d / 3 + 12d / 3) * 2d / 3 + 15d / 3);
+            Assert.That(dm.GetValue(2).ToDouble(), Is.EqualTo((dup - ddown) / (dup + ddown) * 100d).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

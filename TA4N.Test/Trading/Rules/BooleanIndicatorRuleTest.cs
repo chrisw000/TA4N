@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,34 +20,32 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Indicators.Simple;
 using TA4N.Trading.Rules;
 
 namespace TA4N.Test.Trading.Rules
 {
-	public sealed class BooleanIndicatorRuleTest
-	{
-		private IIndicator<bool> _indicator;
-		private BooleanIndicatorRule _rule;
+    public sealed class BooleanIndicatorRuleTest
+    {
+        private IIndicator<bool> _indicator;
+        private BooleanIndicatorRule _rule;
 
         [SetUp]
-		public void SetUp()
-		{
-			_indicator = new FixedIndicator<bool>(true, true, false, false, true);
-			_rule = new BooleanIndicatorRule(_indicator);
-		}
+        public void SetUp()
+        {
+            _indicator = new FixedIndicator<bool>(true, true, false, false, true);
+            _rule = new BooleanIndicatorRule(_indicator);
+        }
 
         [Test]
-		public void IsSatisfied()
-		{
-			Assert.IsTrue(_rule.IsSatisfied(0));
-			Assert.IsTrue(_rule.IsSatisfied(1));
-			Assert.IsFalse(_rule.IsSatisfied(2));
-			Assert.IsFalse(_rule.IsSatisfied(3));
-			Assert.IsTrue(_rule.IsSatisfied(4));
-		}
-	}
-
+        public void IsSatisfied()
+        {
+            Assert.That(_rule.IsSatisfied(0), Is.True);
+            Assert.That(_rule.IsSatisfied(1), Is.True);
+            Assert.That(_rule.IsSatisfied(2), Is.False);
+            Assert.That(_rule.IsSatisfied(3), Is.False);
+            Assert.That(_rule.IsSatisfied(4), Is.True);
+        }
+    }
 }

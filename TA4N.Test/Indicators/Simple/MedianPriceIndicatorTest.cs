@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using TA4N.Indicators.Simple;
 using System.Collections.Generic;
 using NUnit.Framework;
@@ -28,39 +27,37 @@ using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class MedianPriceIndicatorTest
-	{
-		private MedianPriceIndicator _average;
-	    private TimeSeries _timeSeries;
+    public sealed class MedianPriceIndicatorTest
+    {
+        private MedianPriceIndicator _average;
+        private TimeSeries _timeSeries;
 
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-
-			ticks.Add(GenerateTick.From(0, 0, 16, 8));
-			ticks.Add(GenerateTick.From(0, 0, 12, 6));
-			ticks.Add(GenerateTick.From(0, 0, 18, 14));
-			ticks.Add(GenerateTick.From(0, 0, 10, 6));
-			ticks.Add(GenerateTick.From(0, 0, 32, 6));
-			ticks.Add(GenerateTick.From(0, 0, 2, 2));
-			ticks.Add(GenerateTick.From(0, 0, 0, 0));
-			ticks.Add(GenerateTick.From(0, 0, 8, 1));
-			ticks.Add(GenerateTick.From(0, 0, 83, 32));
-			ticks.Add(GenerateTick.From(0, 0, 9, 3));
-
-			_timeSeries = GenerateTimeSeries.From(ticks);
-			_average = new MedianPriceIndicator(_timeSeries);
-		}
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(0, 0, 16, 8));
+            ticks.Add(GenerateTick.From(0, 0, 12, 6));
+            ticks.Add(GenerateTick.From(0, 0, 18, 14));
+            ticks.Add(GenerateTick.From(0, 0, 10, 6));
+            ticks.Add(GenerateTick.From(0, 0, 32, 6));
+            ticks.Add(GenerateTick.From(0, 0, 2, 2));
+            ticks.Add(GenerateTick.From(0, 0, 0, 0));
+            ticks.Add(GenerateTick.From(0, 0, 8, 1));
+            ticks.Add(GenerateTick.From(0, 0, 83, 32));
+            ticks.Add(GenerateTick.From(0, 0, 9, 3));
+            _timeSeries = GenerateTimeSeries.From(ticks);
+            _average = new MedianPriceIndicator(_timeSeries);
+        }
 
         [Test]
-		public void IndicatorShouldRetrieveTickClosePrice()
-		{
-		    for (var i = 0; i < 10; i++)
-			{
-			    var result = _timeSeries.GetTick(i).MaxPrice.Plus(_timeSeries.GetTick(i).MinPrice).DividedBy(Decimal.Two);
-			    Assert.AreEqual(_average.GetValue(i), result);
-			}
-		}
-	}
+        public void IndicatorShouldRetrieveTickClosePrice()
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                var result = _timeSeries.GetTick(i).MaxPrice.Plus(_timeSeries.GetTick(i).MinPrice).DividedBy(Decimal.Two);
+                Assert.That(result, Is.EqualTo(_average.GetValue(i)));
+            }
+        }
+    }
 }

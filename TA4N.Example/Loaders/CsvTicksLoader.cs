@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -37,7 +37,7 @@ namespace TA4N.Examples.Loaders
     /// This class build a Ta4j time series from a CSV file containing ticks.
     /// </summary>
     public class CsvTicksLoader
-	{
+    {
         [Test]
         public static void Main()
         {
@@ -50,45 +50,50 @@ namespace TA4N.Examples.Loaders
 
         /// <returns> a time series from Apple Inc. ticks.</returns>
         public static TimeSeries LoadAppleIncSeries()
-		{
+        {
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = @"TA4N.Example.Resources.appleinc_ticks_from_20130101_usd.csv";
 
             List<dynamic> lines = null;
             var ticks = new List<Tick>();
 
-		    using (var stream = assembly.GetManifestResourceStream(resourceName))
+            using (var stream = assembly.GetManifestResourceStream(resourceName))
             {
                 if (stream != null)
                     using (var reader = new StreamReader(stream))
                     {
-                        // Reading all lines of the CSV file
-                        var csvReader = new CsvReader(reader);
-                        lines = csvReader.GetRecords<dynamic>().ToList();
+                        // Reading all lines of the CSV file using CsvHelper v30+ API
+                        var config = new CsvHelper.Configuration.CsvConfiguration(System.Globalization.CultureInfo.InvariantCulture)
+                        {
+                            HasHeaderRecord = true
+                        };
+                        using (var csvReader = new CsvReader(reader, config))
+                        {
+                            lines = csvReader.GetRecords<dynamic>().ToList();
+                        }
                     }
             }
 
-		    if (lines != null)
-		        foreach (var line in lines)
-		        {
-		            var pattern = LocalDateTimePattern.CreateWithInvariantCulture("yyyy-MM-dd");
-		            //Console.WriteLine("Expecting input {0}.", pattern.Format(new LocalDate(2014, 5, 26)));
+            if (lines != null)
+                foreach (var line in lines)
+                {
+                    var pattern = LocalDateTimePattern.CreateWithInvariantCulture("yyyy-MM-dd");
 
-		            ParseResult<LocalDateTime> parseResult = pattern.Parse(line.date);
-		            var date = parseResult.GetValueOrThrow();
+                    ParseResult<LocalDateTime> parseResult = pattern.Parse(line.date);
+                    var date = parseResult.GetValueOrThrow();
 
-		            double open = double.Parse(line.open);
-		            double high = double.Parse(line.high);
-		            double low = double.Parse(line.low);
-		            double close = double.Parse(line.close);
-		            double volume = double.Parse(line.volume);
+                    double open = double.Parse(line.open);
+                    double high = double.Parse(line.high);
+                    double low = double.Parse(line.low);
+                    double close = double.Parse(line.close);
+                    double volume = double.Parse(line.volume);
 
-		            ticks.Add(new Tick(date, open, high, low, close, volume));
-		        }
+                    ticks.Add(new Tick(date, open, high, low, close, volume));
+                }
 
-		    return new TimeSeries("apple_ticks", ticks);
-		}
+            return new TimeSeries("apple_ticks", ticks);
+        }
 
-	}
+    }
 
 }

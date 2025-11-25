@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,36 +20,34 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Trading.Rules;
 
 namespace TA4N.Test.Trading.Rules
 {
-	public sealed class AndRuleTest
-	{
-		private IRule _satisfiedRule;
-		private IRule _unsatisfiedRule;
+    public sealed class AndRuleTest
+    {
+        private IRule _satisfiedRule;
+        private IRule _unsatisfiedRule;
 
         [SetUp]
-		public void SetUp()
-		{
-			_satisfiedRule = new BooleanRule(true);
-			_unsatisfiedRule = new BooleanRule(false);
-		}
+        public void SetUp()
+        {
+            _satisfiedRule = new BooleanRule(true);
+            _unsatisfiedRule = new BooleanRule(false);
+        }
 
         [Test]
-		public void IsSatisfied()
-		{
-			Assert.IsFalse(_satisfiedRule.And(BooleanRule.False).IsSatisfied(0));
-			Assert.IsFalse(BooleanRule.False.And(_satisfiedRule).IsSatisfied(0));
-			Assert.IsFalse(_unsatisfiedRule.And(BooleanRule.False).IsSatisfied(0));
-			Assert.IsFalse(BooleanRule.False.And(_unsatisfiedRule).IsSatisfied(0));
-
-			Assert.IsTrue(_satisfiedRule.And(BooleanRule.True).IsSatisfied(10));
-			Assert.IsTrue(BooleanRule.True.And(_satisfiedRule).IsSatisfied(10));
-			Assert.IsFalse(_unsatisfiedRule.And(BooleanRule.True).IsSatisfied(10));
-			Assert.IsFalse(BooleanRule.True.And(_unsatisfiedRule).IsSatisfied(10));
-		}
-	}
+        public void IsSatisfied()
+        {
+            Assert.That(_satisfiedRule.And(BooleanRule.False).IsSatisfied(0), Is.False);
+            Assert.That(BooleanRule.False.And(_satisfiedRule).IsSatisfied(0), Is.False);
+            Assert.That(_unsatisfiedRule.And(BooleanRule.False).IsSatisfied(0), Is.False);
+            Assert.That(BooleanRule.False.And(_unsatisfiedRule).IsSatisfied(0), Is.False);
+            Assert.That(_satisfiedRule.And(BooleanRule.True).IsSatisfied(10), Is.True);
+            Assert.That(BooleanRule.True.And(_satisfiedRule).IsSatisfied(10), Is.True);
+            Assert.That(_unsatisfiedRule.And(BooleanRule.True).IsSatisfied(10), Is.False);
+            Assert.That(BooleanRule.True.And(_unsatisfiedRule).IsSatisfied(10), Is.False);
+        }
+    }
 }

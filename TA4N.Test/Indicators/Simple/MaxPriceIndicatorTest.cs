@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,32 +20,31 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using TA4N.Indicators.Simple;
 using NUnit.Framework;
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class MaxPriceIndicatorTest
-	{
-		private MaxPriceIndicator _maxPriceIndicator;
+    public sealed class MaxPriceIndicatorTest
+    {
+        private MaxPriceIndicator _maxPriceIndicator;
         private TimeSeries _timeSeries;
 
         [SetUp]
-		public void SetUp()
-		{
-			_timeSeries = GenerateTimeSeries.WithArbitraryTicks();
-			_maxPriceIndicator = new MaxPriceIndicator(_timeSeries);
+        public void SetUp()
+        {
+            _timeSeries = GenerateTimeSeries.WithArbitraryTicks();
+            _maxPriceIndicator = new MaxPriceIndicator(_timeSeries);
         }
 
         [Test]
-		public void IndicatorShouldRetrieveTickMaxPrice()
-		{
-			for (var i = 0; i < 10; i++)
-			{
-				Assert.AreEqual(_maxPriceIndicator.GetValue(i), _timeSeries.GetTick(i).MaxPrice);
-			}
-		}
-	}
+        public void IndicatorShouldRetrieveTickMaxPrice()
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                Assert.That(_timeSeries.GetTick(i).MaxPrice, Is.EqualTo(_maxPriceIndicator.GetValue(i)));
+            }
+        }
+    }
 }

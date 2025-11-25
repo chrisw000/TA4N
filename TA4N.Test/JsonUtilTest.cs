@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using NUnit.Framework;
@@ -16,7 +16,6 @@ namespace TA4N.Test
         [SetUp]
         public void SetUp()
         {
-
             /*
              * For unknown reasons NUnit fails with test with a System.MissingMethodException
              * on the extension method:
@@ -24,9 +23,7 @@ namespace TA4N.Test
              * 
              * This is supplied by the NuGet package NodaTime.Serialization.JsonNet
              */
-
-            _jsonUtil = new JsonUtil(NullLogger<JsonUtil>.Instance);//
-            
+            _jsonUtil = new JsonUtil(NullLogger<JsonUtil>.Instance); //
             _ticks = new List<Tick>
             {
                 new Tick(new LocalDateTime(2014, 6, 13, 0, 0, 0), 10d, 12d, 9d, 10.5d, 2d),
@@ -36,9 +33,7 @@ namespace TA4N.Test
                 new Tick(new LocalDateTime(2014, 6, 25, 0, 0, 0), 14d, 16d, 13d, 14.5d, 6d),
                 new Tick(new LocalDateTime(2014, 6, 30, 0, 0, 0), 15d, 17d, 14d, 15.5d, 7d)
             };
-
             _defaultName = "Series Name";
-
             _seriesForRun = new TimeSeries(_defaultName, _ticks);
         }
 
@@ -47,14 +42,12 @@ namespace TA4N.Test
         {
             // currently the Setup of this is commented out....
             // so test doesn't run
-            if (_jsonUtil == null) return;
-
+            if (_jsonUtil == null)
+                return;
             var initialSerialize = _jsonUtil.SerializeObject(_seriesForRun);
             var initialDeserialize = _jsonUtil.DeserializeObject<TimeSeries>(initialSerialize);
             var secondSerialize = _jsonUtil.SerializeObject(initialDeserialize);
-
-            Assert.AreEqual(initialSerialize, secondSerialize);
+            Assert.That(secondSerialize, Is.EqualTo(initialSerialize));
         }
-
     }
 }

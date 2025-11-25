@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,57 +29,57 @@ namespace TA4N.Test.Indicators.Helpers
     using TA4N.Indicators.Helpers;
 
     public sealed class DirectionalMovementDownIndicatorTest
-	{
+    {
         [Test]
-		public void ZeroDirectionalMovement()
-		{
-			var yesterdayTick = GenerateTick.From(0, 0, 10, 2);
-			var todayTick = GenerateTick.From(0, 0, 6, 6);
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(yesterdayTick);
-			ticks.Add(todayTick);
-			var series = GenerateTimeSeries.From(ticks);
-			var down = new DirectionalMovementDownIndicator(series);
-			TaTestsUtils.AssertDecimalEquals(down.GetValue(1), 0);
-		}
-        
+        public void ZeroDirectionalMovement()
+        {
+            var yesterdayTick = GenerateTick.From(0, 0, 10, 2);
+            var todayTick = GenerateTick.From(0, 0, 6, 6);
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(yesterdayTick);
+            ticks.Add(todayTick);
+            var series = GenerateTimeSeries.From(ticks);
+            var down = new DirectionalMovementDownIndicator(series);
+            Assert.That(down.GetValue(1), Is.EqualTo(Decimal.ValueOf(0)));
+        }
+
         [Test]
-		public void ZeroDirectionalMovement2()
-		{
-			var yesterdayTick = GenerateTick.From(0, 0, 6, 12);
-			var todayTick = GenerateTick.From(0, 0, 12, 6);
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(yesterdayTick);
-			ticks.Add(todayTick);
-			var series = GenerateTimeSeries.From(ticks);
-			var down = new DirectionalMovementDownIndicator(series);
-			TaTestsUtils.AssertDecimalEquals(down.GetValue(1), 0);
-		}
-        
-        [Test] 
-		public void ZeroDirectionalMovement3()
-		{
-			var yesterdayTick = GenerateTick.From(0, 0, 6, 6);
-			var todayTick = GenerateTick.From(0, 0, 12, 4);
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(yesterdayTick);
-			ticks.Add(todayTick);
-			var series = GenerateTimeSeries.From(ticks);
-			var down = new DirectionalMovementDownIndicator(series);
-			TaTestsUtils.AssertDecimalEquals(down.GetValue(1), 0);
-		}
-        
+        public void ZeroDirectionalMovement2()
+        {
+            var yesterdayTick = GenerateTick.From(0, 0, 6, 12);
+            var todayTick = GenerateTick.From(0, 0, 12, 6);
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(yesterdayTick);
+            ticks.Add(todayTick);
+            var series = GenerateTimeSeries.From(ticks);
+            var down = new DirectionalMovementDownIndicator(series);
+            Assert.That(down.GetValue(1), Is.EqualTo(Decimal.ValueOf(0)));
+        }
+
         [Test]
-		public void PositiveDirectionalMovement()
-		{
-			var yesterdayTick = GenerateTick.From(0, 0, 6, 20);
-			var todayTick = GenerateTick.From(0, 0, 12, 4);
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(yesterdayTick);
-			ticks.Add(todayTick);
-			var series = GenerateTimeSeries.From(ticks);
-			var down = new DirectionalMovementDownIndicator(series);
-			TaTestsUtils.AssertDecimalEquals(down.GetValue(1), 16);
-		}
-	}
+        public void ZeroDirectionalMovement3()
+        {
+            var yesterdayTick = GenerateTick.From(0, 0, 6, 6);
+            var todayTick = GenerateTick.From(0, 0, 12, 4);
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(yesterdayTick);
+            ticks.Add(todayTick);
+            var series = GenerateTimeSeries.From(ticks);
+            var down = new DirectionalMovementDownIndicator(series);
+            Assert.That(down.GetValue(1), Is.EqualTo(Decimal.ValueOf(0)));
+        }
+
+        [Test]
+        public void PositiveDirectionalMovement()
+        {
+            var yesterdayTick = GenerateTick.From(0, 0, 6, 20);
+            var todayTick = GenerateTick.From(0, 0, 12, 4);
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(yesterdayTick);
+            ticks.Add(todayTick);
+            var series = GenerateTimeSeries.From(ticks);
+            var down = new DirectionalMovementDownIndicator(series);
+            Assert.That(down.GetValue(1), Is.EqualTo(Decimal.ValueOf(16)));
+        }
+    }
 }

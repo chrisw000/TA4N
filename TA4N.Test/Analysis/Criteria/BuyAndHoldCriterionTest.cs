@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,59 +20,55 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Analysis.Criteria;
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Analysis.Criteria
 {
-	public sealed class BuyAndHoldCriterionTest
-	{
-        [Test] 
-		public void CalculateOnlyWithGainTrades()
-		{
-			var series = GenerateTimeSeries.From(100, 105, 110, 100, 95, 105);
-			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.BuyAt(3), Order.SellAt(5));
-
-			IAnalysisCriterion buyAndHold = new BuyAndHoldCriterion();
-			Assert.AreEqual(1.05, buyAndHold.Calculate(series, tradingRecord), TaTestsUtils.TaOffset);
-		}
-
-        [Test] 
-		public void CalculateOnlyWithLossTrades()
-		{
-			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
-			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
-
-			IAnalysisCriterion buyAndHold = new BuyAndHoldCriterion();
-			Assert.AreEqual(0.7, buyAndHold.Calculate(series, tradingRecord), TaTestsUtils.TaOffset);
-		}
-
-        [Test] 
-		public void CalculateWithNoTrades()
-		{
-			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
-
-			IAnalysisCriterion buyAndHold = new BuyAndHoldCriterion();
-			Assert.AreEqual(0.7, buyAndHold.Calculate(series, new TradingRecord()), TaTestsUtils.TaOffset);
-		}
-
-        [Test] 
-		public void CalculateWithOneTrade()
-		{
-			var series = GenerateTimeSeries.From(100, 105);
-			var trade = new Trade(Order.BuyAt(0), Order.SellAt(1));
-			IAnalysisCriterion buyAndHold = new BuyAndHoldCriterion();
-			Assert.AreEqual(105d / 100, buyAndHold.Calculate(series, trade), TaTestsUtils.TaOffset);
-		}
+    public sealed class BuyAndHoldCriterionTest
+    {
+        [Test]
+        public void CalculateOnlyWithGainTrades()
+        {
+            var series = GenerateTimeSeries.From(100, 105, 110, 100, 95, 105);
+            var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.BuyAt(3), Order.SellAt(5));
+            IAnalysisCriterion buyAndHold = new BuyAndHoldCriterion();
+            Assert.That(buyAndHold.Calculate(series, tradingRecord), Is.EqualTo(1.05).Within(TaTestsUtils.TaOffset));
+        }
 
         [Test]
-		public void BetterThan()
-		{
-			IAnalysisCriterion criterion = new BuyAndHoldCriterion();
-			Assert.IsTrue(criterion.BetterThan(1.3, 1.1));
-			Assert.IsFalse(criterion.BetterThan(0.6, 0.9));
-		}
-	}
+        public void CalculateOnlyWithLossTrades()
+        {
+            var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
+            var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
+            IAnalysisCriterion buyAndHold = new BuyAndHoldCriterion();
+            Assert.That(buyAndHold.Calculate(series, tradingRecord), Is.EqualTo(0.7).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void CalculateWithNoTrades()
+        {
+            var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
+            IAnalysisCriterion buyAndHold = new BuyAndHoldCriterion();
+            Assert.That(buyAndHold.Calculate(series, new TradingRecord()), Is.EqualTo(0.7).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void CalculateWithOneTrade()
+        {
+            var series = GenerateTimeSeries.From(100, 105);
+            var trade = new Trade(Order.BuyAt(0), Order.SellAt(1));
+            IAnalysisCriterion buyAndHold = new BuyAndHoldCriterion();
+            Assert.That(buyAndHold.Calculate(series, trade), Is.EqualTo(105d / 100).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void BetterThan()
+        {
+            IAnalysisCriterion criterion = new BuyAndHoldCriterion();
+            Assert.That(criterion.BetterThan(1.3, 1.1), Is.True);
+            Assert.That(criterion.BetterThan(0.6, 0.9), Is.False);
+        }
+    }
 }

@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,43 +20,39 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Trackers
 {
-	using TA4N.Indicators.Simple;
+    using TA4N.Indicators.Simple;
     using NUnit.Framework;
     using TA4N.Indicators.Trackers;
 
     public sealed class TripleEmaIndicatorTest
-	{
-		private TimeSeries _data;
-		private ClosePriceIndicator _closePrice;
+    {
+        private TimeSeries _data;
+        private ClosePriceIndicator _closePrice;
 
         [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(0.73, 0.72, 0.86, 0.72, 0.62, 0.76, 0.84, 0.69, 0.65, 0.71, 0.53, 0.73, 0.77, 0.67, 0.68);
-			_closePrice = new ClosePriceIndicator(_data);
-		}
-        
-        [Test] 
-		public void TripleEmaUsingTimeFrame5UsingClosePrice()
-		{
-			var tripleEma = new TripleEmaIndicator(_closePrice, 5);
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(0.73, 0.72, 0.86, 0.72, 0.62, 0.76, 0.84, 0.69, 0.65, 0.71, 0.53, 0.73, 0.77, 0.67, 0.68);
+            _closePrice = new ClosePriceIndicator(_data);
+        }
 
-			TaTestsUtils.AssertDecimalEquals(tripleEma.GetValue(0), 0.73);
-			TaTestsUtils.AssertDecimalEquals(tripleEma.GetValue(1), 0.7213);
-			TaTestsUtils.AssertDecimalEquals(tripleEma.GetValue(2), 0.818);
-
-			TaTestsUtils.AssertDecimalEquals(tripleEma.GetValue(6), 0.8034);
-			TaTestsUtils.AssertDecimalEquals(tripleEma.GetValue(7), 0.7329);
-			TaTestsUtils.AssertDecimalEquals(tripleEma.GetValue(8), 0.6723);
-
-			TaTestsUtils.AssertDecimalEquals(tripleEma.GetValue(12), 0.7385);
-			TaTestsUtils.AssertDecimalEquals(tripleEma.GetValue(13), 0.6993);
-			TaTestsUtils.AssertDecimalEquals(tripleEma.GetValue(14), 0.6876);
-		}
-	}
+        [Test]
+        public void TripleEmaUsingTimeFrame5UsingClosePrice()
+        {
+            var tripleEma = new TripleEmaIndicator(_closePrice, 5);
+            Assert.That(tripleEma.GetValue(0).ToDouble(), Is.EqualTo(0.73));
+            Assert.That(tripleEma.GetValue(1).ToDouble(), Is.EqualTo(0.7213));
+            Assert.That(tripleEma.GetValue(2).ToDouble(), Is.EqualTo(0.818));
+            Assert.That(tripleEma.GetValue(6).ToDouble(), Is.EqualTo(0.8034));
+            Assert.That(tripleEma.GetValue(7).ToDouble(), Is.EqualTo(0.7329));
+            Assert.That(tripleEma.GetValue(8).ToDouble(), Is.EqualTo(0.6723));
+            Assert.That(tripleEma.GetValue(12).ToDouble(), Is.EqualTo(0.7385));
+            Assert.That(tripleEma.GetValue(13).ToDouble(), Is.EqualTo(0.6993));
+            Assert.That(tripleEma.GetValue(14).ToDouble(), Is.EqualTo(0.6876));
+        }
+    }
 }

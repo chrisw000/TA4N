@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,119 +20,115 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 
 namespace TA4N.Test
 {
-	public sealed class TradingRecordTest
-	{
+    public sealed class TradingRecordTest
+    {
         private TradingRecord _emptyRecord, _openedRecord, _closedRecord;
 
         [SetUp]
         public void SetUp()
-		{
-			_emptyRecord = new TradingRecord();
-			_openedRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(3), Order.BuyAt(7));
-			_closedRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(3), Order.BuyAt(7), Order.SellAt(8));
-		}
+        {
+            _emptyRecord = new TradingRecord();
+            _openedRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(3), Order.BuyAt(7));
+            _closedRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(3), Order.BuyAt(7), Order.SellAt(8));
+        }
 
         [Test]
-		public void GetCurrentTrade()
-		{
-			Assert.IsTrue(_emptyRecord.CurrentTrade.New);
-			Assert.IsTrue(_openedRecord.CurrentTrade.Opened);
-			Assert.IsTrue(_closedRecord.CurrentTrade.New);
-		}
+        public void GetCurrentTrade()
+        {
+            Assert.That(_emptyRecord.CurrentTrade.New, Is.True);
+            Assert.That(_openedRecord.CurrentTrade.Opened, Is.True);
+            Assert.That(_closedRecord.CurrentTrade.New, Is.True);
+        }
 
         [Test]
         public void Operate()
-		{
-			var record = new TradingRecord();
-
-			record.Operate(1);
-			Assert.IsTrue(record.CurrentTrade.Opened);
-			Assert.AreEqual(0, record.TradeCount);
-			Assert.IsNull(record.LastTrade);
-			Assert.AreEqual(Order.BuyAt(1), record.LastOrder);
-			Assert.AreEqual(Order.BuyAt(1), record.GetLastOrder(OrderType.Buy));
-			Assert.IsNull(record.GetLastOrder(OrderType.Sell));
-			Assert.AreEqual(Order.BuyAt(1), record.LastEntry);
-			Assert.IsNull(record.LastExit);
-
-			record.Operate(3);
-			Assert.IsTrue(record.CurrentTrade.New);
-			Assert.AreEqual(1, record.TradeCount);
-			Assert.AreEqual(new Trade(Order.BuyAt(1), Order.SellAt(3)), record.LastTrade);
-			Assert.AreEqual(Order.SellAt(3), record.LastOrder);
-			Assert.AreEqual(Order.BuyAt(1), record.GetLastOrder(OrderType.Buy));
-			Assert.AreEqual(Order.SellAt(3), record.GetLastOrder(OrderType.Sell));
-			Assert.AreEqual(Order.BuyAt(1), record.LastEntry);
-			Assert.AreEqual(Order.SellAt(3), record.LastExit);
-
-			record.Operate(5);
-			Assert.IsTrue(record.CurrentTrade.Opened);
-			Assert.AreEqual(1, record.TradeCount);
-			Assert.AreEqual(new Trade(Order.BuyAt(1), Order.SellAt(3)), record.LastTrade);
-			Assert.AreEqual(Order.BuyAt(5), record.LastOrder);
-			Assert.AreEqual(Order.BuyAt(5), record.GetLastOrder(OrderType.Buy));
-			Assert.AreEqual(Order.SellAt(3), record.GetLastOrder(OrderType.Sell));
-			Assert.AreEqual(Order.BuyAt(5), record.LastEntry);
-			Assert.AreEqual(Order.SellAt(3), record.LastExit);
-		}
+        {
+            var record = new TradingRecord();
+            record.Operate(1);
+            Assert.That(record.CurrentTrade.Opened, Is.True);
+            Assert.That(record.TradeCount, Is.EqualTo(0));
+            Assert.That(record.LastTrade, Is.Null);
+            Assert.That(record.LastOrder, Is.EqualTo(Order.BuyAt(1)));
+            Assert.That(record.GetLastOrder(OrderType.Buy), Is.EqualTo(Order.BuyAt(1)));
+            Assert.That(record.GetLastOrder(OrderType.Sell), Is.Null);
+            Assert.That(record.LastEntry, Is.EqualTo(Order.BuyAt(1)));
+            Assert.That(record.LastExit, Is.Null);
+            record.Operate(3);
+            Assert.That(record.CurrentTrade.New, Is.True);
+            Assert.That(record.TradeCount, Is.EqualTo(1));
+            Assert.That(record.LastTrade, Is.EqualTo(new Trade(Order.BuyAt(1), Order.SellAt(3))));
+            Assert.That(record.LastOrder, Is.EqualTo(Order.SellAt(3)));
+            Assert.That(record.GetLastOrder(OrderType.Buy), Is.EqualTo(Order.BuyAt(1)));
+            Assert.That(record.GetLastOrder(OrderType.Sell), Is.EqualTo(Order.SellAt(3)));
+            Assert.That(record.LastEntry, Is.EqualTo(Order.BuyAt(1)));
+            Assert.That(record.LastExit, Is.EqualTo(Order.SellAt(3)));
+            record.Operate(5);
+            Assert.That(record.CurrentTrade.Opened, Is.True);
+            Assert.That(record.TradeCount, Is.EqualTo(1));
+            Assert.That(record.LastTrade, Is.EqualTo(new Trade(Order.BuyAt(1), Order.SellAt(3))));
+            Assert.That(record.LastOrder, Is.EqualTo(Order.BuyAt(5)));
+            Assert.That(record.GetLastOrder(OrderType.Buy), Is.EqualTo(Order.BuyAt(5)));
+            Assert.That(record.GetLastOrder(OrderType.Sell), Is.EqualTo(Order.SellAt(3)));
+            Assert.That(record.LastEntry, Is.EqualTo(Order.BuyAt(5)));
+            Assert.That(record.LastExit, Is.EqualTo(Order.SellAt(3)));
+        }
 
         [Test]
         public void IsClosed()
-		{
-			Assert.IsTrue(_emptyRecord.Closed);
-			Assert.IsFalse(_openedRecord.Closed);
-			Assert.IsTrue(_closedRecord.Closed);
-		}
+        {
+            Assert.That(_emptyRecord.Closed, Is.True);
+            Assert.That(_openedRecord.Closed, Is.False);
+            Assert.That(_closedRecord.Closed, Is.True);
+        }
 
         [Test]
         public void GetTradeCount()
-		{
-			Assert.AreEqual(0, _emptyRecord.TradeCount);
-			Assert.AreEqual(1, _openedRecord.TradeCount);
-			Assert.AreEqual(2, _closedRecord.TradeCount);
-		}
+        {
+            Assert.That(_emptyRecord.TradeCount, Is.EqualTo(0));
+            Assert.That(_openedRecord.TradeCount, Is.EqualTo(1));
+            Assert.That(_closedRecord.TradeCount, Is.EqualTo(2));
+        }
 
         [Test]
         public void GetLastTrade()
-		{
-			Assert.IsNull(_emptyRecord.LastTrade);
-			Assert.AreEqual(new Trade(Order.BuyAt(0), Order.SellAt(3)), _openedRecord.LastTrade);
-			Assert.AreEqual(new Trade(Order.BuyAt(7), Order.SellAt(8)), _closedRecord.LastTrade);
-		}
+        {
+            Assert.That(_emptyRecord.LastTrade, Is.Null);
+            Assert.That(_openedRecord.LastTrade, Is.EqualTo(new Trade(Order.BuyAt(0), Order.SellAt(3))));
+            Assert.That(_closedRecord.LastTrade, Is.EqualTo(new Trade(Order.BuyAt(7), Order.SellAt(8))));
+        }
 
         [Test]
         public void GetLastOrder()
-		{
-			// Last order
-			Assert.IsNull(_emptyRecord.LastOrder);
-			Assert.AreEqual(Order.BuyAt(7), _openedRecord.LastOrder);
-			Assert.AreEqual(Order.SellAt(8), _closedRecord.LastOrder);
-			// Last BUY order
-			Assert.IsNull(_emptyRecord.GetLastOrder(OrderType.Buy));
-			Assert.AreEqual(Order.BuyAt(7), _openedRecord.GetLastOrder(OrderType.Buy));
-			Assert.AreEqual(Order.BuyAt(7), _closedRecord.GetLastOrder(OrderType.Buy));
-			// Last SELL order
-			Assert.IsNull(_emptyRecord.GetLastOrder(OrderType.Sell));
-			Assert.AreEqual(Order.SellAt(3), _openedRecord.GetLastOrder(OrderType.Sell));
-			Assert.AreEqual(Order.SellAt(8), _closedRecord.GetLastOrder(OrderType.Sell));
-		}
+        {
+            // Last order
+            Assert.That(_emptyRecord.LastOrder, Is.Null);
+            Assert.That(_openedRecord.LastOrder, Is.EqualTo(Order.BuyAt(7)));
+            Assert.That(_closedRecord.LastOrder, Is.EqualTo(Order.SellAt(8)));
+            // Last BUY order
+            Assert.That(_emptyRecord.GetLastOrder(OrderType.Buy), Is.Null);
+            Assert.That(_openedRecord.GetLastOrder(OrderType.Buy), Is.EqualTo(Order.BuyAt(7)));
+            Assert.That(_closedRecord.GetLastOrder(OrderType.Buy), Is.EqualTo(Order.BuyAt(7)));
+            // Last SELL order
+            Assert.That(_emptyRecord.GetLastOrder(OrderType.Sell), Is.Null);
+            Assert.That(_openedRecord.GetLastOrder(OrderType.Sell), Is.EqualTo(Order.SellAt(3)));
+            Assert.That(_closedRecord.GetLastOrder(OrderType.Sell), Is.EqualTo(Order.SellAt(8)));
+        }
 
         [Test]
         public void GetLastEntryExit()
-		{
-			// Last entry
-			Assert.IsNull(_emptyRecord.LastEntry);
-			Assert.AreEqual(Order.BuyAt(7), _openedRecord.LastEntry);
-			Assert.AreEqual(Order.BuyAt(7), _closedRecord.LastEntry);
-			// Last exit
-			Assert.IsNull(_emptyRecord.LastExit);
-			Assert.AreEqual(Order.SellAt(3), _openedRecord.LastExit);
-			Assert.AreEqual(Order.SellAt(8), _closedRecord.LastExit);
-		}
-	}
+        {
+            // Last entry
+            Assert.That(_emptyRecord.LastEntry, Is.Null);
+            Assert.That(_openedRecord.LastEntry, Is.EqualTo(Order.BuyAt(7)));
+            Assert.That(_closedRecord.LastEntry, Is.EqualTo(Order.BuyAt(7)));
+            // Last exit
+            Assert.That(_emptyRecord.LastExit, Is.Null);
+            Assert.That(_openedRecord.LastExit, Is.EqualTo(Order.SellAt(3)));
+            Assert.That(_closedRecord.LastExit, Is.EqualTo(Order.SellAt(8)));
+        }
+    }
 }

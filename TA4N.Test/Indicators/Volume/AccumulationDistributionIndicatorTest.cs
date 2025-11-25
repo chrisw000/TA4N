@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -30,25 +30,24 @@ namespace TA4N.Test.Indicators.Volume
     using TA4N.Indicators.Volume;
 
     public sealed class AccumulationDistributionIndicatorTest
-	{
+    {
         [Test]
-		public void AccumulationDistribution()
-		{
-			var now = new LocalDateTime();
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(now, 0d, 10d, 12d, 8d, 0d, 200d, 0)); //2-2 * 200 / 4
-			ticks.Add(GenerateTick.From(now, 0d, 8d, 10d, 7d, 0d, 100d, 0)); //1-2 *100 / 3
-			ticks.Add(GenerateTick.From(now, 0d, 9d, 15d, 6d, 0d, 300d, 0)); //3-6 *300 /9
-			ticks.Add(GenerateTick.From(now, 0d, 20d, 40d, 5d, 0d, 50d, 0)); //15-20 *50 / 35
-			ticks.Add(GenerateTick.From(now, 0d, 30d, 30d, 3d, 0d, 600d, 0)); //27-0 *600 /27
-
-			TimeSeries series = GenerateTimeSeries.From(ticks);
-			var ac = new AccumulationDistributionIndicator(series);
-			TaTestsUtils.AssertDecimalEquals(ac.GetValue(0), 0);
-			TaTestsUtils.AssertDecimalEquals(ac.GetValue(1), -100d / 3);
-			TaTestsUtils.AssertDecimalEquals(ac.GetValue(2), -100d - (100d / 3));
-			TaTestsUtils.AssertDecimalEquals(ac.GetValue(3), (-250d / 35) + (-100d - (100d / 3)));
-			TaTestsUtils.AssertDecimalEquals(ac.GetValue(4), 600d + ((-250d / 35) + (-100d - (100d / 3))));
-		}
-	}
+        public void AccumulationDistribution()
+        {
+            var now = new LocalDateTime();
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(now, 0d, 10d, 12d, 8d, 0d, 200d, 0)); //2-2 * 200 / 4
+            ticks.Add(GenerateTick.From(now, 0d, 8d, 10d, 7d, 0d, 100d, 0)); //1-2 *100 / 3
+            ticks.Add(GenerateTick.From(now, 0d, 9d, 15d, 6d, 0d, 300d, 0)); //3-6 *300 /9
+            ticks.Add(GenerateTick.From(now, 0d, 20d, 40d, 5d, 0d, 50d, 0)); //15-20 *50 / 35
+            ticks.Add(GenerateTick.From(now, 0d, 30d, 30d, 3d, 0d, 600d, 0)); //27-0 *600 /27
+            TimeSeries series = GenerateTimeSeries.From(ticks);
+            var ac = new AccumulationDistributionIndicator(series);
+            Assert.That(ac.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(ac.GetValue(1).ToDouble(), Is.EqualTo(-100d / 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(ac.GetValue(2).ToDouble(), Is.EqualTo(-100d - (100d / 3)).Within(TaTestsUtils.TaOffset));
+            Assert.That(ac.GetValue(3).ToDouble(), Is.EqualTo((-250d / 35) + (-100d - (100d / 3))).Within(TaTestsUtils.TaOffset));
+            Assert.That(ac.GetValue(4).ToDouble(), Is.EqualTo(600d + ((-250d / 35) + (-100d - (100d / 3)))).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

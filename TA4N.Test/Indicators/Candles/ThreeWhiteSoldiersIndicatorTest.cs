@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,37 +29,37 @@ namespace TA4N.Test.Indicators.Candles
     using TA4N.Indicators.Candles;
 
     public sealed class ThreeWhiteSoldiersIndicatorTest
-	{
+    {
         private TimeSeries _series;
-        
+
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			// open, close, high, low
-			ticks.Add(GenerateTick.From(19, 19, 22, 15));
-			ticks.Add(GenerateTick.From(10, 18, 20, 8));
-			ticks.Add(GenerateTick.From(17, 16, 21, 15));
-			ticks.Add(GenerateTick.From(15.6, 18, 18.1, 14));
-			ticks.Add(GenerateTick.From(16, 19.9, 20, 15));
-			ticks.Add(GenerateTick.From(16.8, 23, 23, 16.7));
-			ticks.Add(GenerateTick.From(17, 25, 25, 17));
-			ticks.Add(GenerateTick.From(23, 16.8, 24, 15));
-			_series = GenerateTimeSeries.From(ticks);
-		}
-        
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            // open, close, high, low
+            ticks.Add(GenerateTick.From(19, 19, 22, 15));
+            ticks.Add(GenerateTick.From(10, 18, 20, 8));
+            ticks.Add(GenerateTick.From(17, 16, 21, 15));
+            ticks.Add(GenerateTick.From(15.6, 18, 18.1, 14));
+            ticks.Add(GenerateTick.From(16, 19.9, 20, 15));
+            ticks.Add(GenerateTick.From(16.8, 23, 23, 16.7));
+            ticks.Add(GenerateTick.From(17, 25, 25, 17));
+            ticks.Add(GenerateTick.From(23, 16.8, 24, 15));
+            _series = GenerateTimeSeries.From(ticks);
+        }
+
         [Test]
-		public void GetValue()
-		{
-			var tws = new ThreeWhiteSoldiersIndicator(_series, 3, Decimal.ValueOf("0.1"));
-			Assert.IsFalse(tws.GetValue(0));
-			Assert.IsFalse(tws.GetValue(1));
-			Assert.IsFalse(tws.GetValue(2));
-			Assert.IsFalse(tws.GetValue(3));
-			Assert.IsFalse(tws.GetValue(4));
-			Assert.IsTrue(tws.GetValue(5));
-			Assert.IsFalse(tws.GetValue(6));
-			Assert.IsFalse(tws.GetValue(7));
-		}
-	}
+        public void GetValue()
+        {
+            var tws = new ThreeWhiteSoldiersIndicator(_series, 3, Decimal.ValueOf("0.1"));
+            Assert.That(tws.GetValue(0), Is.False);
+            Assert.That(tws.GetValue(1), Is.False);
+            Assert.That(tws.GetValue(2), Is.False);
+            Assert.That(tws.GetValue(3), Is.False);
+            Assert.That(tws.GetValue(4), Is.False);
+            Assert.That(tws.GetValue(5), Is.True);
+            Assert.That(tws.GetValue(6), Is.False);
+            Assert.That(tws.GetValue(7), Is.False);
+        }
+    }
 }

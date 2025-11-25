@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,37 +20,34 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Trading.Rules;
 
 namespace TA4N.Test.Trading.Rules
 {
-	public sealed class BooleanRuleTest
-	{
-		private BooleanRule _satisfiedRule;
-		private BooleanRule _unsatisfiedRule;
+    public sealed class BooleanRuleTest
+    {
+        private BooleanRule _satisfiedRule;
+        private BooleanRule _unsatisfiedRule;
 
         [SetUp]
-		public void SetUp()
-		{
-			_satisfiedRule = new BooleanRule(true);
-			_unsatisfiedRule = new BooleanRule(false);
-		}
+        public void SetUp()
+        {
+            _satisfiedRule = new BooleanRule(true);
+            _unsatisfiedRule = new BooleanRule(false);
+        }
 
         [Test]
-		public void IsSatisfied()
-		{
-			Assert.IsTrue(_satisfiedRule.IsSatisfied(0));
-			Assert.IsTrue(_satisfiedRule.IsSatisfied(1));
-			Assert.IsTrue(_satisfiedRule.IsSatisfied(2));
-			Assert.IsTrue(_satisfiedRule.IsSatisfied(10));
-
-			Assert.IsFalse(_unsatisfiedRule.IsSatisfied(0));
-			Assert.IsFalse(_unsatisfiedRule.IsSatisfied(1));
-			Assert.IsFalse(_unsatisfiedRule.IsSatisfied(2));
-			Assert.IsFalse(_unsatisfiedRule.IsSatisfied(10));
-		}
-	}
-
+        public void IsSatisfied()
+        {
+            Assert.That(_satisfiedRule.IsSatisfied(0), Is.True);
+            Assert.That(_satisfiedRule.IsSatisfied(1), Is.True);
+            Assert.That(_satisfiedRule.IsSatisfied(2), Is.True);
+            Assert.That(_satisfiedRule.IsSatisfied(10), Is.True);
+            Assert.That(_unsatisfiedRule.IsSatisfied(0), Is.False);
+            Assert.That(_unsatisfiedRule.IsSatisfied(1), Is.False);
+            Assert.That(_unsatisfiedRule.IsSatisfied(2), Is.False);
+            Assert.That(_unsatisfiedRule.IsSatisfied(10), Is.False);
+        }
+    }
 }

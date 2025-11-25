@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using NUnit.Framework;
 using TA4N.Indicators.Simple;
 using TA4N.Indicators.Trackers.Keltner;
@@ -68,7 +68,6 @@ namespace TA4N.Test.Indicators.Trackers.Keltner
             ticks.Add(GenerateTick.From(12266.75, 12226.64, 12267.66, 12193.27));
             ticks.Add(GenerateTick.From(12219.79, 12288.17, 12303.16, 12219.79));
             ticks.Add(GenerateTick.From(12287.72, 12318.14, 12331.31, 12253.24));
-
             _data = GenerateTimeSeries.From(ticks);
         }
 
@@ -77,24 +76,23 @@ namespace TA4N.Test.Indicators.Trackers.Keltner
         {
             var km = new KeltnerChannelMiddleIndicator(new ClosePriceIndicator(_data), 14);
             var ku = new KeltnerChannelUpperIndicator(km, Decimal.ValueOf(2), 14);
-
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(13), 11857.4642);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(14), 11896.8619);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(15), 11927.1486);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(16), 11950.6832);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(17), 11970.0729);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(18), 11991.4828);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(19), 12028.9281);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(20), 12045.3761);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(21), 12070.6204);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(22), 12092.044);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(23), 12124.1007);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(24), 12160.508);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(25), 12189.8451);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(26), 12216.1915);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(27), 12248.1771);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(28), 12266.181);
-            TaTestsUtils.AssertDecimalEquals(ku.GetValue(29), 12280.8623);
+            Assert.That(ku.GetValue(13).ToDouble(), Is.EqualTo(11857.4642).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(14).ToDouble(), Is.EqualTo(11896.8619).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(15).ToDouble(), Is.EqualTo(11927.1486).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(16).ToDouble(), Is.EqualTo(11950.6832).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(17).ToDouble(), Is.EqualTo(11970.0729).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(18).ToDouble(), Is.EqualTo(11991.4828).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(19).ToDouble(), Is.EqualTo(12028.9281).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(20).ToDouble(), Is.EqualTo(12045.3761).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(21).ToDouble(), Is.EqualTo(12070.6204).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(22).ToDouble(), Is.EqualTo(12092.044).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(23).ToDouble(), Is.EqualTo(12124.1007).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(24).ToDouble(), Is.EqualTo(12160.508).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(25).ToDouble(), Is.EqualTo(12189.8451).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(26).ToDouble(), Is.EqualTo(12216.1915).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(27).ToDouble(), Is.EqualTo(12248.1771).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(28).ToDouble(), Is.EqualTo(12266.181).Within(TaTestsUtils.TaOffset));
+            Assert.That(ku.GetValue(29).ToDouble(), Is.EqualTo(12280.8623).Within(TaTestsUtils.TaOffset));
         }
     }
 }

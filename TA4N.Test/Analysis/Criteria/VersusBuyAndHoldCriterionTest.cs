@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using System;
 using NUnit.Framework;
 using TA4N.Analysis.Criteria;
@@ -28,75 +27,67 @@ using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Analysis.Criteria
 {
-	public sealed class VersusBuyAndHoldCriterionTest
-	{
+    public sealed class VersusBuyAndHoldCriterionTest
+    {
         [Test]
-		public void CalculateOnlyWithGainTrades()
-		{
-			var series = GenerateTimeSeries.From(100, 105, 110, 100, 95, 105);
-			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.BuyAt(3), Order.SellAt(5));
-
-			IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
-			Assert.AreEqual(1.10 * 1.05 / 1.05, buyAndHold.Calculate(series, tradingRecord), TaTestsUtils.TaOffset);
-		}
-
-        [Test]
-		public void CalculateOnlyWithLossTrades()
-		{
-			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
-			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
-
-			IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
-			Assert.AreEqual(0.95 * 0.7 / 0.7, buyAndHold.Calculate(series, tradingRecord), TaTestsUtils.TaOffset);
-		}
-
-        [Test] 
-		public void CalculateWithOnlyOneTrade()
-		{
-			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
-			var trade = new Trade(Order.BuyAt(0), Order.SellAt(1));
-
-			IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
-			Assert.AreEqual((100d / 70) / (100d / 95), buyAndHold.Calculate(series, trade), TaTestsUtils.TaOffset);
-		}
-
-        [Test] 
-		public void CalculateWithNoTrades()
-		{
-			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
-
-			IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
-			Assert.AreEqual(1 / 0.7, buyAndHold.Calculate(series, new TradingRecord()), TaTestsUtils.TaOffset);
-		}
-
-        [Test] 
-		public void CalculateWithAverageProfit()
-		{
-			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 130);
-			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
-
-			IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new AverageProfitCriterion());
-
-			Assert.AreEqual(Math.Pow(95d / 100 * 130d / 100, 1d / 6) / Math.Pow(130d / 100, 1d / 6), buyAndHold.Calculate(series, tradingRecord), TaTestsUtils.TaOffset);
-		}
-
-        [Test] 
-		public void CalculateWithNumberOfTicks()
-		{
-			var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 130);
-			var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
-
-			IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new NumberOfTicksCriterion());
-
-			Assert.AreEqual(6d / 6d, buyAndHold.Calculate(series, tradingRecord), TaTestsUtils.TaOffset);
-		}
+        public void CalculateOnlyWithGainTrades()
+        {
+            var series = GenerateTimeSeries.From(100, 105, 110, 100, 95, 105);
+            var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(2), Order.BuyAt(3), Order.SellAt(5));
+            IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
+            Assert.That(buyAndHold.Calculate(series, tradingRecord), Is.EqualTo(1.10 * 1.05 / 1.05).Within(TaTestsUtils.TaOffset));
+        }
 
         [Test]
-		public void BetterThan()
-		{
-			IAnalysisCriterion criterion = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
-			Assert.IsTrue(criterion.BetterThan(2.0, 1.5));
-			Assert.IsFalse(criterion.BetterThan(1.5, 2.0));
-		}
-	}
+        public void CalculateOnlyWithLossTrades()
+        {
+            var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
+            var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
+            IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
+            Assert.That(buyAndHold.Calculate(series, tradingRecord), Is.EqualTo(0.95 * 0.7 / 0.7).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void CalculateWithOnlyOneTrade()
+        {
+            var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
+            var trade = new Trade(Order.BuyAt(0), Order.SellAt(1));
+            IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
+            Assert.That(buyAndHold.Calculate(series, trade), Is.EqualTo((100d / 70) / (100d / 95)).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void CalculateWithNoTrades()
+        {
+            var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 70);
+            IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
+            Assert.That(buyAndHold.Calculate(series, new TradingRecord()), Is.EqualTo(1 / 0.7).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void CalculateWithAverageProfit()
+        {
+            var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 130);
+            var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
+            IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new AverageProfitCriterion());
+            Assert.That(buyAndHold.Calculate(series, tradingRecord), Is.EqualTo(Math.Pow(95d / 100 * 130d / 100, 1d / 6) / Math.Pow(130d / 100, 1d / 6)).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void CalculateWithNumberOfTicks()
+        {
+            var series = GenerateTimeSeries.From(100, 95, 100, 80, 85, 130);
+            var tradingRecord = new TradingRecord(Order.BuyAt(0), Order.SellAt(1), Order.BuyAt(2), Order.SellAt(5));
+            IAnalysisCriterion buyAndHold = new VersusBuyAndHoldCriterion(new NumberOfTicksCriterion());
+            Assert.That(buyAndHold.Calculate(series, tradingRecord), Is.EqualTo(6d / 6d).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void BetterThan()
+        {
+            IAnalysisCriterion criterion = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
+            Assert.That(criterion.BetterThan(2.0, 1.5), Is.True);
+            Assert.That(criterion.BetterThan(1.5, 2.0), Is.False);
+        }
+    }
 }

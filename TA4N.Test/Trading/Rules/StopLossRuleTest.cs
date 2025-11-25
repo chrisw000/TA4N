@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Indicators.Simple;
 using TA4N.Test.FixtureData;
@@ -29,42 +28,38 @@ using TA4N.Trading.Rules;
 namespace TA4N.Test.Trading.Rules
 {
     public class StopLossRuleTest
-	{
-		private TradingRecord _tradingRecord;
-		private ClosePriceIndicator _closePrice;
-		private StopLossRule _rule;
+    {
+        private TradingRecord _tradingRecord;
+        private ClosePriceIndicator _closePrice;
+        private StopLossRule _rule;
 
         [SetUp]
-		public virtual void SetUp()
-		{
-			_tradingRecord = new TradingRecord();
-			_closePrice = new ClosePriceIndicator(GenerateTimeSeries.From(100, 105, 110, 120, 100, 150, 110, 100));
-		}
+        public virtual void SetUp()
+        {
+            _tradingRecord = new TradingRecord();
+            _closePrice = new ClosePriceIndicator(GenerateTimeSeries.From(100, 105, 110, 120, 100, 150, 110, 100));
+        }
 
         [Test]
-		public virtual void IsSatisfied()
-		{
-			Decimal tradedAmount = Decimal.One;
-
-			// 5% stop-loss
-			_rule = new StopLossRule(_closePrice, Decimal.ValueOf("5"));
-
-			Assert.IsFalse(_rule.IsSatisfied(0, null));
-			Assert.IsFalse(_rule.IsSatisfied(1, _tradingRecord));
-
-			// Enter at 114
-			_tradingRecord.Enter(2, Decimal.ValueOf("114"), tradedAmount);
-			Assert.IsFalse(_rule.IsSatisfied(2, _tradingRecord));
-			Assert.IsFalse(_rule.IsSatisfied(3, _tradingRecord));
-			Assert.IsTrue(_rule.IsSatisfied(4, _tradingRecord));
-			// Exit
-			_tradingRecord.Exit(5);
-
-			// Enter at 128
-			_tradingRecord.Enter(5, Decimal.ValueOf("128"), tradedAmount);
-			Assert.IsFalse(_rule.IsSatisfied(5, _tradingRecord));
-			Assert.IsTrue(_rule.IsSatisfied(6, _tradingRecord));
-			Assert.IsTrue(_rule.IsSatisfied(7, _tradingRecord));
-		}
-	}
+        public virtual void IsSatisfied()
+        {
+            Decimal tradedAmount = Decimal.One;
+            // 5% stop-loss
+            _rule = new StopLossRule(_closePrice, Decimal.ValueOf("5"));
+            Assert.That(_rule.IsSatisfied(0, null), Is.False);
+            Assert.That(_rule.IsSatisfied(1, _tradingRecord), Is.False);
+            // Enter at 114
+            _tradingRecord.Enter(2, Decimal.ValueOf("114"), tradedAmount);
+            Assert.That(_rule.IsSatisfied(2, _tradingRecord), Is.False);
+            Assert.That(_rule.IsSatisfied(3, _tradingRecord), Is.False);
+            Assert.That(_rule.IsSatisfied(4, _tradingRecord), Is.True);
+            // Exit
+            _tradingRecord.Exit(5);
+            // Enter at 128
+            _tradingRecord.Enter(5, Decimal.ValueOf("128"), tradedAmount);
+            Assert.That(_rule.IsSatisfied(5, _tradingRecord), Is.False);
+            Assert.That(_rule.IsSatisfied(6, _tradingRecord), Is.True);
+            Assert.That(_rule.IsSatisfied(7, _tradingRecord), Is.True);
+        }
+    }
 }

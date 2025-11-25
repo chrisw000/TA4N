@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,26 +20,25 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Indicators.Simple;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class AbsoluteIndicatorTest
-	{
+    public sealed class AbsoluteIndicatorTest
+    {
         [Test]
-		public void ConstantIndicators()
-		{
-			var positiveInd = new AbsoluteIndicator(new ConstantIndicator<Decimal>(Decimal.ValueOf(1337)));
-			var zeroInd = new AbsoluteIndicator(new ConstantIndicator<Decimal>(Decimal.Zero));
-			var negativeInd = new AbsoluteIndicator(new ConstantIndicator<Decimal>(Decimal.ValueOf(-42.42)));
-			for (var i = 0; i < 10; i++)
-			{
-                TaTestsUtils.AssertDecimalEquals(positiveInd.GetValue(i), 1337);
-				TaTestsUtils.AssertDecimalEquals(zeroInd.GetValue(i), 0);
-				TaTestsUtils.AssertDecimalEquals(negativeInd.GetValue(i), 42.42);
-			}
-		}
-	}
+        public void ConstantIndicators()
+        {
+            var positiveInd = new AbsoluteIndicator(new ConstantIndicator<Decimal>(Decimal.ValueOf(1337)));
+            var zeroInd = new AbsoluteIndicator(new ConstantIndicator<Decimal>(Decimal.Zero));
+            var negativeInd = new AbsoluteIndicator(new ConstantIndicator<Decimal>(Decimal.ValueOf(-42.42)));
+            for (var i = 0; i < 10; i++)
+            {
+                Assert.That(positiveInd.GetValue(i), Is.EqualTo(Decimal.ValueOf(1337)));
+                Assert.That(zeroInd.GetValue(i), Is.EqualTo(Decimal.ValueOf(0)));
+                Assert.That(negativeInd.GetValue(i).ToDouble(), Is.EqualTo(42.42).Within(TaTestsUtils.TaOffset));
+            }
+        }
+    }
 }

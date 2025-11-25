@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,83 +29,76 @@ namespace TA4N.Test.Indicators.Trackers
     using TA4N.Indicators.Trackers;
 
     public sealed class ParabolicSarIndicatorTest
-	{
-        [Test] 
-		public void TrendSwitchTest()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(0, 10, 13, 8));
-			ticks.Add(GenerateTick.From(0, 8, 11, 6));
-			ticks.Add(GenerateTick.From(0, 6, 9, 4));
-			ticks.Add(GenerateTick.From(0, 11, 15, 9));
-			ticks.Add(GenerateTick.From(0, 13, 15, 9));
-			var sar = new ParabolicSarIndicator(GenerateTimeSeries.From(ticks), 1);
-
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(0), 10);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(1), 8);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(2), 11);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(3), 4);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(4), 4);
-		}
-        
+    {
         [Test]
-		public void TrendSwitchTest2()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(0, 10, 13, 11));
-			ticks.Add(GenerateTick.From(0, 10, 15, 13));
-			ticks.Add(GenerateTick.From(0, 12, 18, 11));
-			ticks.Add(GenerateTick.From(0, 10, 15, 9));
-			ticks.Add(GenerateTick.From(0, 9, 15, 9));
+        public void TrendSwitchTest()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(0, 10, 13, 8));
+            ticks.Add(GenerateTick.From(0, 8, 11, 6));
+            ticks.Add(GenerateTick.From(0, 6, 9, 4));
+            ticks.Add(GenerateTick.From(0, 11, 15, 9));
+            ticks.Add(GenerateTick.From(0, 13, 15, 9));
+            var sar = new ParabolicSarIndicator(GenerateTimeSeries.From(ticks), 1);
+            Assert.That(sar.GetValue(0), Is.EqualTo(Decimal.ValueOf(10)));
+            Assert.That(sar.GetValue(1), Is.EqualTo(Decimal.ValueOf(8)));
+            Assert.That(sar.GetValue(2), Is.EqualTo(Decimal.ValueOf(11)));
+            Assert.That(sar.GetValue(3), Is.EqualTo(Decimal.ValueOf(4)));
+            Assert.That(sar.GetValue(4), Is.EqualTo(Decimal.ValueOf(4)));
+        }
 
-			var sar = new ParabolicSarIndicator(GenerateTimeSeries.From(ticks), 1);
-
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(0), 10);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(1), 10);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(2), 0.04 * (18 - 10) + 10);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(3), 18);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(4), 18);
-		}
-        
         [Test]
-		public void UpTrendTest()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(0, 10, 13, 11));
-			ticks.Add(GenerateTick.From(0, 17, 15, 11.38));
-			ticks.Add(GenerateTick.From(0, 18, 16, 14));
-			ticks.Add(GenerateTick.From(0, 19, 17, 12));
-			ticks.Add(GenerateTick.From(0, 20, 18, 9));
+        public void TrendSwitchTest2()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(0, 10, 13, 11));
+            ticks.Add(GenerateTick.From(0, 10, 15, 13));
+            ticks.Add(GenerateTick.From(0, 12, 18, 11));
+            ticks.Add(GenerateTick.From(0, 10, 15, 9));
+            ticks.Add(GenerateTick.From(0, 9, 15, 9));
+            var sar = new ParabolicSarIndicator(GenerateTimeSeries.From(ticks), 1);
+            Assert.That(sar.GetValue(0), Is.EqualTo(Decimal.ValueOf(10)));
+            Assert.That(sar.GetValue(1), Is.EqualTo(Decimal.ValueOf(10)));
+            Assert.That(sar.GetValue(2).ToDouble(), Is.EqualTo(0.04 * (18 - 10) + 10).Within(TaTestsUtils.TaOffset));
+            Assert.That(sar.GetValue(3), Is.EqualTo(Decimal.ValueOf(18)));
+            Assert.That(sar.GetValue(4), Is.EqualTo(Decimal.ValueOf(18)));
+        }
 
-			var sar = new ParabolicSarIndicator(GenerateTimeSeries.From(ticks), 1);
-
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(0), 10);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(1), 17);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(2), 11.38);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(3), 11.38);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(4), 18);
-		}
-        
         [Test]
-		public void DownTrendTest()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(0, 20, 18, 9));
-			ticks.Add(GenerateTick.From(0, 19, 17, 12));
-			ticks.Add(GenerateTick.From(0, 18, 16, 14));
-			ticks.Add(GenerateTick.From(0, 17, 15, 11.38));
-			ticks.Add(GenerateTick.From(0, 10, 13, 11));
-			ticks.Add(GenerateTick.From(0, 10, 30, 11));
+        public void UpTrendTest()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(0, 10, 13, 11));
+            ticks.Add(GenerateTick.From(0, 17, 15, 11.38));
+            ticks.Add(GenerateTick.From(0, 18, 16, 14));
+            ticks.Add(GenerateTick.From(0, 19, 17, 12));
+            ticks.Add(GenerateTick.From(0, 20, 18, 9));
+            var sar = new ParabolicSarIndicator(GenerateTimeSeries.From(ticks), 1);
+            Assert.That(sar.GetValue(0), Is.EqualTo(Decimal.ValueOf(10)));
+            Assert.That(sar.GetValue(1), Is.EqualTo(Decimal.ValueOf(17)));
+            Assert.That(sar.GetValue(2).ToDouble(), Is.EqualTo(11.38).Within(TaTestsUtils.TaOffset));
+            Assert.That(sar.GetValue(3).ToDouble(), Is.EqualTo(11.38).Within(TaTestsUtils.TaOffset));
+            Assert.That(sar.GetValue(4), Is.EqualTo(Decimal.ValueOf(18)));
+        }
 
-			var sar = new ParabolicSarIndicator(GenerateTimeSeries.From(ticks), 1);
-
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(0), 20);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(1), 19);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(2), 0.04 * (14 - 19) + 19);
-			var value = 0.06 * (11.38 - 18.8) + 18.8;
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(3), value);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(4), 0.08 * (11 - value) + value);
-			TaTestsUtils.AssertDecimalEquals(sar.GetValue(5), 11);
-		}
-	}
+        [Test]
+        public void DownTrendTest()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(0, 20, 18, 9));
+            ticks.Add(GenerateTick.From(0, 19, 17, 12));
+            ticks.Add(GenerateTick.From(0, 18, 16, 14));
+            ticks.Add(GenerateTick.From(0, 17, 15, 11.38));
+            ticks.Add(GenerateTick.From(0, 10, 13, 11));
+            ticks.Add(GenerateTick.From(0, 10, 30, 11));
+            var sar = new ParabolicSarIndicator(GenerateTimeSeries.From(ticks), 1);
+            Assert.That(sar.GetValue(0), Is.EqualTo(Decimal.ValueOf(20)));
+            Assert.That(sar.GetValue(1), Is.EqualTo(Decimal.ValueOf(19)));
+            Assert.That(sar.GetValue(2).ToDouble(), Is.EqualTo(0.04 * (14 - 19) + 19).Within(TaTestsUtils.TaOffset));
+            var value = 0.06 * (11.38 - 18.8) + 18.8;
+            Assert.That(sar.GetValue(3).ToDouble(), Is.EqualTo(value).Within(TaTestsUtils.TaOffset));
+            Assert.That(sar.GetValue(4).ToDouble(), Is.EqualTo(0.08 * (11 - value) + value).Within(TaTestsUtils.TaOffset));
+            Assert.That(sar.GetValue(5), Is.EqualTo(Decimal.ValueOf(11)));
+        }
+    }
 }

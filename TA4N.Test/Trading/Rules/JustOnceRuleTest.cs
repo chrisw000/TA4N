@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,39 +20,38 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Trading.Rules;
 
 namespace TA4N.Test.Trading.Rules
 {
     public sealed class JustOnceRuleTest
-	{
-		private JustOnceRule _rule;
+    {
+        private JustOnceRule _rule;
 
         [SetUp]
-		public void SetUp()
-		{
-			_rule = new JustOnceRule();
-		}
+        public void SetUp()
+        {
+            _rule = new JustOnceRule();
+        }
 
         [Test]
-		public void IsSatisfied()
-		{
-			Assert.IsTrue(_rule.IsSatisfied(10));
-			Assert.IsFalse(_rule.IsSatisfied(11));
-			Assert.IsFalse(_rule.IsSatisfied(12));
-			Assert.IsFalse(_rule.IsSatisfied(13));
-			Assert.IsFalse(_rule.IsSatisfied(14));
-		}
+        public void IsSatisfied()
+        {
+            Assert.That(_rule.IsSatisfied(10), Is.True);
+            Assert.That(_rule.IsSatisfied(11), Is.False);
+            Assert.That(_rule.IsSatisfied(12), Is.False);
+            Assert.That(_rule.IsSatisfied(13), Is.False);
+            Assert.That(_rule.IsSatisfied(14), Is.False);
+        }
 
         [Test]
-		public void IsSatisfiedInReverseOrder()
-		{
-			Assert.IsTrue(_rule.IsSatisfied(5));
-			Assert.IsFalse(_rule.IsSatisfied(2));
-			Assert.IsFalse(_rule.IsSatisfied(1));
-			Assert.IsFalse(_rule.IsSatisfied(0));
-		}
-	}
+        public void IsSatisfiedInReverseOrder()
+        {
+            Assert.That(_rule.IsSatisfied(5), Is.True);
+            Assert.That(_rule.IsSatisfied(2), Is.False);
+            Assert.That(_rule.IsSatisfied(1), Is.False);
+            Assert.That(_rule.IsSatisfied(0), Is.False);
+        }
+    }
 }

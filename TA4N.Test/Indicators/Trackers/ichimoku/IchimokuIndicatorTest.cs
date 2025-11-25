@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using NUnit.Framework;
 using TA4N.Indicators.Trackers.Ichimoku;
 using TA4N.Test.FixtureData;
@@ -66,52 +66,47 @@ namespace TA4N.Test.Indicators.Trackers.Ichimoku
             var senkouSpanA = new IchimokuSenkouSpanAIndicator(_data, tenkanSen, kijunSen);
             var senkouSpanB = new IchimokuSenkouSpanBIndicator(_data, 9);
             var chikouSpan = new IchimokuChikouSpanIndicator(_data, 5);
-
-            TaTestsUtils.AssertDecimalEquals(tenkanSen.GetValue(3), 45.155);
-            TaTestsUtils.AssertDecimalEquals(tenkanSen.GetValue(4), 45.18);
-            TaTestsUtils.AssertDecimalEquals(tenkanSen.GetValue(5), 45.145);
-            TaTestsUtils.AssertDecimalEquals(tenkanSen.GetValue(6), 45.135);
-            TaTestsUtils.AssertDecimalEquals(tenkanSen.GetValue(7), 45.145);
-            TaTestsUtils.AssertDecimalEquals(tenkanSen.GetValue(8), 45.17);
-            TaTestsUtils.AssertDecimalEquals(tenkanSen.GetValue(16), 44.06);
-            TaTestsUtils.AssertDecimalEquals(tenkanSen.GetValue(17), 43.675);
-            TaTestsUtils.AssertDecimalEquals(tenkanSen.GetValue(18), 43.525);
-
-            TaTestsUtils.AssertDecimalEquals(kijunSen.GetValue(3), 45.14);
-            TaTestsUtils.AssertDecimalEquals(kijunSen.GetValue(4), 45.14);
-            TaTestsUtils.AssertDecimalEquals(kijunSen.GetValue(5), 45.155);
-            TaTestsUtils.AssertDecimalEquals(kijunSen.GetValue(6), 45.18);
-            TaTestsUtils.AssertDecimalEquals(kijunSen.GetValue(7), 45.145);
-            TaTestsUtils.AssertDecimalEquals(kijunSen.GetValue(8), 45.17);
-            TaTestsUtils.AssertDecimalEquals(kijunSen.GetValue(16), 44.345);
-            TaTestsUtils.AssertDecimalEquals(kijunSen.GetValue(17), 44.305);
-            TaTestsUtils.AssertDecimalEquals(kijunSen.GetValue(18), 44.05);
-
-            TaTestsUtils.AssertDecimalEquals(senkouSpanA.GetValue(3), 45.1475);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanA.GetValue(4), 45.16);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanA.GetValue(5), 45.15);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanA.GetValue(6), 45.1575);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanA.GetValue(7), 45.145);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanA.GetValue(8), 45.17);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanA.GetValue(16), 44.2025);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanA.GetValue(17), 43.99);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanA.GetValue(18), 43.7875);
-
-            TaTestsUtils.AssertDecimalEquals(senkouSpanB.GetValue(3), 45.14);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanB.GetValue(4), 45.14);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanB.GetValue(5), 45.14);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanB.GetValue(6), 45.14);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanB.GetValue(7), 45.14);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanB.GetValue(8), 45.14);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanB.GetValue(16), 44.345);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanB.GetValue(17), 44.335);
-            TaTestsUtils.AssertDecimalEquals(senkouSpanB.GetValue(18), 44.335);
-
-            TaTestsUtils.AssertDecimalEquals(chikouSpan.GetValue(5), 45.05);
-            TaTestsUtils.AssertDecimalEquals(chikouSpan.GetValue(6), 45.10);
-            TaTestsUtils.AssertDecimalEquals(chikouSpan.GetValue(7), 45.19);
-            TaTestsUtils.AssertDecimalEquals(chikouSpan.GetValue(8), 45.14);
-            TaTestsUtils.AssertDecimalEquals(chikouSpan.GetValue(19), 44.23);
+            Assert.That(tenkanSen.GetValue(3).ToDouble(), Is.EqualTo(45.155));
+            Assert.That(tenkanSen.GetValue(4).ToDouble(), Is.EqualTo(45.18));
+            Assert.That(tenkanSen.GetValue(5).ToDouble(), Is.EqualTo(45.145));
+            Assert.That(tenkanSen.GetValue(6).ToDouble(), Is.EqualTo(45.135));
+            Assert.That(tenkanSen.GetValue(7).ToDouble(), Is.EqualTo(45.145));
+            Assert.That(tenkanSen.GetValue(8).ToDouble(), Is.EqualTo(45.17));
+            Assert.That(tenkanSen.GetValue(16).ToDouble(), Is.EqualTo(44.06));
+            Assert.That(tenkanSen.GetValue(17).ToDouble(), Is.EqualTo(43.675));
+            Assert.That(tenkanSen.GetValue(18).ToDouble(), Is.EqualTo(43.525));
+            Assert.That(kijunSen.GetValue(3).ToDouble(), Is.EqualTo(45.14));
+            Assert.That(kijunSen.GetValue(4).ToDouble(), Is.EqualTo(45.14));
+            Assert.That(kijunSen.GetValue(5).ToDouble(), Is.EqualTo(45.155));
+            Assert.That(kijunSen.GetValue(6).ToDouble(), Is.EqualTo(45.18));
+            Assert.That(kijunSen.GetValue(7).ToDouble(), Is.EqualTo(45.145));
+            Assert.That(kijunSen.GetValue(8).ToDouble(), Is.EqualTo(45.17));
+            Assert.That(kijunSen.GetValue(16).ToDouble(), Is.EqualTo(44.345));
+            Assert.That(kijunSen.GetValue(17).ToDouble(), Is.EqualTo(44.305));
+            Assert.That(kijunSen.GetValue(18).ToDouble(), Is.EqualTo(44.05));
+            Assert.That(senkouSpanA.GetValue(3).ToDouble(), Is.EqualTo(45.1475));
+            Assert.That(senkouSpanA.GetValue(4).ToDouble(), Is.EqualTo(45.16));
+            Assert.That(senkouSpanA.GetValue(5).ToDouble(), Is.EqualTo(45.15));
+            Assert.That(senkouSpanA.GetValue(6).ToDouble(), Is.EqualTo(45.1575));
+            Assert.That(senkouSpanA.GetValue(7).ToDouble(), Is.EqualTo(45.145));
+            Assert.That(senkouSpanA.GetValue(8).ToDouble(), Is.EqualTo(45.17));
+            Assert.That(senkouSpanA.GetValue(16).ToDouble(), Is.EqualTo(44.2025));
+            Assert.That(senkouSpanA.GetValue(17).ToDouble(), Is.EqualTo(43.99));
+            Assert.That(senkouSpanA.GetValue(18).ToDouble(), Is.EqualTo(43.7875));
+            Assert.That(senkouSpanB.GetValue(3).ToDouble(), Is.EqualTo(45.14));
+            Assert.That(senkouSpanB.GetValue(4).ToDouble(), Is.EqualTo(45.14));
+            Assert.That(senkouSpanB.GetValue(5).ToDouble(), Is.EqualTo(45.14));
+            Assert.That(senkouSpanB.GetValue(6).ToDouble(), Is.EqualTo(45.14));
+            Assert.That(senkouSpanB.GetValue(7).ToDouble(), Is.EqualTo(45.14));
+            Assert.That(senkouSpanB.GetValue(8).ToDouble(), Is.EqualTo(45.14));
+            Assert.That(senkouSpanB.GetValue(16).ToDouble(), Is.EqualTo(44.345));
+            Assert.That(senkouSpanB.GetValue(17).ToDouble(), Is.EqualTo(44.335));
+            Assert.That(senkouSpanB.GetValue(18).ToDouble(), Is.EqualTo(44.335));
+            Assert.That(chikouSpan.GetValue(5).ToDouble(), Is.EqualTo(45.05));
+            Assert.That(chikouSpan.GetValue(6).ToDouble(), Is.EqualTo(45.10));
+            Assert.That(chikouSpan.GetValue(7).ToDouble(), Is.EqualTo(45.19));
+            Assert.That(chikouSpan.GetValue(8).ToDouble(), Is.EqualTo(45.14));
+            Assert.That(chikouSpan.GetValue(19).ToDouble(), Is.EqualTo(44.23));
         }
     }
 }

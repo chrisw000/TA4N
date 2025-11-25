@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,32 +20,31 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using TA4N.Indicators.Simple;
 using NUnit.Framework;
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class MinPriceIndicatorTest
-	{
-		private MinPriceIndicator _minPriceIndicator;
+    public sealed class MinPriceIndicatorTest
+    {
+        private MinPriceIndicator _minPriceIndicator;
         private TimeSeries _timeSeries;
 
         [SetUp]
-		public void SetUp()
-		{
-			_timeSeries = GenerateTimeSeries.WithArbitraryTicks();
-			_minPriceIndicator = new MinPriceIndicator(_timeSeries);
-		}
+        public void SetUp()
+        {
+            _timeSeries = GenerateTimeSeries.WithArbitraryTicks();
+            _minPriceIndicator = new MinPriceIndicator(_timeSeries);
+        }
 
         [Test]
-		public void IndicatorShouldRetrieveTickMinPrice()
-		{
-			for (var i = 0; i < 10; i++)
-			{
-				Assert.AreEqual(_minPriceIndicator.GetValue(i), _timeSeries.GetTick(i).MinPrice);
-			}
-		}
-	}
+        public void IndicatorShouldRetrieveTickMinPrice()
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                Assert.That(_timeSeries.GetTick(i).MinPrice, Is.EqualTo(_minPriceIndicator.GetValue(i)));
+            }
+        }
+    }
 }

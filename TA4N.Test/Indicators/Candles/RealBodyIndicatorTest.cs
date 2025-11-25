@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,31 +29,31 @@ namespace TA4N.Test.Indicators.Candles
     using TA4N.Indicators.Candles;
 
     public sealed class RealBodyIndicatorTest
-	{
+    {
         private TimeSeries _series;
-        
+
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			// open, close, high, low
-			ticks.Add(GenerateTick.From(10, 18, 20, 10));
-			ticks.Add(GenerateTick.From(17, 20, 21, 17));
-			ticks.Add(GenerateTick.From(15, 15, 16, 14));
-			ticks.Add(GenerateTick.From(15, 11, 15, 8));
-			ticks.Add(GenerateTick.From(11, 12, 12, 10));
-			_series = GenerateTimeSeries.From(ticks);
-		}
-        
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            // open, close, high, low
+            ticks.Add(GenerateTick.From(10, 18, 20, 10));
+            ticks.Add(GenerateTick.From(17, 20, 21, 17));
+            ticks.Add(GenerateTick.From(15, 15, 16, 14));
+            ticks.Add(GenerateTick.From(15, 11, 15, 8));
+            ticks.Add(GenerateTick.From(11, 12, 12, 10));
+            _series = GenerateTimeSeries.From(ticks);
+        }
+
         [Test]
-		public void GetValue()
-		{
-			var body = new RealBodyIndicator(_series);
-			TaTestsUtils.AssertDecimalEquals(body.GetValue(0), 8);
-			TaTestsUtils.AssertDecimalEquals(body.GetValue(1), 3);
-			TaTestsUtils.AssertDecimalEquals(body.GetValue(2), 0);
-			TaTestsUtils.AssertDecimalEquals(body.GetValue(3), -4);
-			TaTestsUtils.AssertDecimalEquals(body.GetValue(4), 1);
-		}
-	}
+        public void GetValue()
+        {
+            var body = new RealBodyIndicator(_series);
+            Assert.That(body.GetValue(0), Is.EqualTo(Decimal.ValueOf(8)));
+            Assert.That(body.GetValue(1), Is.EqualTo(Decimal.ValueOf(3)));
+            Assert.That(body.GetValue(2), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(body.GetValue(3).ToDouble(), Is.EqualTo(-4).Within(TaTestsUtils.TaOffset));
+            Assert.That(body.GetValue(4), Is.EqualTo(Decimal.ValueOf(1)));
+        }
+    }
 }

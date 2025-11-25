@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Trackers
@@ -29,34 +28,31 @@ namespace TA4N.Test.Indicators.Trackers
     using TA4N.Indicators.Simple;
     using NUnit.Framework;
 
-	public sealed class DoubleEmaIndicatorTest
-	{
-		private TimeSeries _data;
-		private ClosePriceIndicator _closePrice;
+    public sealed class DoubleEmaIndicatorTest
+    {
+        private TimeSeries _data;
+        private ClosePriceIndicator _closePrice;
 
         [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(0.73, 0.72, 0.86, 0.72, 0.62, 0.76, 0.84, 0.69, 0.65, 0.71, 0.53, 0.73, 0.77, 0.67, 0.68);
-			_closePrice = new ClosePriceIndicator(_data);
-		}
-        
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(0.73, 0.72, 0.86, 0.72, 0.62, 0.76, 0.84, 0.69, 0.65, 0.71, 0.53, 0.73, 0.77, 0.67, 0.68);
+            _closePrice = new ClosePriceIndicator(_data);
+        }
+
         [Test]
-		public void DoubleEmaUsingTimeFrame5UsingClosePrice()
-		{
-			var doubleEma = new DoubleEmaIndicator(_closePrice, 5);
-
-			TaTestsUtils.AssertDecimalEquals(doubleEma.GetValue(0), 0.73);
-			TaTestsUtils.AssertDecimalEquals(doubleEma.GetValue(1), 0.7225);
-			TaTestsUtils.AssertDecimalEquals(doubleEma.GetValue(2), 0.7983);
-
-			TaTestsUtils.AssertDecimalEquals(doubleEma.GetValue(6), 0.7872);
-			TaTestsUtils.AssertDecimalEquals(doubleEma.GetValue(7), 0.7381);
-			TaTestsUtils.AssertDecimalEquals(doubleEma.GetValue(8), 0.6887);
-
-			TaTestsUtils.AssertDecimalEquals(doubleEma.GetValue(12), 0.7184);
-			TaTestsUtils.AssertDecimalEquals(doubleEma.GetValue(13), 0.6938);
-			TaTestsUtils.AssertDecimalEquals(doubleEma.GetValue(14), 0.6859);
-		}
-	}
+        public void DoubleEmaUsingTimeFrame5UsingClosePrice()
+        {
+            var doubleEma = new DoubleEmaIndicator(_closePrice, 5);
+            Assert.That(doubleEma.GetValue(0).ToDouble(), Is.EqualTo(0.73));
+            Assert.That(doubleEma.GetValue(1).ToDouble(), Is.EqualTo(0.7225));
+            Assert.That(doubleEma.GetValue(2).ToDouble(), Is.EqualTo(0.7983));
+            Assert.That(doubleEma.GetValue(6).ToDouble(), Is.EqualTo(0.7872));
+            Assert.That(doubleEma.GetValue(7).ToDouble(), Is.EqualTo(0.7381));
+            Assert.That(doubleEma.GetValue(8).ToDouble(), Is.EqualTo(0.6887));
+            Assert.That(doubleEma.GetValue(12).ToDouble(), Is.EqualTo(0.7184));
+            Assert.That(doubleEma.GetValue(13).ToDouble(), Is.EqualTo(0.6938));
+            Assert.That(doubleEma.GetValue(14).ToDouble(), Is.EqualTo(0.6859));
+        }
+    }
 }

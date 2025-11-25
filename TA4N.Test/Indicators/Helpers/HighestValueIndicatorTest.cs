@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Helpers
@@ -30,43 +29,42 @@ namespace TA4N.Test.Indicators.Helpers
     using TA4N.Indicators.Helpers;
 
     public sealed class HighestValueIndicatorTest
-	{
+    {
         private TimeSeries _data;
-        
-        [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 6, 4, 3, 3, 4, 3, 2);
-		}
-        
-        [Test]
-		public void HighestValueUsingTimeFrame5UsingClosePrice()
-		{
-			var highestValue = new HighestValueIndicator(new ClosePriceIndicator(_data), 5);
 
-			TaTestsUtils.AssertDecimalEquals(highestValue.GetValue(4), "4");
-			TaTestsUtils.AssertDecimalEquals(highestValue.GetValue(5), "4");
-			TaTestsUtils.AssertDecimalEquals(highestValue.GetValue(6), "5");
-			TaTestsUtils.AssertDecimalEquals(highestValue.GetValue(7), "6");
-			TaTestsUtils.AssertDecimalEquals(highestValue.GetValue(8), "6");
-			TaTestsUtils.AssertDecimalEquals(highestValue.GetValue(9), "6");
-			TaTestsUtils.AssertDecimalEquals(highestValue.GetValue(10), "6");
-			TaTestsUtils.AssertDecimalEquals(highestValue.GetValue(11), "6");
-			TaTestsUtils.AssertDecimalEquals(highestValue.GetValue(12), "4");
-		}
+        [SetUp]
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 6, 4, 3, 3, 4, 3, 2);
+        }
+
+        [Test]
+        public void HighestValueUsingTimeFrame5UsingClosePrice()
+        {
+            var highestValue = new HighestValueIndicator(new ClosePriceIndicator(_data), 5);
+            Assert.That(highestValue.GetValue(4), Is.EqualTo(Decimal.ValueOf("4")));
+            Assert.That(highestValue.GetValue(5), Is.EqualTo(Decimal.ValueOf("4")));
+            Assert.That(highestValue.GetValue(6), Is.EqualTo(Decimal.ValueOf("5")));
+            Assert.That(highestValue.GetValue(7), Is.EqualTo(Decimal.ValueOf("6")));
+            Assert.That(highestValue.GetValue(8), Is.EqualTo(Decimal.ValueOf("6")));
+            Assert.That(highestValue.GetValue(9), Is.EqualTo(Decimal.ValueOf("6")));
+            Assert.That(highestValue.GetValue(10), Is.EqualTo(Decimal.ValueOf("6")));
+            Assert.That(highestValue.GetValue(11), Is.EqualTo(Decimal.ValueOf("6")));
+            Assert.That(highestValue.GetValue(12), Is.EqualTo(Decimal.ValueOf("4")));
+        }
 
         [Test]
         public void FirstHighestValueIndicatorValueShouldBeEqualsToFirstDataValue()
-		{
-			var highestValue = new HighestValueIndicator(new ClosePriceIndicator(_data), 5);
-			TaTestsUtils.AssertDecimalEquals(highestValue.GetValue(0), "1");
-		}
-        
-        [Test] 
-		public void HighestValueIndicatorWhenTimeFrameIsGreaterThanIndex()
-		{
-			var highestValue = new HighestValueIndicator(new ClosePriceIndicator(_data), 500);
-			TaTestsUtils.AssertDecimalEquals(highestValue.GetValue(12), "6");
-		}
-	}
+        {
+            var highestValue = new HighestValueIndicator(new ClosePriceIndicator(_data), 5);
+            Assert.That(highestValue.GetValue(0), Is.EqualTo(Decimal.ValueOf("1")));
+        }
+
+        [Test]
+        public void HighestValueIndicatorWhenTimeFrameIsGreaterThanIndex()
+        {
+            var highestValue = new HighestValueIndicator(new ClosePriceIndicator(_data), 500);
+            Assert.That(highestValue.GetValue(12), Is.EqualTo(Decimal.ValueOf("6")));
+        }
+    }
 }

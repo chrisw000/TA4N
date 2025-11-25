@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Helpers
@@ -30,33 +29,32 @@ namespace TA4N.Test.Indicators.Helpers
     using TA4N.Indicators.Helpers;
 
     public sealed class CumulatedLossesIndicatorTest
-	{
-		private TimeSeries _data;
+    {
+        private TimeSeries _data;
 
         [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
-		}
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
+        }
 
-        [Test] 
-		public void AverageGainUsingTimeFrame5UsingClosePrice()
-		{
-			var losses = new CumulatedLossesIndicator(new ClosePriceIndicator(_data), 5);
-
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(0), 0);
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(1), 0);
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(2), 0);
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(3), 0);
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(4), 1);
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(5), 1);
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(6), 1);
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(7), 2);
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(8), 3);
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(9), 2);
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(10), 2);
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(11), 3);
-			TaTestsUtils.AssertDecimalEquals(losses.GetValue(12), 3);
-		}
-	}
+        [Test]
+        public void AverageGainUsingTimeFrame5UsingClosePrice()
+        {
+            var losses = new CumulatedLossesIndicator(new ClosePriceIndicator(_data), 5);
+            Assert.That(losses.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(losses.GetValue(1), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(losses.GetValue(2), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(losses.GetValue(3), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(losses.GetValue(4), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(losses.GetValue(5), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(losses.GetValue(6), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(losses.GetValue(7), Is.EqualTo(Decimal.ValueOf(2)));
+            Assert.That(losses.GetValue(8), Is.EqualTo(Decimal.ValueOf(3)));
+            Assert.That(losses.GetValue(9), Is.EqualTo(Decimal.ValueOf(2)));
+            Assert.That(losses.GetValue(10), Is.EqualTo(Decimal.ValueOf(2)));
+            Assert.That(losses.GetValue(11), Is.EqualTo(Decimal.ValueOf(3)));
+            Assert.That(losses.GetValue(12), Is.EqualTo(Decimal.ValueOf(3)));
+        }
+    }
 }

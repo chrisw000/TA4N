@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,38 +20,37 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Trading.Rules;
 
 namespace TA4N.Test.Trading.Rules
 {
-	using FixedDecimalIndicator = TA4N.Indicators.Simple.FixedDecimalIndicator;
+    using FixedDecimalIndicator = TA4N.Indicators.Simple.FixedDecimalIndicator;
     using Decimal = TA4N.Decimal;
 
-	public class CrossedDownIndicatorRuleTest
-	{
-		private IIndicator<Decimal> _evaluatedIndicator;
-		private CrossedDownIndicatorRule _rule;
+    public class CrossedDownIndicatorRuleTest
+    {
+        private IIndicator<Decimal> _evaluatedIndicator;
+        private CrossedDownIndicatorRule _rule;
 
         [SetUp]
-		public virtual void SetUp()
-		{
-			_evaluatedIndicator = new FixedDecimalIndicator(12, 11, 10, 9, 11, 8, 7, 6);
-			_rule = new CrossedDownIndicatorRule(_evaluatedIndicator, Decimal.Ten);
-		}
+        public virtual void SetUp()
+        {
+            _evaluatedIndicator = new FixedDecimalIndicator(12, 11, 10, 9, 11, 8, 7, 6);
+            _rule = new CrossedDownIndicatorRule(_evaluatedIndicator, Decimal.Ten);
+        }
 
         [Test]
-		public virtual void IsSatisfied()
-		{
-			Assert.IsFalse(_rule.IsSatisfied(0));
-			Assert.IsFalse(_rule.IsSatisfied(1));
-			Assert.IsFalse(_rule.IsSatisfied(2));
-			Assert.IsTrue(_rule.IsSatisfied(3));
-			Assert.IsFalse(_rule.IsSatisfied(4));
-			Assert.IsTrue(_rule.IsSatisfied(5));
-			Assert.IsFalse(_rule.IsSatisfied(6));
-			Assert.IsFalse(_rule.IsSatisfied(7));
-		}
-	}
+        public virtual void IsSatisfied()
+        {
+            Assert.That(_rule.IsSatisfied(0), Is.False);
+            Assert.That(_rule.IsSatisfied(1), Is.False);
+            Assert.That(_rule.IsSatisfied(2), Is.False);
+            Assert.That(_rule.IsSatisfied(3), Is.True);
+            Assert.That(_rule.IsSatisfied(4), Is.False);
+            Assert.That(_rule.IsSatisfied(5), Is.True);
+            Assert.That(_rule.IsSatisfied(6), Is.False);
+            Assert.That(_rule.IsSatisfied(7), Is.False);
+        }
+    }
 }

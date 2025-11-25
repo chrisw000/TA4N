@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,23 +29,22 @@ namespace TA4N.Test.Indicators.Helpers
     using TA4N.Indicators.Helpers;
 
     public sealed class TrueRangeIndicatorTest
-	{
+    {
         [Test]
-		public void GetValue()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(0, 12, 15, 8));
-			ticks.Add(GenerateTick.From(0, 8, 11, 6));
-			ticks.Add(GenerateTick.From(0, 15, 17, 14));
-			ticks.Add(GenerateTick.From(0, 15, 17, 14));
-			ticks.Add(GenerateTick.From(0, 0, 0, 2));
-			var tr = new TrueRangeIndicator(GenerateTimeSeries.From(ticks));
-
-			TaTestsUtils.AssertDecimalEquals(tr.GetValue(0), 7);
-			TaTestsUtils.AssertDecimalEquals(tr.GetValue(1), 6);
-			TaTestsUtils.AssertDecimalEquals(tr.GetValue(2), 9);
-			TaTestsUtils.AssertDecimalEquals(tr.GetValue(3), 3);
-			TaTestsUtils.AssertDecimalEquals(tr.GetValue(4), 15);
-		}
-	}
+        public void GetValue()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(0, 12, 15, 8));
+            ticks.Add(GenerateTick.From(0, 8, 11, 6));
+            ticks.Add(GenerateTick.From(0, 15, 17, 14));
+            ticks.Add(GenerateTick.From(0, 15, 17, 14));
+            ticks.Add(GenerateTick.From(0, 0, 0, 2));
+            var tr = new TrueRangeIndicator(GenerateTimeSeries.From(ticks));
+            Assert.That(tr.GetValue(0), Is.EqualTo(Decimal.ValueOf(7)));
+            Assert.That(tr.GetValue(1), Is.EqualTo(Decimal.ValueOf(6)));
+            Assert.That(tr.GetValue(2), Is.EqualTo(Decimal.ValueOf(9)));
+            Assert.That(tr.GetValue(3), Is.EqualTo(Decimal.ValueOf(3)));
+            Assert.That(tr.GetValue(4), Is.EqualTo(Decimal.ValueOf(15)));
+        }
+    }
 }

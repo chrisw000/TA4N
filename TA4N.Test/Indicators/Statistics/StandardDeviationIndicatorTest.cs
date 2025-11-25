@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -25,44 +25,45 @@ using TA4N.Test.FixtureData;
 /// </summary>
 namespace TA4N.Test.Indicators.Statistics
 {
-	using TA4N.Indicators.Simple;
+    using TA4N.Indicators.Simple;
     using NUnit.Framework;
     using TA4N.Indicators.Statistics;
 
     public sealed class StandardDeviationIndicatorTest
-	{
-		private TimeSeries _data;
-        
-        [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 0, 9);
-		}
-        
-        [Test] 
-		public void StandardDeviationUsingTimeFrame4UsingClosePrice()
-		{
-			var sdv = new StandardDeviationIndicator(new ClosePriceIndicator(_data), 4);
+    {
+        private TimeSeries _data;
 
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(0), 0);
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(1), Math.Sqrt(0.25));
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(2), Math.Sqrt(2.0 / 3));
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(3), Math.Sqrt(1.25));
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(4), Math.Sqrt(0.5));
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(5), Math.Sqrt(0.25));
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(6), Math.Sqrt(0.5));
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(7), Math.Sqrt(0.5));
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(8), Math.Sqrt(0.5));
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(9), Math.Sqrt(3.5));
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(10), Math.Sqrt(10.5));
-		}
-        
+
+        [SetUp]
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 0, 9);
+        }
+
         [Test]
-		public void StandardDeviationShouldBeZeroWhenTimeFrameIs1()
-		{
-			var sdv = new StandardDeviationIndicator(new ClosePriceIndicator(_data), 1);
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(3), 0);
-			TaTestsUtils.AssertDecimalEquals(sdv.GetValue(8), 0);
-		}
-	}
+        public void StandardDeviationUsingTimeFrame4UsingClosePrice()
+        {
+            var sdv = new StandardDeviationIndicator(new ClosePriceIndicator(_data), 4);
+
+            Assert.That(sdv.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(sdv.GetValue(1).ToDouble(), Is.EqualTo(Math.Sqrt(0.25)).Within(TaTestsUtils.TaOffset));
+            Assert.That(sdv.GetValue(2).ToDouble(), Is.EqualTo(Math.Sqrt(2.0 / 3)).Within(TaTestsUtils.TaOffset));
+            Assert.That(sdv.GetValue(3).ToDouble(), Is.EqualTo(Math.Sqrt(1.25)).Within(TaTestsUtils.TaOffset));
+            Assert.That(sdv.GetValue(4).ToDouble(), Is.EqualTo(Math.Sqrt(0.5)).Within(TaTestsUtils.TaOffset));
+            Assert.That(sdv.GetValue(5).ToDouble(), Is.EqualTo(Math.Sqrt(0.25)).Within(TaTestsUtils.TaOffset));
+            Assert.That(sdv.GetValue(6).ToDouble(), Is.EqualTo(Math.Sqrt(0.5)).Within(TaTestsUtils.TaOffset));
+            Assert.That(sdv.GetValue(7).ToDouble(), Is.EqualTo(Math.Sqrt(0.5)).Within(TaTestsUtils.TaOffset));
+            Assert.That(sdv.GetValue(8).ToDouble(), Is.EqualTo(Math.Sqrt(0.5)).Within(TaTestsUtils.TaOffset));
+            Assert.That(sdv.GetValue(9).ToDouble(), Is.EqualTo(Math.Sqrt(3.5)).Within(TaTestsUtils.TaOffset));
+            Assert.That(sdv.GetValue(10).ToDouble(), Is.EqualTo(Math.Sqrt(10.5)).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void StandardDeviationShouldBeZeroWhenTimeFrameIs1()
+        {
+            var sdv = new StandardDeviationIndicator(new ClosePriceIndicator(_data), 1);
+            Assert.That(sdv.GetValue(3), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(sdv.GetValue(8), Is.EqualTo(Decimal.ValueOf(0)));
+        }
+    }
 }

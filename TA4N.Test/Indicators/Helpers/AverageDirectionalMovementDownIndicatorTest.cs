@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,30 +29,28 @@ namespace TA4N.Test.Indicators.Helpers
     using TA4N.Indicators.Helpers;
 
     public sealed class AverageDirectionalMovementDownIndicatorTest
-	{
+    {
         [Test]
-		public void AverageDirectionalMovement()
-		{
-			var tick1 = GenerateTick.From(0, 0, 13, 7);
-			var tick2 = GenerateTick.From(0, 0, 11, 5);
-			var tick3 = GenerateTick.From(0, 0, 15, 3);
-			var tick4 = GenerateTick.From(0, 0, 14, 2);
-			var tick5 = GenerateTick.From(0, 0, 13, 0.2);
-
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(tick1);
-			ticks.Add(tick2);
-			ticks.Add(tick3);
-			ticks.Add(tick4);
-			ticks.Add(tick5);
-
-			var series = GenerateTimeSeries.From(ticks);
-			var admdown = new AverageDirectionalMovementDownIndicator(series, 3);
-			TaTestsUtils.AssertDecimalEquals(admdown.GetValue(0), 1);
-			TaTestsUtils.AssertDecimalEquals(admdown.GetValue(1), 4d / 3);
-			TaTestsUtils.AssertDecimalEquals(admdown.GetValue(2), 4d / 3 * 2d / 3);
-			TaTestsUtils.AssertDecimalEquals(admdown.GetValue(3), (4d / 3 * 2d / 3) * 2d / 3 + 1d / 3);
-			TaTestsUtils.AssertDecimalEquals(admdown.GetValue(4), ((4d / 3 * 2d / 3) * 2d / 3 + 1d / 3) * 2d / 3 + 1.8 * 1d / 3);
-		}
-	}
+        public void AverageDirectionalMovement()
+        {
+            var tick1 = GenerateTick.From(0, 0, 13, 7);
+            var tick2 = GenerateTick.From(0, 0, 11, 5);
+            var tick3 = GenerateTick.From(0, 0, 15, 3);
+            var tick4 = GenerateTick.From(0, 0, 14, 2);
+            var tick5 = GenerateTick.From(0, 0, 13, 0.2);
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(tick1);
+            ticks.Add(tick2);
+            ticks.Add(tick3);
+            ticks.Add(tick4);
+            ticks.Add(tick5);
+            var series = GenerateTimeSeries.From(ticks);
+            var admdown = new AverageDirectionalMovementDownIndicator(series, 3);
+            Assert.That(admdown.GetValue(0), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(admdown.GetValue(1).ToDouble(), Is.EqualTo(4d / 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(admdown.GetValue(2).ToDouble(), Is.EqualTo(4d / 3 * 2d / 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(admdown.GetValue(3).ToDouble(), Is.EqualTo((4d / 3 * 2d / 3) * 2d / 3 + 1d / 3).Within(TaTestsUtils.TaOffset));
+            Assert.That(admdown.GetValue(4).ToDouble(), Is.EqualTo(((4d / 3 * 2d / 3) * 2d / 3 + 1d / 3) * 2d / 3 + 1.8 * 1d / 3).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,32 +20,30 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Trading.Rules;
 
 namespace TA4N.Test.Trading.Rules
 {
-	public sealed class NotRuleTest
-	{
-		private IRule _satisfiedRule;
-		private IRule _unsatisfiedRule;
+    public sealed class NotRuleTest
+    {
+        private IRule _satisfiedRule;
+        private IRule _unsatisfiedRule;
 
         [SetUp]
-		public void SetUp()
-		{
-			_satisfiedRule = new BooleanRule(true);
-			_unsatisfiedRule = new BooleanRule(false);
-		}
+        public void SetUp()
+        {
+            _satisfiedRule = new BooleanRule(true);
+            _unsatisfiedRule = new BooleanRule(false);
+        }
 
         [Test]
-		public void IsSatisfied()
-		{
-			Assert.IsFalse(_satisfiedRule.Negation().IsSatisfied(0));
-			Assert.IsTrue(_unsatisfiedRule.Negation().IsSatisfied(0));
-
-			Assert.IsFalse(_satisfiedRule.Negation().IsSatisfied(10));
-			Assert.IsTrue(_unsatisfiedRule.Negation().IsSatisfied(10));
-		}
-	}
+        public void IsSatisfied()
+        {
+            Assert.That(_satisfiedRule.Negation().IsSatisfied(0), Is.False);
+            Assert.That(_unsatisfiedRule.Negation().IsSatisfied(0), Is.True);
+            Assert.That(_satisfiedRule.Negation().IsSatisfied(10), Is.False);
+            Assert.That(_unsatisfiedRule.Negation().IsSatisfied(10), Is.True);
+        }
+    }
 }

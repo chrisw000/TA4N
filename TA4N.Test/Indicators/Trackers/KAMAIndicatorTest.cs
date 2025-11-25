@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Trackers
@@ -34,61 +33,60 @@ namespace TA4N.Test.Indicators.Trackers
     /// </summary>
     /// <see href="http://stockcharts.com/school/data/media/chart_school/technical_indicators_and_overlays/kaufman_s_adaptive_moving_average/cs-kama.xls">StockCharts.com</see>
     public sealed class KamaIndicatorTest
-	{
-		private TimeSeries _data;
+    {
+        private TimeSeries _data;
 
         [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(110.46, 109.80, 110.17, 109.82, 110.15, 109.31, 109.05, 107.94, 107.76, 109.24, 109.40, 108.50, 107.96, 108.55, 108.85, 110.44, 109.89, 110.70, 110.79, 110.22, 110.00, 109.27, 106.69, 107.07, 107.92, 107.95, 107.70, 107.97, 106.09, 106.03, 107.65, 109.54, 110.26, 110.38, 111.94, 113.59, 113.98, 113.91, 112.62, 112.20, 111.10, 110.18, 111.13, 111.55, 112.08, 111.95, 111.60, 111.39, 112.25);
-		}
-        
-        [Test]
-		public void Kama()
-		{
-			var closePrice = new ClosePriceIndicator(_data);
-			var kama = new KamaIndicator(closePrice, 10, 2, 30);
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(110.46, 109.80, 110.17, 109.82, 110.15, 109.31, 109.05, 107.94, 107.76, 109.24, 109.40, 108.50, 107.96, 108.55, 108.85, 110.44, 109.89, 110.70, 110.79, 110.22, 110.00, 109.27, 106.69, 107.07, 107.92, 107.95, 107.70, 107.97, 106.09, 106.03, 107.65, 109.54, 110.26, 110.38, 111.94, 113.59, 113.98, 113.91, 112.62, 112.20, 111.10, 110.18, 111.13, 111.55, 112.08, 111.95, 111.60, 111.39, 112.25);
+        }
 
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(9), 109.2400);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(10), 109.2449);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(11), 109.2165);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(12), 109.1173);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(13), 109.0981);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(14), 109.0894);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(15), 109.1240);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(16), 109.1376);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(17), 109.2769);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(18), 109.4365);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(19), 109.4569);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(20), 109.4651);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(21), 109.4612);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(22), 109.3904);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(23), 109.3165);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(24), 109.2924);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(25), 109.1836);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(26), 109.0778);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(27), 108.9498);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(28), 108.4230);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(29), 108.0157);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(30), 107.9967);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(31), 108.0069);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(32), 108.2596);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(33), 108.4818);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(34), 108.9119);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(35), 109.6734);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(36), 110.4947);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(37), 111.1077);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(38), 111.4622);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(39), 111.6092);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(40), 111.5663);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(41), 111.5491);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(42), 111.5425);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(43), 111.5426);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(44), 111.5457);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(45), 111.5658);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(46), 111.5688);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(47), 111.5522);
-			TaTestsUtils.AssertDecimalEquals(kama.GetValue(48), 111.5595);
-		}
-	}
+        [Test]
+        public void Kama()
+        {
+            var closePrice = new ClosePriceIndicator(_data);
+            var kama = new KamaIndicator(closePrice, 10, 2, 30);
+            Assert.That(kama.GetValue(9).ToDouble(), Is.EqualTo(109.2400).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(10).ToDouble(), Is.EqualTo(109.2449).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(11).ToDouble(), Is.EqualTo(109.2165).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(12).ToDouble(), Is.EqualTo(109.1173).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(13).ToDouble(), Is.EqualTo(109.0981).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(14).ToDouble(), Is.EqualTo(109.0894).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(15).ToDouble(), Is.EqualTo(109.1240).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(16).ToDouble(), Is.EqualTo(109.1376).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(17).ToDouble(), Is.EqualTo(109.2769).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(18).ToDouble(), Is.EqualTo(109.4365).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(19).ToDouble(), Is.EqualTo(109.4569).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(20).ToDouble(), Is.EqualTo(109.4651).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(21).ToDouble(), Is.EqualTo(109.4612).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(22).ToDouble(), Is.EqualTo(109.3904).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(23).ToDouble(), Is.EqualTo(109.3165).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(24).ToDouble(), Is.EqualTo(109.2924).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(25).ToDouble(), Is.EqualTo(109.1836).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(26).ToDouble(), Is.EqualTo(109.0778).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(27).ToDouble(), Is.EqualTo(108.9498).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(28).ToDouble(), Is.EqualTo(108.4230).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(29).ToDouble(), Is.EqualTo(108.0157).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(30).ToDouble(), Is.EqualTo(107.9967).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(31).ToDouble(), Is.EqualTo(108.0069).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(32).ToDouble(), Is.EqualTo(108.2596).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(33).ToDouble(), Is.EqualTo(108.4818).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(34).ToDouble(), Is.EqualTo(108.9119).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(35).ToDouble(), Is.EqualTo(109.6734).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(36).ToDouble(), Is.EqualTo(110.4947).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(37).ToDouble(), Is.EqualTo(111.1077).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(38).ToDouble(), Is.EqualTo(111.4622).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(39).ToDouble(), Is.EqualTo(111.6092).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(40).ToDouble(), Is.EqualTo(111.5663).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(41).ToDouble(), Is.EqualTo(111.5491).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(42).ToDouble(), Is.EqualTo(111.5425).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(43).ToDouble(), Is.EqualTo(111.5426).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(44).ToDouble(), Is.EqualTo(111.5457).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(45).ToDouble(), Is.EqualTo(111.5658).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(46).ToDouble(), Is.EqualTo(111.5688).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(47).ToDouble(), Is.EqualTo(111.5522).Within(TaTestsUtils.TaOffset));
+            Assert.That(kama.GetValue(48).ToDouble(), Is.EqualTo(111.5595).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

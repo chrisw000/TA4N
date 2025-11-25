@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,41 +20,37 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using TA4N.Indicators.Simple;
 using NUnit.Framework;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class SumIndicatorTest
-	{
-		private ConstantIndicator<Decimal> _constantIndicator;
-
-		private FixedIndicator<Decimal> _mockIndicator;
-
-		private FixedIndicator<Decimal> _mockIndicator2;
-
-		private SumIndicator _sumIndicator;
+    public sealed class SumIndicatorTest
+    {
+        private ConstantIndicator<Decimal> _constantIndicator;
+        private FixedIndicator<Decimal> _mockIndicator;
+        private FixedIndicator<Decimal> _mockIndicator2;
+        private SumIndicator _sumIndicator;
 
         [SetUp]
-		public void SetUp()
-		{
-			_constantIndicator = new ConstantIndicator<Decimal>(Decimal.ValueOf(6));
-			_mockIndicator = new FixedIndicator<Decimal>(Decimal.ValueOf("-2.0"), Decimal.ValueOf("0.00"), Decimal.ValueOf("1.00"), Decimal.ValueOf("2.53"), Decimal.ValueOf("5.87"), Decimal.ValueOf("6.00"), Decimal.ValueOf("10.0"));
-			_mockIndicator2 = new FixedIndicator<Decimal>(Decimal.Zero, Decimal.One, Decimal.Two, Decimal.Three, Decimal.Ten, Decimal.ValueOf("-42"), Decimal.ValueOf("-1337"));
-			_sumIndicator = new SumIndicator(_constantIndicator, _mockIndicator, _mockIndicator2);
-		}
+        public void SetUp()
+        {
+            _constantIndicator = new ConstantIndicator<Decimal>(Decimal.ValueOf(6));
+            _mockIndicator = new FixedIndicator<Decimal>(Decimal.ValueOf("-2.0"), Decimal.ValueOf("0.00"), Decimal.ValueOf("1.00"), Decimal.ValueOf("2.53"), Decimal.ValueOf("5.87"), Decimal.ValueOf("6.00"), Decimal.ValueOf("10.0"));
+            _mockIndicator2 = new FixedIndicator<Decimal>(Decimal.Zero, Decimal.One, Decimal.Two, Decimal.Three, Decimal.Ten, Decimal.ValueOf("-42"), Decimal.ValueOf("-1337"));
+            _sumIndicator = new SumIndicator(_constantIndicator, _mockIndicator, _mockIndicator2);
+        }
 
         [Test]
-		public void GetValue()
-		{
-			TaTestsUtils.AssertDecimalEquals(_sumIndicator.GetValue(0), "4");
-			TaTestsUtils.AssertDecimalEquals(_sumIndicator.GetValue(1), "7");
-			TaTestsUtils.AssertDecimalEquals(_sumIndicator.GetValue(2), "9");
-			TaTestsUtils.AssertDecimalEquals(_sumIndicator.GetValue(3), "11.53");
-			TaTestsUtils.AssertDecimalEquals(_sumIndicator.GetValue(4), "21.87");
-			TaTestsUtils.AssertDecimalEquals(_sumIndicator.GetValue(5), "-30");
-			TaTestsUtils.AssertDecimalEquals(_sumIndicator.GetValue(6), "-1321");
-		}
-	}
+        public void GetValue()
+        {
+            Assert.That(_sumIndicator.GetValue(0), Is.EqualTo(Decimal.ValueOf("4")));
+            Assert.That(_sumIndicator.GetValue(1), Is.EqualTo(Decimal.ValueOf("7")));
+            Assert.That(_sumIndicator.GetValue(2), Is.EqualTo(Decimal.ValueOf("9")));
+            Assert.That(_sumIndicator.GetValue(3), Is.EqualTo(Decimal.ValueOf("11.53")));
+            Assert.That(_sumIndicator.GetValue(4), Is.EqualTo(Decimal.ValueOf("21.87")));
+            Assert.That(_sumIndicator.GetValue(5), Is.EqualTo(Decimal.ValueOf("-30")));
+            Assert.That(_sumIndicator.GetValue(6), Is.EqualTo(Decimal.ValueOf("-1321")));
+        }
+    }
 }

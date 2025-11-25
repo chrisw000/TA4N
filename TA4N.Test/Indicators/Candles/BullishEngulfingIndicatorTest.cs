@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,31 +29,31 @@ namespace TA4N.Test.Indicators.Candles
     using TA4N.Indicators.Candles;
 
     public sealed class BullishEngulfingIndicatorTest
-	{
+    {
         private TimeSeries _series;
-        
+
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			// open, close, high, low
-			ticks.Add(GenerateTick.From(10, 18, 20, 10));
-			ticks.Add(GenerateTick.From(17, 16, 19, 15));
-			ticks.Add(GenerateTick.From(15, 18, 19, 14));
-			ticks.Add(GenerateTick.From(15, 11, 15, 8));
-			ticks.Add(GenerateTick.From(11, 12, 12, 10));
-			_series = GenerateTimeSeries.From(ticks);
-		}
-        
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            // open, close, high, low
+            ticks.Add(GenerateTick.From(10, 18, 20, 10));
+            ticks.Add(GenerateTick.From(17, 16, 19, 15));
+            ticks.Add(GenerateTick.From(15, 18, 19, 14));
+            ticks.Add(GenerateTick.From(15, 11, 15, 8));
+            ticks.Add(GenerateTick.From(11, 12, 12, 10));
+            _series = GenerateTimeSeries.From(ticks);
+        }
+
         [Test]
-		public void GetValue()
-		{
-			var bep = new BullishEngulfingIndicator(_series);
-			Assert.IsFalse(bep.GetValue(0));
-			Assert.IsFalse(bep.GetValue(1));
-			Assert.IsTrue(bep.GetValue(2));
-			Assert.IsFalse(bep.GetValue(3));
-			Assert.IsFalse(bep.GetValue(4));
-		}
-	}
+        public void GetValue()
+        {
+            var bep = new BullishEngulfingIndicator(_series);
+            Assert.That(bep.GetValue(0), Is.False);
+            Assert.That(bep.GetValue(1), Is.False);
+            Assert.That(bep.GetValue(2), Is.True);
+            Assert.That(bep.GetValue(3), Is.False);
+            Assert.That(bep.GetValue(4), Is.False);
+        }
+    }
 }

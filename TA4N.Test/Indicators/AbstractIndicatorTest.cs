@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Indicators.Trackers;
 using TA4N.Test.FixtureData;
 
@@ -29,23 +28,23 @@ namespace TA4N.Test.Indicators
     using TA4N.Indicators.Simple;
     using NUnit.Framework;
 
-	public sealed class AbstractIndicatorTest
-	{
-		private TimeSeries _series;
-        
+    public sealed class AbstractIndicatorTest
+    {
+        private TimeSeries _series;
+
         [SetUp]
-		public void SetUp()
-		{
-			_series = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
-		}
-        
+        public void SetUp()
+        {
+            _series = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 4, 3, 3, 4, 3, 2);
+        }
+
         [Test]
         public void GetTimeSeries()
-		{
-			var cp = new ClosePriceIndicator(_series);
-			Assert.AreEqual(_series, cp.TimeSeries);
-			var sma = new SmaIndicator(cp, 3);
-			Assert.AreEqual(_series, sma.TimeSeries);
-		}
-	}
+        {
+            var cp = new ClosePriceIndicator(_series);
+            Assert.That(cp.TimeSeries, Is.EqualTo(_series));
+            var sma = new SmaIndicator(cp, 3);
+            Assert.That(sma.TimeSeries, Is.EqualTo(_series));
+        }
+    }
 }

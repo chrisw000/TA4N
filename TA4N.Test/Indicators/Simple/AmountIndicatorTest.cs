@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,32 +20,31 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using TA4N.Indicators.Simple;
 using NUnit.Framework;
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class AmountIndicatorTest
-	{
-		private AmountIndicator _amountIndicator;
+    public sealed class AmountIndicatorTest
+    {
+        private AmountIndicator _amountIndicator;
         private TimeSeries _timeSeries;
 
         [SetUp]
-		public void SetUp()
-		{
-			_timeSeries = GenerateTimeSeries.WithArbitraryTicks();
-			_amountIndicator = new AmountIndicator(_timeSeries);
-		}
+        public void SetUp()
+        {
+            _timeSeries = GenerateTimeSeries.WithArbitraryTicks();
+            _amountIndicator = new AmountIndicator(_timeSeries);
+        }
 
         [Test]
-		public void IndicatorShouldRetrieveTickAmountPrice()
-		{
-			for (var i = 0; i < 10; i++)
-			{
-				Assert.AreEqual(_amountIndicator.GetValue(i), _timeSeries.GetTick(i).Amount);
-			}
-		}
-	}
+        public void IndicatorShouldRetrieveTickAmountPrice()
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                Assert.That(_timeSeries.GetTick(i).Amount, Is.EqualTo(_amountIndicator.GetValue(i)));
+            }
+        }
+    }
 }

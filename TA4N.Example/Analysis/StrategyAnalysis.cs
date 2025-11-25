@@ -87,23 +87,23 @@ namespace TA4N.Examples.analysis
             var totalProfit = new TotalProfitCriterion();
 			Console.WriteLine("Total profit: " + totalProfit.Calculate(_series, tradingRecord));
 			// Number of ticks
-			Console.WriteLine("Number of ticks: " + (new NumberOfTicksCriterion()).Calculate(_series, tradingRecord));
+			Console.WriteLine("Number of ticks: " + new NumberOfTicksCriterion().Calculate(_series, tradingRecord));
 			// Average profit (per tick)
-			Console.WriteLine("Average profit (per tick): " + (new AverageProfitCriterion()).Calculate(_series, tradingRecord));
+			Console.WriteLine("Average profit (per tick): " + new AverageProfitCriterion().Calculate(_series, tradingRecord));
 			// Number of trades
-			Console.WriteLine("Number of trades: " + (new NumberOfTradesCriterion()).Calculate(_series, tradingRecord));
+			Console.WriteLine("Number of trades: " + new NumberOfTradesCriterion().Calculate(_series, tradingRecord));
 			// Profitable trades ratio
-			Console.WriteLine("Profitable trades ratio: " + (new AverageProfitableTradesCriterion()).Calculate(_series, tradingRecord));
+			Console.WriteLine("Profitable trades ratio: " + new AverageProfitableTradesCriterion().Calculate(_series, tradingRecord));
 			// Maximum drawdown
-			Console.WriteLine("Maximum drawdown: " + (new MaximumDrawdownCriterion()).Calculate(_series, tradingRecord));
+			Console.WriteLine("Maximum drawdown: " + new MaximumDrawdownCriterion().Calculate(_series, tradingRecord));
 			// Reward-risk ratio
-			Console.WriteLine("Reward-risk ratio: " + (new RewardRiskRatioCriterion()).Calculate(_series, tradingRecord));
+			Console.WriteLine("Reward-risk ratio: " + new RewardRiskRatioCriterion().Calculate(_series, tradingRecord));
 			// Total transaction cost
-			Console.WriteLine("Total transaction cost (from $1000): " + (new LinearTransactionCostCriterion(1000, 0.005)).Calculate(_series, tradingRecord));
+			Console.WriteLine("Total transaction cost (from $1000): " + new LinearTransactionCostCriterion(1000, 0.005).Calculate(_series, tradingRecord));
 			// Buy-and-hold
-			Console.WriteLine("Buy-and-hold: " + (new BuyAndHoldCriterion()).Calculate(_series, tradingRecord));
+			Console.WriteLine("Buy-and-hold: " + new BuyAndHoldCriterion().Calculate(_series, tradingRecord));
 			// Total profit vs buy-and-hold
-			Console.WriteLine("Custom strategy profit vs buy-and-hold strategy profit: " + (new VersusBuyAndHoldCriterion(totalProfit)).Calculate(_series, tradingRecord));
+			Console.WriteLine("Custom strategy profit vs buy-and-hold strategy profit: " + new VersusBuyAndHoldCriterion(totalProfit).Calculate(_series, tradingRecord));
 		}
 	}
 }

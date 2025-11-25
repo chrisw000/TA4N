@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using System.Collections.Generic;
 using NUnit.Framework;
 using TA4N.Indicators.Simple;
@@ -28,39 +27,38 @@ using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class VolumeIndicatorTest
-	{
+    public sealed class VolumeIndicatorTest
+    {
         [Test]
-		public void IndicatorShouldRetrieveTickVolume()
-		{
-			TimeSeries series = GenerateTimeSeries.WithArbitraryTicks();
-			var volumeIndicator = new VolumeIndicator(series);
-			for (var i = 0; i < 10; i++)
-			{
-				Assert.AreEqual(volumeIndicator.GetValue(i), series.GetTick(i).Volume);
-			}
-		}
+        public void IndicatorShouldRetrieveTickVolume()
+        {
+            TimeSeries series = GenerateTimeSeries.WithArbitraryTicks();
+            var volumeIndicator = new VolumeIndicator(series);
+            for (var i = 0; i < 10; i++)
+            {
+                Assert.That(series.GetTick(i).Volume, Is.EqualTo(volumeIndicator.GetValue(i)));
+            }
+        }
 
         [Test]
-		public void SumOfVolume()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(0, 10));
-			ticks.Add(GenerateTick.From(0, 11));
-			ticks.Add(GenerateTick.From(0, 12));
-			ticks.Add(GenerateTick.From(0, 13));
-			ticks.Add(GenerateTick.From(0, 150));
-			ticks.Add(GenerateTick.From(0, 155));
-			ticks.Add(GenerateTick.From(0, 160));
-			var volumeIndicator = new VolumeIndicator(GenerateTimeSeries.From(ticks), 3);
-
-			TaTestsUtils.AssertDecimalEquals(volumeIndicator.GetValue(0), 10);
-			TaTestsUtils.AssertDecimalEquals(volumeIndicator.GetValue(1), 21);
-			TaTestsUtils.AssertDecimalEquals(volumeIndicator.GetValue(2), 33);
-			TaTestsUtils.AssertDecimalEquals(volumeIndicator.GetValue(3), 36);
-			TaTestsUtils.AssertDecimalEquals(volumeIndicator.GetValue(4), 175);
-			TaTestsUtils.AssertDecimalEquals(volumeIndicator.GetValue(5), 318);
-			TaTestsUtils.AssertDecimalEquals(volumeIndicator.GetValue(6), 465);
-		}
-	}
+        public void SumOfVolume()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(0, 10));
+            ticks.Add(GenerateTick.From(0, 11));
+            ticks.Add(GenerateTick.From(0, 12));
+            ticks.Add(GenerateTick.From(0, 13));
+            ticks.Add(GenerateTick.From(0, 150));
+            ticks.Add(GenerateTick.From(0, 155));
+            ticks.Add(GenerateTick.From(0, 160));
+            var volumeIndicator = new VolumeIndicator(GenerateTimeSeries.From(ticks), 3);
+            Assert.That(volumeIndicator.GetValue(0), Is.EqualTo(Decimal.ValueOf(10)));
+            Assert.That(volumeIndicator.GetValue(1), Is.EqualTo(Decimal.ValueOf(21)));
+            Assert.That(volumeIndicator.GetValue(2), Is.EqualTo(Decimal.ValueOf(33)));
+            Assert.That(volumeIndicator.GetValue(3), Is.EqualTo(Decimal.ValueOf(36)));
+            Assert.That(volumeIndicator.GetValue(4), Is.EqualTo(Decimal.ValueOf(175)));
+            Assert.That(volumeIndicator.GetValue(5), Is.EqualTo(Decimal.ValueOf(318)));
+            Assert.That(volumeIndicator.GetValue(6), Is.EqualTo(Decimal.ValueOf(465)));
+        }
+    }
 }

@@ -80,7 +80,7 @@ namespace TA4N.Examples
             // We want to buy:
             //  - if the 5-ticks SMA crosses over 30-ticks SMA
             //  - or if the price goes below a defined price (e.g $800.00)
-            var buyingRule = (new CrossedUpIndicatorRule(shortSma, longSma))
+            var buyingRule = new CrossedUpIndicatorRule(shortSma, longSma)
                 .Or(new CrossedDownIndicatorRule(closePrice, Decimal.ValueOf("800")));
 
             // Selling rules
@@ -88,7 +88,7 @@ namespace TA4N.Examples
             //  - if the 5-ticks SMA crosses under 30-ticks SMA
             //  - or if if the price looses more than 3%
             //  - or if the price earns more than 2%
-            var sellingRule = (new CrossedDownIndicatorRule(shortSma, longSma))
+            var sellingRule = new CrossedDownIndicatorRule(shortSma, longSma)
                               //.Or(new CrossedDownIndicatorRule(new TrailingStopLossIndicator(closePrice, Decimal.ValueOf("30")), closePrice ))
                 .Or(new StopLossRule(closePrice, Decimal.ValueOf("3")))
                 .Or(new StopGainRule(closePrice, Decimal.ValueOf("2")));

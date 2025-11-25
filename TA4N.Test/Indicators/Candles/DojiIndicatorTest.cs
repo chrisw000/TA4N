@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -29,43 +29,42 @@ namespace TA4N.Test.Indicators.Candles
     using TA4N.Indicators.Candles;
 
     public sealed class DojiIndicatorTest
-	{
-		private TimeSeries _series;
+    {
+        private TimeSeries _series;
 
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			// open, close, high, low
-			ticks.Add(GenerateTick.From(19, 19, 22, 16));
-			ticks.Add(GenerateTick.From(10, 18, 20, 10));
-			ticks.Add(GenerateTick.From(17, 20, 21, 17));
-			ticks.Add(GenerateTick.From(15, 15.1, 16, 14));
-			ticks.Add(GenerateTick.From(15, 11, 15, 8));
-			ticks.Add(GenerateTick.From(11, 12, 12, 10));
-			_series = GenerateTimeSeries.From(ticks);
-		}
-        
-        [Test]
-		public void GetValueAtIndex0()
-		{
-			var doji = new DojiIndicator(GenerateTimeSeries.From(0d), 10, Decimal.ValueOf("0.03"));
-			Assert.IsTrue(doji.GetValue(0));
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            // open, close, high, low
+            ticks.Add(GenerateTick.From(19, 19, 22, 16));
+            ticks.Add(GenerateTick.From(10, 18, 20, 10));
+            ticks.Add(GenerateTick.From(17, 20, 21, 17));
+            ticks.Add(GenerateTick.From(15, 15.1, 16, 14));
+            ticks.Add(GenerateTick.From(15, 11, 15, 8));
+            ticks.Add(GenerateTick.From(11, 12, 12, 10));
+            _series = GenerateTimeSeries.From(ticks);
+        }
 
-			doji = new DojiIndicator(GenerateTimeSeries.From(1d), 10, Decimal.ValueOf("0.03"));
-			Assert.IsFalse(doji.GetValue(0));
-		}
-        
         [Test]
-		public void GetValue()
-		{
-			var doji = new DojiIndicator(_series, 3, Decimal.ValueOf("0.1"));
-			Assert.IsTrue(doji.GetValue(0));
-			Assert.IsFalse(doji.GetValue(1));
-			Assert.IsFalse(doji.GetValue(2));
-			Assert.IsTrue(doji.GetValue(3));
-			Assert.IsFalse(doji.GetValue(4));
-			Assert.IsFalse(doji.GetValue(5));
-		}
-	}
+        public void GetValueAtIndex0()
+        {
+            var doji = new DojiIndicator(GenerateTimeSeries.From(0d), 10, Decimal.ValueOf("0.03"));
+            Assert.That(doji.GetValue(0), Is.True);
+            doji = new DojiIndicator(GenerateTimeSeries.From(1d), 10, Decimal.ValueOf("0.03"));
+            Assert.That(doji.GetValue(0), Is.False);
+        }
+
+        [Test]
+        public void GetValue()
+        {
+            var doji = new DojiIndicator(_series, 3, Decimal.ValueOf("0.1"));
+            Assert.That(doji.GetValue(0), Is.True);
+            Assert.That(doji.GetValue(1), Is.False);
+            Assert.That(doji.GetValue(2), Is.False);
+            Assert.That(doji.GetValue(3), Is.True);
+            Assert.That(doji.GetValue(4), Is.False);
+            Assert.That(doji.GetValue(5), Is.False);
+        }
+    }
 }

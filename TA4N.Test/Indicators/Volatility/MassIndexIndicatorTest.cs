@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -28,13 +28,13 @@ namespace TA4N.Test.Indicators.Volatility
     using TA4N.Indicators.Volatility;
     using NUnit.Framework;
 
-	public sealed class MassIndexIndicatorTest
-	{
+    public sealed class MassIndexIndicatorTest
+    {
         private TimeSeries _data;
-        
+
         [SetUp]
-		public void SetUp()
-		{
+        public void SetUp()
+        {
             IList<Tick> ticks = new List<Tick>
             {
                 // open, close, high, low
@@ -59,22 +59,20 @@ namespace TA4N.Test.Indicators.Volatility
                 GenerateTick.From(43.56, 43.95, 43.99, 43.53),
                 GenerateTick.From(43.93, 44.47, 44.58, 43.93)
             };
-
             _data = new TimeSeries(ticks);
-		}
+        }
 
-        [Test] 
-		public void MassIndexUsing3And8TimeFrames()
-		{
-			var massIndex = new MassIndexIndicator(_data, 3, 8);
-
-			TaTestsUtils.AssertDecimalEquals(massIndex.GetValue(0), 1);
-			TaTestsUtils.AssertDecimalEquals(massIndex.GetValue(14), 9.1158);
-			TaTestsUtils.AssertDecimalEquals(massIndex.GetValue(15), 9.2462);
-			TaTestsUtils.AssertDecimalEquals(massIndex.GetValue(16), 9.4026);
-			TaTestsUtils.AssertDecimalEquals(massIndex.GetValue(17), 9.2129);
-			TaTestsUtils.AssertDecimalEquals(massIndex.GetValue(18), 9.1576);
-			TaTestsUtils.AssertDecimalEquals(massIndex.GetValue(19), 9.0184);
-		}
-	}
+        [Test]
+        public void MassIndexUsing3And8TimeFrames()
+        {
+            var massIndex = new MassIndexIndicator(_data, 3, 8);
+            Assert.That(massIndex.GetValue(0), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(massIndex.GetValue(14).ToDouble(), Is.EqualTo(9.1158).Within(TaTestsUtils.TaOffset));
+            Assert.That(massIndex.GetValue(15).ToDouble(), Is.EqualTo(9.2462).Within(TaTestsUtils.TaOffset));
+            Assert.That(massIndex.GetValue(16).ToDouble(), Is.EqualTo(9.4026).Within(TaTestsUtils.TaOffset));
+            Assert.That(massIndex.GetValue(17).ToDouble(), Is.EqualTo(9.2129).Within(TaTestsUtils.TaOffset));
+            Assert.That(massIndex.GetValue(18).ToDouble(), Is.EqualTo(9.1576).Within(TaTestsUtils.TaOffset));
+            Assert.That(massIndex.GetValue(19).ToDouble(), Is.EqualTo(9.0184).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

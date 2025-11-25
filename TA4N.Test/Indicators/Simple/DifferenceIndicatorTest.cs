@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,36 +20,35 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using TA4N.Indicators.Simple;
 using NUnit.Framework;
 
 namespace TA4N.Test.Indicators.Simple
 {
-	public sealed class DifferenceIndicatorTest
-	{
+    public sealed class DifferenceIndicatorTest
+    {
         private ConstantIndicator<Decimal> _constantIndicator;
         private FixedIndicator<Decimal> _mockIndicator;
         private DifferenceIndicator _differenceIndicator;
-        
+
         [SetUp]
-		public void SetUp()
-		{
-			_constantIndicator = new ConstantIndicator<Decimal>(Decimal.ValueOf(6));
-			_mockIndicator = new FixedIndicator<Decimal>(Decimal.ValueOf("-2.0"), Decimal.ValueOf("0.00"), Decimal.ValueOf("1.00"), Decimal.ValueOf("2.53"), Decimal.ValueOf("5.87"), Decimal.ValueOf("6.00"), Decimal.ValueOf("10.0"));
-			_differenceIndicator = new DifferenceIndicator(_constantIndicator, _mockIndicator);
-		}
-        
+        public void SetUp()
+        {
+            _constantIndicator = new ConstantIndicator<Decimal>(Decimal.ValueOf(6));
+            _mockIndicator = new FixedIndicator<Decimal>(Decimal.ValueOf("-2.0"), Decimal.ValueOf("0.00"), Decimal.ValueOf("1.00"), Decimal.ValueOf("2.53"), Decimal.ValueOf("5.87"), Decimal.ValueOf("6.00"), Decimal.ValueOf("10.0"));
+            _differenceIndicator = new DifferenceIndicator(_constantIndicator, _mockIndicator);
+        }
+
         [Test]
-		public void GetValue()
-		{
-			TaTestsUtils.AssertDecimalEquals(_differenceIndicator.GetValue(0), "8");
-			TaTestsUtils.AssertDecimalEquals(_differenceIndicator.GetValue(1), "6");
-			TaTestsUtils.AssertDecimalEquals(_differenceIndicator.GetValue(2), "5");
-			TaTestsUtils.AssertDecimalEquals(_differenceIndicator.GetValue(3), "3.47");
-			TaTestsUtils.AssertDecimalEquals(_differenceIndicator.GetValue(4), "0.13");
-			TaTestsUtils.AssertDecimalEquals(_differenceIndicator.GetValue(5), "0");
-			TaTestsUtils.AssertDecimalEquals(_differenceIndicator.GetValue(6), "-4");
-		}
-	}
+        public void GetValue()
+        {
+            Assert.That(_differenceIndicator.GetValue(0), Is.EqualTo(Decimal.ValueOf("8")));
+            Assert.That(_differenceIndicator.GetValue(1), Is.EqualTo(Decimal.ValueOf("6")));
+            Assert.That(_differenceIndicator.GetValue(2), Is.EqualTo(Decimal.ValueOf("5")));
+            Assert.That(_differenceIndicator.GetValue(3), Is.EqualTo(Decimal.ValueOf("3.47")));
+            Assert.That(_differenceIndicator.GetValue(4), Is.EqualTo(Decimal.ValueOf("0.13")));
+            Assert.That(_differenceIndicator.GetValue(5), Is.EqualTo(Decimal.ValueOf("0")));
+            Assert.That(_differenceIndicator.GetValue(6), Is.EqualTo(Decimal.ValueOf("-4")));
+        }
+    }
 }

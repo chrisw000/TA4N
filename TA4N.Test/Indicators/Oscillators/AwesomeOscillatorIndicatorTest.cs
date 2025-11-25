@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -30,53 +30,52 @@ namespace TA4N.Test.Indicators.Oscillators
     using TA4N.Indicators.Oscillators;
 
     public sealed class AwesomeOscillatorIndicatorTest
-	{
-		private TimeSeries _series;
-        
+    {
+        private TimeSeries _series;
+
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			ticks.Add(GenerateTick.From(0, 0, 16, 8));
-			ticks.Add(GenerateTick.From(0, 0, 12, 6));
-			ticks.Add(GenerateTick.From(0, 0, 18, 14));
-			ticks.Add(GenerateTick.From(0, 0, 10, 6));
-			ticks.Add(GenerateTick.From(0, 0, 8, 4));
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            ticks.Add(GenerateTick.From(0, 0, 16, 8));
+            ticks.Add(GenerateTick.From(0, 0, 12, 6));
+            ticks.Add(GenerateTick.From(0, 0, 18, 14));
+            ticks.Add(GenerateTick.From(0, 0, 10, 6));
+            ticks.Add(GenerateTick.From(0, 0, 8, 4));
+            this._series = GenerateTimeSeries.From(ticks);
+        }
 
-			this._series = GenerateTimeSeries.From(ticks);
-		}
-
-        [Test] 
-		public void CalculateWithSma2AndSma3()
-		{
-			var awesome = new AwesomeOscillatorIndicator(new MedianPriceIndicator(_series), 2, 3);
-            TaTestsUtils.AssertDecimalEquals(awesome.GetValue(0), 0);
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(1), 0);
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(2), 1d / 6);
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(3), 1);
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(4), -3);
-		}
-
-        [Test] 
-		public void WithSma1AndSma2()
-		{
-			var awesome = new AwesomeOscillatorIndicator(new MedianPriceIndicator(_series), 1, 2);
-            TaTestsUtils.AssertDecimalEquals(awesome.GetValue(0), 0);
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(1), "-1.5");
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(2), "3.5");
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(3), -4);
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(4), -1);
-		}
-        
         [Test]
-		public void WithSmaDefault()
-		{
-			var awesome = new AwesomeOscillatorIndicator(new MedianPriceIndicator(_series));
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(0), 0);
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(1), 0);
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(2), 0);
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(3), 0);
-			TaTestsUtils.AssertDecimalEquals(awesome.GetValue(4), 0);
-		}
-	}
+        public void CalculateWithSma2AndSma3()
+        {
+            var awesome = new AwesomeOscillatorIndicator(new MedianPriceIndicator(_series), 2, 3);
+            Assert.That(awesome.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(awesome.GetValue(1), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(awesome.GetValue(2).ToDouble(), Is.EqualTo(1d / 6).Within(TaTestsUtils.TaOffset));
+            Assert.That(awesome.GetValue(3), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(awesome.GetValue(4).ToDouble(), Is.EqualTo(-3).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void WithSma1AndSma2()
+        {
+            var awesome = new AwesomeOscillatorIndicator(new MedianPriceIndicator(_series), 1, 2);
+            Assert.That(awesome.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(awesome.GetValue(1), Is.EqualTo(Decimal.ValueOf("-1.5")));
+            Assert.That(awesome.GetValue(2), Is.EqualTo(Decimal.ValueOf("3.5")));
+            Assert.That(awesome.GetValue(3).ToDouble(), Is.EqualTo(-4).Within(TaTestsUtils.TaOffset));
+            Assert.That(awesome.GetValue(4).ToDouble(), Is.EqualTo(-1).Within(TaTestsUtils.TaOffset));
+        }
+
+        [Test]
+        public void WithSmaDefault()
+        {
+            var awesome = new AwesomeOscillatorIndicator(new MedianPriceIndicator(_series));
+            Assert.That(awesome.GetValue(0), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(awesome.GetValue(1), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(awesome.GetValue(2), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(awesome.GetValue(3), Is.EqualTo(Decimal.ValueOf(0)));
+            Assert.That(awesome.GetValue(4), Is.EqualTo(Decimal.ValueOf(0)));
+        }
+    }
 }

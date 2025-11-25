@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,7 +20,6 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Trackers
@@ -30,49 +29,47 @@ namespace TA4N.Test.Indicators.Trackers
     using TA4N.Indicators.Trackers;
 
     public sealed class ZlemaIndicatorTest
-	{
-		private TimeSeries _data;
+    {
+        private TimeSeries _data;
 
         [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(10, 15, 20, 18, 17, 18, 15, 12, 10, 8, 5, 2);
-		}
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(10, 15, 20, 18, 17, 18, 15, 12, 10, 8, 5, 2);
+        }
 
-        [Test] 
-		public void ZlemaUsingTimeFrame10UsingClosePrice()
-		{
-			var zlema = new ZlemaIndicator(new ClosePriceIndicator(_data), 10);
+        [Test]
+        public void ZlemaUsingTimeFrame10UsingClosePrice()
+        {
+            var zlema = new ZlemaIndicator(new ClosePriceIndicator(_data), 10);
+            Assert.That(zlema.GetValue(9).ToDouble(), Is.EqualTo(11.9091).Within(TaTestsUtils.TaOffset));
+            Assert.That(zlema.GetValue(10).ToDouble(), Is.EqualTo(8.8347).Within(TaTestsUtils.TaOffset));
+            Assert.That(zlema.GetValue(11).ToDouble(), Is.EqualTo(5.7739).Within(TaTestsUtils.TaOffset));
+        }
 
-			TaTestsUtils.AssertDecimalEquals(zlema.GetValue(9), 11.9091);
-			TaTestsUtils.AssertDecimalEquals(zlema.GetValue(10), 8.8347);
-			TaTestsUtils.AssertDecimalEquals(zlema.GetValue(11), 5.7739);
-		}
+        [Test]
+        public void ZlemaFirstValueShouldBeEqualsToFirstDataValue()
+        {
+            var zlema = new ZlemaIndicator(new ClosePriceIndicator(_data), 10);
+            Assert.That(zlema.GetValue(0), Is.EqualTo(Decimal.ValueOf("10")));
+        }
 
-        [Test] 
-		public void ZlemaFirstValueShouldBeEqualsToFirstDataValue()
-		{
-			var zlema = new ZlemaIndicator(new ClosePriceIndicator(_data), 10);
-			TaTestsUtils.AssertDecimalEquals(zlema.GetValue(0), "10");
-		}
+        [Test]
+        public void ValuesLessThanTimeFrameMustBeEqualsToSmaValues()
+        {
+            var zlema = new ZlemaIndicator(new ClosePriceIndicator(_data), 10);
+            var sma = new SmaIndicator(new ClosePriceIndicator(_data), 10);
+            for (var i = 0; i < 9; i++)
+            {
+                Assert.That(zlema.GetValue(i), Is.EqualTo(sma.GetValue(i)));
+            }
+        }
 
-        [Test] 
-		public void ValuesLessThanTimeFrameMustBeEqualsToSmaValues()
-		{
-			var zlema = new ZlemaIndicator(new ClosePriceIndicator(_data), 10);
-			var sma = new SmaIndicator(new ClosePriceIndicator(_data), 10);
-
-			for (var i = 0; i < 9; i++)
-			{
-				Assert.AreEqual(sma.GetValue(i), zlema.GetValue(i));
-			}
-		}
-
-        [Test] 
-		public void SmallTimeFrame()
-		{
-			var zlema = new ZlemaIndicator(new ClosePriceIndicator(_data), 1);
-			TaTestsUtils.AssertDecimalEquals(zlema.GetValue(0), "10");
-		}
-	}
+        [Test]
+        public void SmallTimeFrame()
+        {
+            var zlema = new ZlemaIndicator(new ClosePriceIndicator(_data), 1);
+            Assert.That(zlema.GetValue(0), Is.EqualTo(Decimal.ValueOf("10")));
+        }
+    }
 }

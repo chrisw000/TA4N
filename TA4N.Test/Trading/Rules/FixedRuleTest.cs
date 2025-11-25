@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,37 +20,35 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 using NUnit.Framework;
 using TA4N.Trading.Rules;
 
 namespace TA4N.Test.Trading.Rules
 {
-	public sealed class FixedRuleTest
-	{
-		private FixedRule _fixedRule;
+    public sealed class FixedRuleTest
+    {
+        private FixedRule _fixedRule;
 
         [Test]
-		public void IsSatisfied()
-		{
-			_fixedRule = new FixedRule();
-			Assert.IsFalse(_fixedRule.IsSatisfied(0));
-			Assert.IsFalse(_fixedRule.IsSatisfied(1));
-			Assert.IsFalse(_fixedRule.IsSatisfied(2));
-			Assert.IsFalse(_fixedRule.IsSatisfied(9));
-
-			_fixedRule = new FixedRule(1, 2, 3);
-			Assert.IsFalse(_fixedRule.IsSatisfied(0));
-			Assert.IsTrue(_fixedRule.IsSatisfied(1));
-			Assert.IsTrue(_fixedRule.IsSatisfied(2));
-			Assert.IsTrue(_fixedRule.IsSatisfied(3));
-			Assert.IsFalse(_fixedRule.IsSatisfied(4));
-			Assert.IsFalse(_fixedRule.IsSatisfied(5));
-			Assert.IsFalse(_fixedRule.IsSatisfied(6));
-			Assert.IsFalse(_fixedRule.IsSatisfied(7));
-			Assert.IsFalse(_fixedRule.IsSatisfied(8));
-			Assert.IsFalse(_fixedRule.IsSatisfied(9));
-			Assert.IsFalse(_fixedRule.IsSatisfied(10));
-		}
-	}
+        public void IsSatisfied()
+        {
+            _fixedRule = new FixedRule();
+            Assert.That(_fixedRule.IsSatisfied(0), Is.False);
+            Assert.That(_fixedRule.IsSatisfied(1), Is.False);
+            Assert.That(_fixedRule.IsSatisfied(2), Is.False);
+            Assert.That(_fixedRule.IsSatisfied(9), Is.False);
+            _fixedRule = new FixedRule(1, 2, 3);
+            Assert.That(_fixedRule.IsSatisfied(0), Is.False);
+            Assert.That(_fixedRule.IsSatisfied(1), Is.True);
+            Assert.That(_fixedRule.IsSatisfied(2), Is.True);
+            Assert.That(_fixedRule.IsSatisfied(3), Is.True);
+            Assert.That(_fixedRule.IsSatisfied(4), Is.False);
+            Assert.That(_fixedRule.IsSatisfied(5), Is.False);
+            Assert.That(_fixedRule.IsSatisfied(6), Is.False);
+            Assert.That(_fixedRule.IsSatisfied(7), Is.False);
+            Assert.That(_fixedRule.IsSatisfied(8), Is.False);
+            Assert.That(_fixedRule.IsSatisfied(9), Is.False);
+            Assert.That(_fixedRule.IsSatisfied(10), Is.False);
+        }
+    }
 }

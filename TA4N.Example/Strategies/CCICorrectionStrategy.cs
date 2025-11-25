@@ -59,9 +59,9 @@ namespace TA4N.Examples.Strategies
 			var plus100 = Decimal.Hundred;
 			var minus100 = Decimal.ValueOf(-100);
 
-			var entryRule = (new OverIndicatorRule(longCci, plus100)).And(new UnderIndicatorRule(shortCci, minus100)); // Signal -  Bull trend
+			var entryRule = new OverIndicatorRule(longCci, plus100).And(new UnderIndicatorRule(shortCci, minus100)); // Signal -  Bull trend
 
-			var exitRule = (new UnderIndicatorRule(longCci, minus100)).And(new OverIndicatorRule(shortCci, plus100)); // Signal -  Bear trend
+			var exitRule = new UnderIndicatorRule(longCci, minus100).And(new OverIndicatorRule(shortCci, plus100)); // Signal -  Bear trend
 
 		    var strategy = new Strategy(entryRule, exitRule)
 		    {
@@ -84,7 +84,7 @@ namespace TA4N.Examples.Strategies
 			Console.WriteLine("Number of trades for the strategy: " + tradingRecord.TradeCount);
 
 			// Analysis
-			Console.WriteLine("Total profit for the strategy: " + (new TotalProfitCriterion()).Calculate(series, tradingRecord));
+			Console.WriteLine("Total profit for the strategy: " + new TotalProfitCriterion().Calculate(series, tradingRecord));
 		}
 	}
 

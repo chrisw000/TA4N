@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TA4N.Test.FixtureData;
 
 /// <summary>
@@ -27,72 +27,68 @@ namespace TA4N.Test.Indicators.Statistics
 {
     using TA4N.Indicators.Statistics;
     using TA4N.Indicators.Simple;
-	using VolumeIndicator = TA4N.Indicators.Simple.VolumeIndicator;
-
+    using VolumeIndicator = TA4N.Indicators.Simple.VolumeIndicator;
     using NUnit.Framework;
 
-	public sealed class CorrelationCoefficientIndicatorTest
-	{
-		private TimeSeries _data;
-		private IIndicator<Decimal> _close, _volume;
+    public sealed class CorrelationCoefficientIndicatorTest
+    {
+        private TimeSeries _data;
+        private IIndicator<Decimal> _close, _volume;
 
         [SetUp]
-		public void SetUp()
-		{
-			IList<Tick> ticks = new List<Tick>();
-			// close, volume
-			ticks.Add(GenerateTick.From(6, 100));
-			ticks.Add(GenerateTick.From(7, 105));
-			ticks.Add(GenerateTick.From(9, 130));
-			ticks.Add(GenerateTick.From(12, 160));
-			ticks.Add(GenerateTick.From(11, 150));
-			ticks.Add(GenerateTick.From(10, 130));
-			ticks.Add(GenerateTick.From(11, 95));
-			ticks.Add(GenerateTick.From(13, 120));
-			ticks.Add(GenerateTick.From(15, 180));
-			ticks.Add(GenerateTick.From(12, 160));
-			ticks.Add(GenerateTick.From(8, 150));
-			ticks.Add(GenerateTick.From(4, 200));
-			ticks.Add(GenerateTick.From(3, 150));
-			ticks.Add(GenerateTick.From(4, 85));
-			ticks.Add(GenerateTick.From(3, 70));
-			ticks.Add(GenerateTick.From(5, 90));
-			ticks.Add(GenerateTick.From(8, 100));
-			ticks.Add(GenerateTick.From(9, 95));
-			ticks.Add(GenerateTick.From(11, 110));
-			ticks.Add(GenerateTick.From(10, 95));
+        public void SetUp()
+        {
+            IList<Tick> ticks = new List<Tick>();
+            // close, volume
+            ticks.Add(GenerateTick.From(6, 100));
+            ticks.Add(GenerateTick.From(7, 105));
+            ticks.Add(GenerateTick.From(9, 130));
+            ticks.Add(GenerateTick.From(12, 160));
+            ticks.Add(GenerateTick.From(11, 150));
+            ticks.Add(GenerateTick.From(10, 130));
+            ticks.Add(GenerateTick.From(11, 95));
+            ticks.Add(GenerateTick.From(13, 120));
+            ticks.Add(GenerateTick.From(15, 180));
+            ticks.Add(GenerateTick.From(12, 160));
+            ticks.Add(GenerateTick.From(8, 150));
+            ticks.Add(GenerateTick.From(4, 200));
+            ticks.Add(GenerateTick.From(3, 150));
+            ticks.Add(GenerateTick.From(4, 85));
+            ticks.Add(GenerateTick.From(3, 70));
+            ticks.Add(GenerateTick.From(5, 90));
+            ticks.Add(GenerateTick.From(8, 100));
+            ticks.Add(GenerateTick.From(9, 95));
+            ticks.Add(GenerateTick.From(11, 110));
+            ticks.Add(GenerateTick.From(10, 95));
+            _data = new TimeSeries(ticks);
+            _close = new ClosePriceIndicator(_data);
+            _volume = new VolumeIndicator(_data, 2);
+        }
 
-			_data = new TimeSeries(ticks);
-			_close = new ClosePriceIndicator(_data);
-			_volume = new VolumeIndicator(_data, 2);
-		}
-        
-        [Test] 
-		public void UsingTimeFrame5UsingClosePriceAndVolume()
-		{
-			var coef = new CorrelationCoefficientIndicator(_close, _volume, 5);
-
-			Assert.IsTrue(coef.GetValue(0).NaN);
-
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(1), 1);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(2), 0.8773);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(3), 0.9073);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(4), 0.9219);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(5), 0.9205);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(6), 0.4565);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(7), -0.4622);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(8), 0.05747);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(9), 0.1442);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(10), -0.1263);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(11), -0.5345);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(12), -0.7275);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(13), 0.1676);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(14), 0.2506);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(15), -0.2938);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(16), -0.3586);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(17), 0.1713);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(18), 0.9841);
-			TaTestsUtils.AssertDecimalEquals(coef.GetValue(19), 0.9799);
-		}
-	}
+        [Test]
+        public void UsingTimeFrame5UsingClosePriceAndVolume()
+        {
+            var coef = new CorrelationCoefficientIndicator(_close, _volume, 5);
+            Assert.That(coef.GetValue(0).NaN, Is.True);
+            Assert.That(coef.GetValue(1), Is.EqualTo(Decimal.ValueOf(1)));
+            Assert.That(coef.GetValue(2).ToDouble(), Is.EqualTo(0.8773).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(3).ToDouble(), Is.EqualTo(0.9073).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(4).ToDouble(), Is.EqualTo(0.9219).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(5).ToDouble(), Is.EqualTo(0.9205).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(6).ToDouble(), Is.EqualTo(0.4565).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(7).ToDouble(), Is.EqualTo(-0.4622).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(8).ToDouble(), Is.EqualTo(0.05747).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(9).ToDouble(), Is.EqualTo(0.1442).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(10).ToDouble(), Is.EqualTo(-0.1263).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(11).ToDouble(), Is.EqualTo(-0.5345).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(12).ToDouble(), Is.EqualTo(-0.7275).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(13).ToDouble(), Is.EqualTo(0.1676).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(14).ToDouble(), Is.EqualTo(0.2506).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(15).ToDouble(), Is.EqualTo(-0.2938).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(16).ToDouble(), Is.EqualTo(-0.3586).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(17).ToDouble(), Is.EqualTo(0.1713).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(18).ToDouble(), Is.EqualTo(0.9841).Within(TaTestsUtils.TaOffset));
+            Assert.That(coef.GetValue(19).ToDouble(), Is.EqualTo(0.9799).Within(TaTestsUtils.TaOffset));
+        }
+    }
 }

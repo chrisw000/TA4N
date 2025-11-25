@@ -71,10 +71,10 @@ namespace TA4N.Examples.Strategies
 			var emaMacd = new EMAIndicator(macd, 18);
 
 			// Entry rule
-			var entryRule = (new OverIndicatorRule(shortEma, longEma)).And(new CrossedDownIndicatorRule(stochasticOscillK, Decimal.ValueOf(20))).And(new OverIndicatorRule(macd, emaMacd)); // Signal 2 -  Signal 1 -  Trend
+			var entryRule = new OverIndicatorRule(shortEma, longEma).And(new CrossedDownIndicatorRule(stochasticOscillK, Decimal.ValueOf(20))).And(new OverIndicatorRule(macd, emaMacd)); // Signal 2 -  Signal 1 -  Trend
 
 			// Exit rule
-			var exitRule = (new UnderIndicatorRule(shortEma, longEma)).And(new CrossedUpIndicatorRule(stochasticOscillK, Decimal.ValueOf(80))).And(new UnderIndicatorRule(macd, emaMacd)); // Signal 2 -  Signal 1 -  Trend
+			var exitRule = new UnderIndicatorRule(shortEma, longEma).And(new CrossedUpIndicatorRule(stochasticOscillK, Decimal.ValueOf(80))).And(new UnderIndicatorRule(macd, emaMacd)); // Signal 2 -  Signal 1 -  Trend
 
 			return new Strategy(entryRule, exitRule);
 		}
@@ -93,7 +93,7 @@ namespace TA4N.Examples.Strategies
 			Console.WriteLine("Number of trades for the strategy: " + tradingRecord.TradeCount);
 
 			// Analysis
-			Console.WriteLine("Total profit for the strategy: " + (new TotalProfitCriterion()).Calculate(series, tradingRecord));
+			Console.WriteLine("Total profit for the strategy: " + new TotalProfitCriterion().Calculate(series, tradingRecord));
 		}
 	}
 }

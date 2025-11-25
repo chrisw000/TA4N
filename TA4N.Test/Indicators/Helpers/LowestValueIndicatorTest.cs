@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// The MIT License (MIT)
 /// 
 /// Copyright (c) 2014-2016 Marc de Verdelhan & respective authors (see AUTHORS)
@@ -20,53 +20,51 @@
 /// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 /// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </summary>
-
 using TA4N.Test.FixtureData;
 
 namespace TA4N.Test.Indicators.Helpers
 {
-	using TA4N.Indicators.Simple;
+    using TA4N.Indicators.Simple;
     using NUnit.Framework;
     using TA4N.Indicators.Helpers;
 
     public sealed class LowestValueIndicatorTest
-	{
-		private TimeSeries _data;
+    {
+        private TimeSeries _data;
 
         [SetUp]
-		public void SetUp()
-		{
-			_data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 6, 4, 3, 2, 4, 3, 1);
-		}
-        
-        [Test] 
-		public void LowestValueIndicatorUsingTimeFrame5UsingClosePrice()
-		{
-			var lowestValue = new LowestValueIndicator(new ClosePriceIndicator(_data), 5);
-
-			TaTestsUtils.AssertDecimalEquals(lowestValue.GetValue(4), "1");
-			TaTestsUtils.AssertDecimalEquals(lowestValue.GetValue(5), "2");
-			TaTestsUtils.AssertDecimalEquals(lowestValue.GetValue(6), "3");
-			TaTestsUtils.AssertDecimalEquals(lowestValue.GetValue(7), "3");
-			TaTestsUtils.AssertDecimalEquals(lowestValue.GetValue(8), "3");
-			TaTestsUtils.AssertDecimalEquals(lowestValue.GetValue(9), "3");
-			TaTestsUtils.AssertDecimalEquals(lowestValue.GetValue(10), "2");
-			TaTestsUtils.AssertDecimalEquals(lowestValue.GetValue(11), "2");
-			TaTestsUtils.AssertDecimalEquals(lowestValue.GetValue(12), "2");
-		}
+        public void SetUp()
+        {
+            _data = GenerateTimeSeries.From(1, 2, 3, 4, 3, 4, 5, 6, 4, 3, 2, 4, 3, 1);
+        }
 
         [Test]
-		public void LowestValueIndicatorValueShouldBeEqualsToFirstDataValue()
-		{
-			var lowestValue = new LowestValueIndicator(new ClosePriceIndicator(_data), 5);
-			TaTestsUtils.AssertDecimalEquals(lowestValue.GetValue(0), "1");
-		}
+        public void LowestValueIndicatorUsingTimeFrame5UsingClosePrice()
+        {
+            var lowestValue = new LowestValueIndicator(new ClosePriceIndicator(_data), 5);
+            Assert.That(lowestValue.GetValue(4), Is.EqualTo(Decimal.ValueOf("1")));
+            Assert.That(lowestValue.GetValue(5), Is.EqualTo(Decimal.ValueOf("2")));
+            Assert.That(lowestValue.GetValue(6), Is.EqualTo(Decimal.ValueOf("3")));
+            Assert.That(lowestValue.GetValue(7), Is.EqualTo(Decimal.ValueOf("3")));
+            Assert.That(lowestValue.GetValue(8), Is.EqualTo(Decimal.ValueOf("3")));
+            Assert.That(lowestValue.GetValue(9), Is.EqualTo(Decimal.ValueOf("3")));
+            Assert.That(lowestValue.GetValue(10), Is.EqualTo(Decimal.ValueOf("2")));
+            Assert.That(lowestValue.GetValue(11), Is.EqualTo(Decimal.ValueOf("2")));
+            Assert.That(lowestValue.GetValue(12), Is.EqualTo(Decimal.ValueOf("2")));
+        }
 
         [Test]
-		public void LowestValueIndicatorWhenTimeFrameIsGreaterThanIndex()
-		{
-			var lowestValue = new LowestValueIndicator(new ClosePriceIndicator(_data), 500);
-			TaTestsUtils.AssertDecimalEquals(lowestValue.GetValue(12), "1");
-		}
-	}
+        public void LowestValueIndicatorValueShouldBeEqualsToFirstDataValue()
+        {
+            var lowestValue = new LowestValueIndicator(new ClosePriceIndicator(_data), 5);
+            Assert.That(lowestValue.GetValue(0), Is.EqualTo(Decimal.ValueOf("1")));
+        }
+
+        [Test]
+        public void LowestValueIndicatorWhenTimeFrameIsGreaterThanIndex()
+        {
+            var lowestValue = new LowestValueIndicator(new ClosePriceIndicator(_data), 500);
+            Assert.That(lowestValue.GetValue(12), Is.EqualTo(Decimal.ValueOf("1")));
+        }
+    }
 }
