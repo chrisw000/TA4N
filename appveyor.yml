@@ -1,5 +1,5 @@
-#version: 1.0.4.{build}
-image: Visual Studio 2017
+#version: 2.0.0.{build}
+image: Visual Studio 2022
 configuration: Release
 platform: Any CPU
 
@@ -15,9 +15,14 @@ init:
         Update-AppveyorBuild -Version "dev-$($env:APPVEYOR_REPO_COMMIT.substring(0,7))"
       }
 
+install:
+- ps: |
+    Invoke-WebRequest -Uri 'https://dot.net/v1/dotnet-install.ps1' -UseBasicParsing -OutFile "$env:temp\dotnet-install.ps1"
+    & $env:temp\dotnet-install.ps1 -Architecture x64 -Version '10.0.100' -InstallDir "$env:ProgramFiles\dotnet"
+
 before_build:
 - ps: >-
-    nuget.exe restore TA4N.sln
+    dotnet --version ; nuget.exe restore TA4N.sln
 
 build:
   project: TA4N.sln
