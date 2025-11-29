@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Data;
-using TA4N.Indicators.Oscillators;
-using NUnit.Framework;
 
 /*
 The MIT License (MIT)
@@ -70,7 +67,6 @@ namespace TA4N.Examples.Strategies
 		    return strategy;
 		}
 
-        [Test]
 		public static void Main()
 		{
 			// Getting the time series
@@ -87,5 +83,4 @@ namespace TA4N.Examples.Strategies
 			Console.WriteLine("Total profit for the strategy: " + new TotalProfitCriterion().Calculate(series, tradingRecord));
 		}
 	}
-
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using TA4N.Indicators.Trackers;
-using NUnit.Framework;
 
 /*
 The MIT License (MIT)
@@ -51,7 +50,6 @@ namespace TA4N.Examples
     /// </summary>
     public class Quickstart
     {
-        [Test]
         public void QuickStart()
         {
             // Getting a time series (from any provider: CSV, web service, etc.)

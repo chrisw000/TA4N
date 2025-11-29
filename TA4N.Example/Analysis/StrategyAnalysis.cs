@@ -1,5 +1,4 @@
 ﻿using System;
-using NUnit.Framework;
 
 /*
 The MIT License (MIT)
@@ -38,28 +37,24 @@ namespace TA4N.Examples.analysis
         // Getting the time series
         private TimeSeries _series = CsvTradesLoader.LoadBitstampSeries();
 
-	    [Test]
 	    public void RunMovingMomentum()
 	    {
             var strategy = MovingMomentumStrategy.BuildStrategy(_series);
             PrintAllResults(strategy);
         }
 
-        [Test]
 	    public void RunRSI2()
 	    {
             var strategy = MovingMomentumStrategy.BuildStrategy(_series);
             PrintAllResults(strategy);
 	    }
 
-	    [Test]
 	    public void RunGlobalExtrema()
 	    {
 	        var strategy = GlobalExtremaStrategy.BuildStrategy(_series);
             PrintAllResults(strategy);
 	    }
 
-	    [Test]
 	    public void RunCciCorrection()
 	    {
 	        var strategy = CCICorrectionStrategy.BuildStrategy(_series);

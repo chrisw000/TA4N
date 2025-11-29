@@ -5,7 +5,8 @@
     <LangVersion>latest</LangVersion>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
-    <StartupObject>TA4N.Examples.Program</StartupObject>    
+    <StartupObject>TA4N.Examples.Program</StartupObject>
+    <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,7 +31,6 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="31.0.3" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.*" />
-  	<PackageReference Include="NUnit" Version="4.1.0" />
   </ItemGroup>
     
   <ItemGroup>

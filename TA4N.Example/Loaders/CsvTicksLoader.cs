@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using CsvHelper;
 using NodaTime.Text;
-using NUnit.Framework;
 
 /*
 The MIT License (MIT)
@@ -38,7 +37,6 @@ namespace TA4N.Examples.Loaders
     /// </summary>
     public class CsvTicksLoader
     {
-        [Test]
         public static void Main()
         {
             var series = CsvTicksLoader.LoadAppleIncSeries();
@@ -93,7 +91,5 @@ namespace TA4N.Examples.Loaders
 
             return new TimeSeries("apple_ticks", ticks);
         }
-
     }
-
 }

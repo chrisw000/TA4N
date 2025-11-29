@@ -1,5 +1,4 @@
 ﻿using System;
-using NUnit.Framework;
 
 /*
 The MIT License (MIT)
@@ -73,7 +72,6 @@ namespace TA4N.Examples.Strategies
 			return new Strategy(entryRule, exitRule);
 		}
 
-        [Test]
         public static void Main()
 		{
 			// Getting the time series

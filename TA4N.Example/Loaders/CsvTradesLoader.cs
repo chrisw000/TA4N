@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using CsvHelper;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 /*
 The MIT License (MIT)
@@ -41,7 +39,6 @@ namespace TA4N.Examples.Loaders
     {
         private static TimeSeries bitstampSeries;
 
-        [Test]
         public static void Main()
         {
             var series = LoadBitstampSeries();
@@ -164,5 +161,4 @@ namespace TA4N.Examples.Loaders
 			}
 		}
 	}
-
 }
